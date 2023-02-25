@@ -7,10 +7,12 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { FormsModule } from '@angular/forms'; 
 import {MatMenuModule} from '@angular/material/menu';
+import { RestaurantOverviewComponent } from './restaurant-overview/restaurant-overview.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    RestaurantOverviewComponent
   ],
   imports: [
     BrowserModule,
