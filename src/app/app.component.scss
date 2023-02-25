@@ -1,0 +1,137 @@
+header {
+    width: 100%;
+    box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.4);
+    padding-bottom: 4px;
+
+
+    .main {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-top: 12px;
+        align-items: center;
+
+        .logo {
+            img {
+                height: 75px;
+            }
+        }
+
+        .deliveryOptions {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+
+            .address {
+                border: none;
+                background-color: #f5f3f1;
+                border-radius: 25px;
+                cursor: pointer;
+
+                input {
+                    border: none;
+                    background-color: transparent;
+                    text-overflow: ellipsis;
+                    font-weight: bold;
+                    cursor: pointer;
+                    outline: none;
+                }
+
+                mat-icon {
+                    color: #f36805;
+                }
+            }
+
+            mat-button-toggle-group {
+                border: none;
+                background-color: #f5f3f1;
+                padding: 2px;
+                border-radius: 25px;
+
+                mat-button-toggle {
+                    border-radius: 25px;
+                    color: rgb(132, 130, 130);
+                    background-color: #f5f3f1;
+
+                    &:first-child {
+                        margin-right: 2px;
+                    }
+                }
+
+                .mat-button-toggle-checked {
+                    background-color: white;
+                    color: black;
+                }
+            }
+        }
+
+        .settings {
+            display: flex;
+            flex-direction: row;
+
+            .langBtn {
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 100%;
+                width: 50px;
+                border: none;
+                background-color: white;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #f5f3f1;
+                }
+
+                img {
+                    height: 30px;
+                }
+            }
+
+            .menuBtn {
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 100%;
+                width: 50px;
+                border: none;
+                background-color: white;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #f5f3f1;
+                }
+            }
+
+        }
+    }
+
+    .kitchens {
+        display: flex;
+        justify-content: center;
+
+        mat-button-toggle-group {
+            display: flex;
+            border: none;
+
+            .kitchenBtn {
+                margin-left: 3px;
+                margin-right: 3px;
+                border: none;
+                border-radius: 25px;
+
+                &:first-child{
+                    width: 35px;
+                }
+            }
+
+            .mat-button-toggle-checked {
+                color: white;
+                background-color: black;
+            }
+        }
+    }
+}
