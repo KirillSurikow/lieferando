@@ -1,17 +1,23 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import { DialogLoginComponent } from './dialog-login/dialog-login.component';
+
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   address: string = "Niederstr. 70, 47829 Krefeld";
   delivery: boolean = true;
   pickUp: boolean = false;
-  kitchens : any = ['all', 'italian', 'american', 'oriental', 'japanese', 'thai', 'chinese'];
-  kitchenFilter : string = "";
+  kitchens: any = ['all', 'italian', 'american', 'oriental', 'japanese', 'thai', 'chinese'];
+  kitchenFilter: string = "";
+  lang: string = './../assets/img/languages/united-kingdom.png';
+
+  constructor(public dialog: MatDialog)  { }
 
   deliver() {
     this.delivery = true;
@@ -23,8 +29,23 @@ export class AppComponent {
     this.pickUp = true;
   }
 
-  showValue(k : string){
+  showValue(k: string) {
     this.kitchenFilter = k;
     console.log(this.kitchenFilter)
   }
+
+  changeLanguage(lang: string) {
+    if (lang == 'english') {
+      this.lang = './../assets/img/languages/united-kingdom.png';
+    } else {
+      this.lang = './../assets/img/languages/germany.png';
+    }
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogLoginComponent, {
+      width : '600px',
+      height : '210px'
+    });
+    }
 }

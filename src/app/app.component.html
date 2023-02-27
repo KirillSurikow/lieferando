@@ -19,43 +19,16 @@
       </mat-button-toggle-group>
     </div>
     <div class="settings">
-
-
-      <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>Item 1</button>
-        <button mat-menu-item>Item 2</button>
-      </mat-menu>
-
-      <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-        <mat-icon>more_vert</mat-icon>
+      <button [matMenuTriggerFor]="menu" class="langBtn">
+        <img [src]="lang">
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>
-          <mat-icon>dialpad</mat-icon>
-          <span>Redial</span>
-        </button>
-        <button mat-menu-item disabled>
-          <mat-icon>voicemail</mat-icon>
-          <span>Check voice mail</span>
-        </button>
-        <button mat-menu-item>
-          <mat-icon>notifications_off</mat-icon>
-          <span>Disable alerts</span>
-        </button>
-      </mat-menu> -->
-
-
-      <!-- <button [matMenuTriggerFor]="menu" class="langBtn">
-        <img src="./../assets/img/languages/germany.png">
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>deutsch</button>
-        <button mat-menu-item>english</button>
+        <button  mat-menu-item (click)="changeLanguage('german')">deutsch <img class="flags" src="./../assets/img/languages/germany.png"></button>
+        <button  mat-menu-item (click)="changeLanguage('english')">english <img class="flags" src="./../assets/img/languages/united-kingdom.png"></button>
       </mat-menu>
-      <button class="menuBtn">
+      <button (click)="openDialog()" class="menuBtn">
         <mat-icon fontIcon="menu"></mat-icon>
-      </button> -->
+      </button>
     </div>
   </div>
   <div class="kitchens">

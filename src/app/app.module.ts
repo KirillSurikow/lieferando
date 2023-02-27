@@ -8,11 +8,19 @@ import {MatIconModule} from '@angular/material/icon';
 import { FormsModule } from '@angular/forms'; 
 import {MatMenuModule} from '@angular/material/menu';
 import { RestaurantOverviewComponent } from './restaurant-overview/restaurant-overview.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDialogModule} from '@angular/material/dialog';
+import { DialogLoginComponent } from './dialog-login/dialog-login.component';
+import { HttpClientModule } from '@angular/common/http';
+import { Restaurants } from 'src/models/restaurants.class';
+import {MatCardModule} from '@angular/material/card';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    RestaurantOverviewComponent
+    RestaurantOverviewComponent,
+    DialogLoginComponent
   ],
   imports: [
     BrowserModule,
@@ -21,9 +29,16 @@ import { RestaurantOverviewComponent } from './restaurant-overview/restaurant-ov
     MatButtonModule,
     MatIconModule,
     FormsModule,
-    MatMenuModule
+    MatMenuModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    HttpClientModule,
+    MatCardModule
   ],
-  providers: [],
+
+  providers: [
+    Restaurants
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

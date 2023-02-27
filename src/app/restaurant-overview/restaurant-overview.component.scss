@@ -1,0 +1,36 @@
+mat-card {
+    display: flex;
+    flex-direction: row;
+
+    .mainImage {
+        width: 300px;
+        height: auto;
+    }
+
+    mat-card-content {
+        position: relative;
+
+        div {
+            .symbols {
+                height: 12px;
+                width: 12px;
+            }
+
+            mat-card {
+                position: absolute;
+                height: 50px;
+                width: 75px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .logos {
+                    height: 50px !important;
+                    width: 75px;
+                }
+            }
+        }
+    }
+
+
+}

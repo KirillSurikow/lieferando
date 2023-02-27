@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Restaurants } from 'src/models/restaurants.class';
 
 @Component({
@@ -6,14 +6,12 @@ import { Restaurants } from 'src/models/restaurants.class';
   templateUrl: './restaurant-overview.component.html',
   styleUrls: ['./restaurant-overview.component.scss']
 })
-export class RestaurantOverviewComponent implements OnInit {
+export class RestaurantOverviewComponent {
+    restaurantOV : any = [];
+
+    constructor(public allRestaurants : Restaurants){
+        this.restaurantOV = this.allRestaurants.allRestaurants;
+    }
+
    
-
-    constructor(private allRestaurants : Restaurants){
-    
-    }
-
-    ngOnInit(): void {
-      console.log(this.allRestaurants)
-    }
 }

@@ -1,0 +1,30 @@
+.header{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    h1{
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    button{
+        margin-right: 20px;
+        border: none;
+        background-color: white;
+        cursor: pointer;
+    }
+}
+
+.btns{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+
+    .logBtn{
+        width: 200px;
+    }
+}
