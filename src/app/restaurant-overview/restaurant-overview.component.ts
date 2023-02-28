@@ -8,6 +8,7 @@ import { Restaurants } from 'src/models/restaurants.class';
 })
 export class RestaurantOverviewComponent {
     restaurantOV : any = [];
+    rate : any;
 
     constructor(public allRestaurants : Restaurants){
         this.restaurantOV = this.allRestaurants.allRestaurants;

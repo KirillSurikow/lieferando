@@ -14,6 +14,7 @@ import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { Restaurants } from 'src/models/restaurants.class';
 import {MatCardModule} from '@angular/material/card';
+import { BarRatingModule } from "ngx-bar-rating";
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import {MatCardModule} from '@angular/material/card';
     BrowserAnimationsModule,
     MatDialogModule,
     HttpClientModule,
-    MatCardModule
+    MatCardModule,
+    BarRatingModule
   ],
 
   providers: [

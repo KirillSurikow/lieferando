@@ -1,36 +1,63 @@
-mat-card {
+:host {
     display: flex;
     flex-direction: row;
+    padding-top: 20px;
+    background-color: rgba(210, 206, 206,0.1);
+}
 
-    .mainImage {
-        width: 300px;
-        height: auto;
-    }
+.restaurants {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
-    mat-card-content {
-        position: relative;
+    .mainCard {
+        display: flex;
+        flex-direction: row;
 
-        div {
-            .symbols {
-                height: 12px;
-                width: 12px;
+
+        .mainImage {
+            width: 287px;
+            height: 136px;
+            object-fit: cover;
+        }
+
+        .logoCard {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 3px 5px 10px 0px rgba(0, 0, 0, 0.75);
+            height: 40px;
+            width: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+
+            .logos {
+                height: 16px;
+                width: 16px;
             }
+        }
 
-            mat-card {
-                position: absolute;
-                height: 50px;
-                width: 75px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+        mat-card-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
 
-                .logos {
-                    height: 50px !important;
-                    width: 75px;
+            div {
+                .symbols {
+                    height: 12px;
+                    width: 12px;
                 }
             }
         }
     }
+}
 
-
+.filters{
+    width: 35%;
 }

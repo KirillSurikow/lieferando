@@ -1,21 +1,44 @@
-<mat-card *ngFor="let restaurant of restaurantOV">
-    <img class="mainImage" mat-card-image src="{{ restaurant.img }}">
-    <mat-card-content>
-        <mat-card-title>{{ restaurant.name }}</mat-card-title>
-        <div>
-            <img class="symbols" src="./../../assets/img/symbols/star.png">
-            {{ restaurant.rating }}
-            <img class="symbols" src="./../../assets/img/symbols/lock.png">
-            min. {{ restaurant.minOrderString }}
-        </div>
-        <div>
-            <img class="symbols" src="./../../assets/img/symbols/clock.png">
-            {{ restaurant.deliveryTime }} min
-            <img class="symbols" src="./../../assets/img/symbols/bike.png">
-            {{ restaurant.deliveryCostString }}
-        </div>
-        <mat-card>
+<div class="filters">
+    <div>
+        <h2>Minimum order amount</h2>
+        <div>Show all</div>
+        <div>10,00€ or less</div>
+        <div>15,00€ or less</div>
+        <div>20,00 or less</div>
+    </div>
+    <div>
+        <h2>Restaurant Ratings</h2>
+        <!-- <form #form="ngForm">
+            <bar-rating name="rating" [(ngModel)]="formRating" [max]="4"  disabled></bar-rating>
+          </form>
+          <p>form is valid: {{ form.valid ? 'true' : 'false' }}</p>
+          <pre>{{ formRating }}</pre> -->
+          <bar-rating [(rate)]="rate" [max]="5" [theme]="'movie'" [showText]="true"
+          [titles]="['Bad', 'Mediocre' , 'Good', 'Awesome']"></bar-rating>
+    </div>
+
+    
+</div>
+<div class="restaurants">
+    <mat-card class="mainCard" *ngFor="let restaurant of restaurantOV">
+        <div class="logoCard">
             <img class="logos" src="{{ restaurant.logo }}" alt="">
-        </mat-card>
-    </mat-card-content>
-</mat-card>
+        </div>
+        <img class="mainImage" mat-card-image src="{{ restaurant.img }}">
+        <mat-card-content>
+            <mat-card-title>{{ restaurant.name }}</mat-card-title>
+            <div>
+                <img class="symbols" src="./../../assets/img/symbols/star.png">
+                {{ restaurant.rating }}
+                <img class="symbols" src="./../../assets/img/symbols/lock.png">
+                min. {{ restaurant.minOrderString }}
+            </div>
+            <div>
+                <img class="symbols" src="./../../assets/img/symbols/clock.png">
+                {{ restaurant.deliveryTime }} min
+                <img class="symbols" src="./../../assets/img/symbols/bike.png">
+                {{ restaurant.deliveryCostString }}
+            </div> 
+        </mat-card-content>
+    </mat-card>
+</div>
