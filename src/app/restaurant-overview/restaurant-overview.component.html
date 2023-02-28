@@ -1,23 +1,17 @@
 <div class="filters">
-    <div>
+    <div class="orderAmount">
         <h2>Minimum order amount</h2>
-        <div>Show all</div>
-        <div>10,00€ or less</div>
-        <div>15,00€ or less</div>
-        <div>20,00 or less</div>
+        <div class="amountChoice"><input type="radio" value="1000" name="orderAmount"> Show all</div>
+        <div class="amountChoice"><input type="radio" value="10" name="orderAmount"> 10,00€ or less</div>
+        <div class="amountChoice"><input type="radio" value="15" name="orderAmount"> 15,00€ or less</div>
+        <div class="amountChoice"><input type="radio" value="20" name="orderAmount"> 20,00 or less</div>
     </div>
-    <div>
+    <div class="rating">
         <h2>Restaurant Ratings</h2>
-        <!-- <form #form="ngForm">
-            <bar-rating name="rating" [(ngModel)]="formRating" [max]="4"  disabled></bar-rating>
-          </form>
-          <p>form is valid: {{ form.valid ? 'true' : 'false' }}</p>
-          <pre>{{ formRating }}</pre> -->
-          <bar-rating [(rate)]="rate" [max]="5" [theme]="'movie'" [showText]="true"
-          [titles]="['Bad', 'Mediocre' , 'Good', 'Awesome']"></bar-rating>
+        <ngb-rating [max]="5" [(rate)]="currentRate"></ngb-rating>
     </div>
 
-    
+
 </div>
 <div class="restaurants">
     <mat-card class="mainCard" *ngFor="let restaurant of restaurantOV">
@@ -38,7 +32,7 @@
                 {{ restaurant.deliveryTime }} min
                 <img class="symbols" src="./../../assets/img/symbols/bike.png">
                 {{ restaurant.deliveryCostString }}
-            </div> 
+            </div>
         </mat-card-content>
     </mat-card>
 </div>
