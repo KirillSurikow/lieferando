@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Restaurants } from 'src/models/restaurants.class';
 import {MatCardModule} from '@angular/material/card';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 
 
@@ -36,7 +37,8 @@ import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
     MatDialogModule,
     HttpClientModule,
     MatCardModule,
-    NgbRatingModule
+    NgbRatingModule,
+    MatFormFieldModule
   ],
 
   providers: [

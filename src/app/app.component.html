@@ -33,7 +33,7 @@
   </div>
   <div class="kitchens">
     <mat-button-toggle-group>
-      <mat-button-toggle class="kitchenBtn" *ngFor="let k of kitchens" value="{{ k }}" (click)="showValue(k)">{{ k }}
+      <mat-button-toggle class="kitchenBtn" *ngFor="let k of kitchens" value="{{ k }}" (click)="changeKitchen(k)">{{ k }}
       </mat-button-toggle>
     </mat-button-toggle-group>
   </div>

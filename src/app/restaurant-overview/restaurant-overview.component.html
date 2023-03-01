@@ -1,38 +1,41 @@
 <div class="filters">
     <div class="orderAmount">
         <h2>Minimum order amount</h2>
-        <div class="amountChoice"><input type="radio" value="1000" name="orderAmount"> Show all</div>
-        <div class="amountChoice"><input type="radio" value="10" name="orderAmount"> 10,00€ or less</div>
-        <div class="amountChoice"><input type="radio" value="15" name="orderAmount"> 15,00€ or less</div>
-        <div class="amountChoice"><input type="radio" value="20" name="orderAmount"> 20,00 or less</div>
+        <label class="amountChoice" *ngFor="let item of orderAmount">
+            <input id="{{ item.id }}" type="radio" [(ngModel)]="choiceAmount" value="{{ item.value }}"
+                name="orderAmount" >
+            <span class="checkmark"></span>
+            {{ item.label }}
+        </label>
     </div>
     <div class="rating">
         <h2>Restaurant Ratings</h2>
         <ngb-rating [max]="5" [(rate)]="currentRate"></ngb-rating>
     </div>
-
-
 </div>
 <div class="restaurants">
     <mat-card class="mainCard" *ngFor="let restaurant of restaurantOV">
-        <div class="logoCard">
-            <img class="logos" src="{{ restaurant.logo }}" alt="">
+        <div class="structuralContainer" *ngIf="restaurant.rating >= currentRate && restaurant.minOrder <= choiceAmount && includesKitchen(restaurant)">
+            <div class="logoCard" >
+                <img class="logos" src="{{ restaurant.logo }}" alt="">
+            </div>
+            <img class="mainImage" mat-card-image src="{{ restaurant.img }}">
+            <mat-card-content>
+                <mat-card-title>{{ restaurant.name }}</mat-card-title>
+                <div>
+                    <img class="symbols" src="./../../assets/img/symbols/star.png">
+                    {{ restaurant.rating }}
+                    <img class="symbols" src="./../../assets/img/symbols/lock.png">
+                    min. {{ restaurant.minOrderString }}
+                </div>
+                <div>
+                    <img class="symbols" src="./../../assets/img/symbols/clock.png">
+                    {{ restaurant.deliveryTime }} min
+                    <img class="symbols" src="./../../assets/img/symbols/bike.png">
+                    {{ restaurant.deliveryCostString }}
+                </div>
+            </mat-card-content>
         </div>
-        <img class="mainImage" mat-card-image src="{{ restaurant.img }}">
-        <mat-card-content>
-            <mat-card-title>{{ restaurant.name }}</mat-card-title>
-            <div>
-                <img class="symbols" src="./../../assets/img/symbols/star.png">
-                {{ restaurant.rating }}
-                <img class="symbols" src="./../../assets/img/symbols/lock.png">
-                min. {{ restaurant.minOrderString }}
-            </div>
-            <div>
-                <img class="symbols" src="./../../assets/img/symbols/clock.png">
-                {{ restaurant.deliveryTime }} min
-                <img class="symbols" src="./../../assets/img/symbols/bike.png">
-                {{ restaurant.deliveryCostString }}
-            </div>
-        </mat-card-content>
+    
     </mat-card>
 </div>

@@ -3,6 +3,7 @@
     flex-direction: row;
     padding-top: 20px;
     background-color: rgba(210, 206, 206, 0.1);
+    padding-bottom: 20px;
 }
 
 .restaurants {
@@ -14,47 +15,59 @@
     .mainCard {
         display: flex;
         flex-direction: row;
+        cursor: pointer;
 
-
-        .mainImage {
-            width: 287px;
-            height: 136px;
-            object-fit: cover;
-        }
-
-        .logoCard {
-            position: absolute;
-            left: 10px;
-            top: 10px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 3px 5px 10px 0px rgba(0, 0, 0, 0.75);
-            height: 40px;
-            width: 60px;
+        .structuralContainer {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1;
+            flex-direction: row;
 
-            .logos {
-                height: 16px;
-                width: 16px;
+            .mainImage {
+                width: 287px;
+                height: 136px;
+                object-fit: cover;
             }
-        }
 
-        mat-card-content {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            .logoCard {
+                position: absolute;
+                left: 10px;
+                top: 10px;
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 3px 5px 10px 0px rgba(0, 0, 0, 0.75);
+                height: 40px;
+                width: 60px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1;
 
-            div {
-                .symbols {
-                    height: 12px;
-                    width: 12px;
+                .logos {
+                    height: 16px;
+                    width: 16px;
+                }
+            }
+
+            mat-card-content {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                div {
+                    display: flex;
+                    align-items: center;
+                    gap: 3px;
+
+                    .symbols {
+                        height: 12px;
+                        width: 12px;
+                    }
                 }
             }
         }
+
+
+
     }
 }
 
@@ -78,23 +91,30 @@
         .amountChoice {
             display: flex;
             align-items: center;
+            gap: 5px;
+
+            .checkmark {
+                border: 1px solid rgba(0, 0, 0, 0.75);
+                height: 30px;
+                width: 30px;
+                background-color: rgba(210, 206, 206, 0.05);
+                border-radius: 100%;
+            }
 
             input {
+                opacity: 0;
                 cursor: pointer;
-                height: 25px;
-                width: 25px;
-                margin-right: 4px;
-                border-color: rgba(0, 0, 0, 0.75);
-
-                &:hover{
-                    background-color:rgba(0, 0, 0, 0.4)  !important;
-                }
-
-                &:checked{
-                    background-color: white !important;
-                    border: 5px solid #f36805 !important;
-                }
+                height: 0;
+                width: 0;
             }
+        }
+
+        .amountChoice:hover input~.checkmark {
+            background-color: #ccc;
+        }
+
+        .amountChoice input:checked~.checkmark {
+            border: 5px solid #f36805;
         }
     }
 
