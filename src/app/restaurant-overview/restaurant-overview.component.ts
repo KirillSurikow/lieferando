@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Obj } from '@popperjs/core';
 import { Restaurants } from 'src/models/restaurants.class';
 import { FilterService } from './../services/filter.service';
 
