@@ -35,20 +35,21 @@ export class RestaurantListComponent implements OnInit {
     this.restaurantUS = this.allRestaurants.allRestaurants;
   };
 
-  sortRestaurants(choice?: string) {
-    // let sorting : string = choice;
-    // if (this.sortBy == 'Rating') {
-    //   this.restaurantS = this.restaurantUS.sort((a: any, b: any, sorting: string) => {
-    //     if (a[sorting] < b[sorting]) {
-    //       return -1;
-    //     }
-    //   })
-    // } else {
-    //   this.restaurantS = this.restaurantUS.sort((a: any, b: any) => {
-
-    //   })
-    //   console.log(this.restaurantS)
-    // }
+  sortRestaurants() {
+    if (this.sortBy == 'Rating') {
+      this.restaurantS = this.restaurantUS.sort((a, b) => {
+        if (a[`${this.sortBy}`] < b[`${this.sortBy}`]) {
+          return -1;
+        }
+      })
+    } else {
+      this.restaurantS = this.restaurantUS.sort((a, b) => {
+        if (a[`${this.sortBy}`] > b[`${this.sortBy}`]) {
+          return -1;
+        }
+      })
+      console.log(this.restaurantS)
+    }
   }
 
 
@@ -79,7 +80,7 @@ export class RestaurantListComponent implements OnInit {
   setSortBy() {
     this.filter.sortByEmitter.subscribe((choice) => {
       this.sortBy = choice;
-      this.sortRestaurants(choice);
+      this.sortRestaurants();
     });
 
   }

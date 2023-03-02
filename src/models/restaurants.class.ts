@@ -1,6 +1,8 @@
+import { Restaurant } from "./restaurant.class";
+
 export class Restaurants {
     allRestaurants = [
-        {
+        new Restaurant({
             'id': 1,
             'name': 'American Burgers',
             'category': ['all', 'american'],
@@ -13,8 +15,8 @@ export class Restaurants {
             'deliveryCost': 4.00,
             'deliveryCostString' : '4,00€',
             'menu': []
-        },
-        {
+        }),
+        new Restaurant({
             'id': 2,
             'name': 'Bennys Place',
             'category': ['all', 'italian'],
@@ -27,8 +29,8 @@ export class Restaurants {
             'deliveryCost': 3.00,
             'deliveryCostString' : '3,00€',
             'menu': []
-        },
-        {
+        }),
+        new Restaurant({
             'id': 3,
             'name': 'Aladdin',
             'category': ['all', 'oriental'],
@@ -41,8 +43,8 @@ export class Restaurants {
             'deliveryCost': 4.50,
             'deliveryCostString' : '4,50€',
             'menu': []
-        },
-        {
+        }),
+        new Restaurant(    {
             'id': 4,
             'name': 'Old Samurai',
             'category': ['all', 'japanese'],
@@ -55,8 +57,8 @@ export class Restaurants {
             'deliveryCost': 4.00,
             'deliveryCostString' : '4,00€',
             'menu': []
-        },
-        {
+        }),
+        new Restaurant({
             'id': 5,
             'name': 'Sunny Phuket',
             'category': ['all', 'thai'],
@@ -69,8 +71,8 @@ export class Restaurants {
             'deliveryCost': 2.50,
             'deliveryCostString' : '2,50€',
             'menu': []
-        },
-        {
+        }),
+        new Restaurant( {
             'id': 6,
             'name': 'Hong Kong Dinner',
             'category': ['all', 'chinese'],
@@ -83,6 +85,6 @@ export class Restaurants {
             'deliveryCost': 4.00,
             'deliveryCostString' : '4,00€',
             'menu': []
-        }
+        }) 
     ]
 }
