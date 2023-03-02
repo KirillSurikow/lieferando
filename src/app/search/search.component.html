@@ -1,0 +1,19 @@
+<div class="searchContainer">
+    <mat-icon matPrefix>search</mat-icon>
+    <input placeholder="Restaurant" type="text" (keyup)="searchRestaurant()" [(ngModel)]="search">
+</div>
+<div class="selectArea">
+        Sorty by
+    <div class="selectContainer">
+        <div class="currentSelect" (click)="toggleSortBy()">
+            {{sortBy}}
+            <mat-icon fontIcon="keyboard_arrow_down"></mat-icon>
+        </div>
+        <div class="options" *ngIf="active">
+            <div class="option" (click)="changeSortBy('rating', 'Rating')">Rating</div>
+            <div class="option" (click)="changeSortBy('deliveryCost', 'Delivery cost')">Delivery cost</div>
+            <div class="option" (click)="changeSortBy('deliveryTime', 'Delivery time')">Delivery time</div>
+            <div class="option" (click)="changeSortBy('minOrder', 'Min. order amount')">Min. order amount</div>
+        </div>
+    </div>
+</div>

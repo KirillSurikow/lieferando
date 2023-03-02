@@ -33,7 +33,7 @@ export class AppComponent {
   }
 
   changeKitchen(k : string) {
-      this.kitchenChoice.changeFilterEvent(k)
+      this.kitchenChoice.changeKitchenFilterEvent(k)
   }
 
   changeLanguage(lang: string) {

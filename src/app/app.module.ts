@@ -16,6 +16,11 @@ import { Restaurants } from 'src/models/restaurants.class';
 import {MatCardModule} from '@angular/material/card';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { RatingAndAmountComponent } from './rating-and-amount/rating-and-amount.component';
+import { RestaurantListComponent } from './restaurant-list/restaurant-list.component';
+import { SearchComponent } from './search/search.component';
+import { MatInputModule } from '@angular/material/input';
+
 
 
 
@@ -23,7 +28,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
   declarations: [
     AppComponent,
     RestaurantOverviewComponent,
-    DialogLoginComponent
+    DialogLoginComponent,
+    RatingAndAmountComponent,
+    RestaurantListComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +46,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     HttpClientModule,
     MatCardModule,
     NgbRatingModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatInputModule,
+  
   ],
 
   providers: [

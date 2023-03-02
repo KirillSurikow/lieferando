@@ -1,0 +1,101 @@
+:host {
+    width: 100%;
+    padding-left: 35%;
+    height: 75px;
+    display: flex;
+    gap: 10px;
+
+    .searchContainer {
+        position: relative;
+        width: 50%;
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        font-weight: bold;
+
+        mat-icon {
+            position: absolute;
+            height: 45px;
+            width: 35px;
+            font-size: 33px;
+            top: 21px;
+            left: 5px;
+        }
+
+        input {
+            height: 45px;
+            width: 100%;
+            border-radius: 8px;
+            outline: none;
+            padding-left: 40px;
+            cursor: pointer;
+            font-size: 16px;
+
+            &:hover {
+                background-color: rgba(126, 126, 126, 0.1);
+            }
+        }
+    }
+
+    .selectArea {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: bold;
+
+        .selectContainer {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+            border: 2px solid rgba(0, 0, 0, 0.7);
+            background-color: white;
+            height: 45px;
+            border-radius: 8px;
+            font-weight: 400;
+            color: rgba(0, 0, 0, 0.7);
+
+            .currentSelect {
+                width: 240px;
+                height: 45px;
+                display: flex;
+                justify-content: space-between;
+                padding-left: 8px;
+                padding-right: 8px;
+                align-items: center;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: rgba(126, 126, 126, 0.1);
+                }
+            }
+
+            .options {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 45px;
+
+                .option {
+                    height: 20px;
+                    width: 240px;
+                    background-color: white;
+                    border-left: 2px solid rgba(0, 0, 0, 0.7);
+                    border-right: 2px solid rgba(0, 0, 0, 0.7);
+                    padding-left: 8px;
+
+                    &:hover {
+                        background-color: rgba(126, 126, 126, 0.1);
+                    }
+
+                    &:last-child {
+                        border-bottom: 2px solid rgba(0, 0, 0, 0.7);
+                        border-bottom-right-radius: 8px;
+                        border-bottom-left-radius: 8px;
+                    }
+                }
+            }
+        }
+    }
+}

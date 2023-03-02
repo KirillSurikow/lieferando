@@ -1,135 +1,16 @@
 :host {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     padding-top: 20px;
     background-color: rgba(210, 206, 206, 0.1);
     padding-bottom: 20px;
+    padding-right: 8px;
+    
+    div{
+        display: flex;
+        flex-direction: row
+    };
 }
 
-.restaurants {
-    width: 65%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    .mainCard {
-        display: flex;
-        flex-direction: row;
-        cursor: pointer;
-
-        .structuralContainer {
-            display: flex;
-            flex-direction: row;
-
-            .mainImage {
-                width: 287px;
-                height: 136px;
-                object-fit: cover;
-            }
-
-            .logoCard {
-                position: absolute;
-                left: 10px;
-                top: 10px;
-                background-color: white;
-                border-radius: 8px;
-                box-shadow: 3px 5px 10px 0px rgba(0, 0, 0, 0.75);
-                height: 40px;
-                width: 60px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 1;
-
-                .logos {
-                    height: 16px;
-                    width: 16px;
-                }
-            }
-
-            mat-card-content {
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-
-                div {
-                    display: flex;
-                    align-items: center;
-                    gap: 3px;
-
-                    .symbols {
-                        height: 12px;
-                        width: 12px;
-                    }
-                }
-            }
-        }
 
 
-
-    }
-}
-
-.filters {
-    width: 35%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    h2 {
-        width: 220px;
-        text-align: start;
-    }
-
-    .orderAmount {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-
-        .amountChoice {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-
-            .checkmark {
-                border: 1px solid rgba(0, 0, 0, 0.75);
-                height: 30px;
-                width: 30px;
-                background-color: rgba(210, 206, 206, 0.05);
-                border-radius: 100%;
-            }
-
-            input {
-                opacity: 0;
-                cursor: pointer;
-                height: 0;
-                width: 0;
-            }
-        }
-
-        .amountChoice:hover input~.checkmark {
-            background-color: #ccc;
-        }
-
-        .amountChoice input:checked~.checkmark {
-            border: 5px solid #f36805;
-        }
-    }
-
-    .rating {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-top: 10px;
-
-        ngb-rating {
-            font-size: 30px;
-            font-weight: bold;
-            color: gold;
-        }
-    }
-
-
-}

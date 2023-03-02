@@ -1,0 +1,62 @@
+:host {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+        width: 220px;
+        text-align: start;
+    }
+
+    .orderAmount {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+
+        .amountChoice {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            .checkmark {
+                border: 1px solid rgba(0, 0, 0, 0.75);
+                height: 30px;
+                width: 30px;
+                background-color: rgba(210, 206, 206, 0.05);
+                border-radius: 100%;
+            }
+
+            input {
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+            }
+        }
+
+        .amountChoice:hover input~.checkmark {
+            background-color: #ccc;
+        }
+
+        .amountChoice input:checked~.checkmark {
+            border: 5px solid #f36805;
+        }
+    }
+
+    .rating {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 10px;
+
+        ngb-rating {
+            font-size: 30px;
+            font-weight: bold;
+            color: gold;
+        }
+    }
+
+
+}

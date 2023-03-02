@@ -1,0 +1,13 @@
+<div class="orderAmount">
+    <h2>Minimum order amount</h2>
+    <label class="amountChoice" *ngFor="let item of orderAmount">
+        <input id="{{ item.id }}" type="radio"  [(ngModel)]="choiceAmount" [value]="item.value" 
+            name="orderAmount" (click)="changeOrderAmount(item.value)" >
+        <span class="checkmark"></span>
+        {{ item.label }}
+    </label>
+</div>
+<div class="rating">
+    <h2>Restaurant Ratings</h2>
+    <ngb-rating [max]="5" [(rate)]="currentRate" (click)="changeRating(currentRate)"></ngb-rating>
+</div>
