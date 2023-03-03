@@ -1,7 +1,7 @@
 export class Restaurant{
     id: number;
     name : string;
-    category : string;
+    category : string[];
     img : string;
     logo : string;
     rating : number;
@@ -9,7 +9,7 @@ export class Restaurant{
     minOrderString : string;
     deliveryTime : number;
     deliveryCost : number;
-    deliverCostString : string;
+    deliveryCostString : string;
     menu : any [];
 
     constructor(obj: any){
@@ -23,7 +23,7 @@ export class Restaurant{
         this.minOrderString = obj.minOrderString;
         this.deliveryTime = obj.deliveryTime;
         this.deliveryCost = obj.deliveryCost;
-        this.deliverCostString = obj.deliverCostString;
+        this.deliveryCostString = obj.deliveryCostString;
         this.menu = obj.menu;
     }
 

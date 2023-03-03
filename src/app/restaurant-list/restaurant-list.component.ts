@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Restaurants } from 'src/models/restaurants.class';
 import { FilterService } from './../services/filter.service';
+import { Restaurant } from 'src/models/restaurant.class';
+import { SortService } from '../services/sort.service';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -8,49 +10,29 @@ import { FilterService } from './../services/filter.service';
   styleUrls: ['./restaurant-list.component.scss']
 })
 export class RestaurantListComponent implements OnInit {
-  restaurantUS: any = [];
-  restaurantS: any = [];
+  restaurantS: Restaurant[] = [];
   kitchenChoice: string = 'all';
   ratingFilter: number = 1;
   orderAmount: number = 1000;
   search: string = '';
-  sortBy: string = 'rating';
+  sortBy: any = 'rating';
   @Input() currentFilter: string = 'all';
 
-  constructor(public allRestaurants: Restaurants, private filter: FilterService) {
+  constructor(public allRestaurants: Restaurants, private filter: FilterService, public sort : SortService) {
 
   }
 
   ngOnInit(): void {
     this.loadAllRestaurants();
-    this.sortRestaurants();
     this.setKitchenFilter();
     this.setRatingFilter();
     this.setOrderAmountFilter();
     this.setSearchFilter();
-    this.setSortBy();
   }
 
   loadAllRestaurants() {
-    this.restaurantUS = this.allRestaurants.allRestaurants;
+    this.restaurantS = this.sort.sortedRestaurant;
   };
-
-  sortRestaurants() {
-    if (this.sortBy == 'Rating') {
-      this.restaurantS = this.restaurantUS.sort((a, b) => {
-        if (a[`${this.sortBy}`] < b[`${this.sortBy}`]) {
-          return -1;
-        }
-      })
-    } else {
-      this.restaurantS = this.restaurantUS.sort((a, b) => {
-        if (a[`${this.sortBy}`] > b[`${this.sortBy}`]) {
-          return -1;
-        }
-      })
-      console.log(this.restaurantS)
-    }
-  }
 
 
   setKitchenFilter() {
@@ -76,14 +58,6 @@ export class RestaurantListComponent implements OnInit {
       this.search = choice;
     });
   };
-
-  setSortBy() {
-    this.filter.sortByEmitter.subscribe((choice) => {
-      this.sortBy = choice;
-      this.sortRestaurants();
-    });
-
-  }
 
   includesSearch(restaurant: any) {
     return restaurant.name.includes(this.search)

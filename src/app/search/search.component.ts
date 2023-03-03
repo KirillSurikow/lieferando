@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FilterService } from './../services/filter.service';
+import { SortService } from '../services/sort.service';
 
 @Component({
   selector: 'app-search',
@@ -12,7 +13,7 @@ export class SearchComponent {
   sortByKey : string = "rating"
   active : boolean = false;
 
-  constructor(private filter : FilterService){
+  constructor(private filter : FilterService, public sort : SortService){
 
   }
 

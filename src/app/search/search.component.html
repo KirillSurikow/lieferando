@@ -10,10 +10,10 @@
             <mat-icon fontIcon="keyboard_arrow_down"></mat-icon>
         </div>
         <div class="options" *ngIf="active">
-            <div class="option" (click)="changeSortBy('rating', 'Rating')">Rating</div>
-            <div class="option" (click)="changeSortBy('deliveryCost', 'Delivery cost')">Delivery cost</div>
-            <div class="option" (click)="changeSortBy('deliveryTime', 'Delivery time')">Delivery time</div>
-            <div class="option" (click)="changeSortBy('minOrder', 'Min. order amount')">Min. order amount</div>
+            <div class="option" (click)="sort.onRating()">Rating</div>
+            <div class="option" (click)="sort.onDeliveryCost()">Delivery cost</div>
+            <div class="option" (click)="sort.onDeliveryTime()">Delivery time</div>
+            <div class="option" (click)="sort.onMinOrder()">Min. order amount</div>
         </div>
     </div>
 </div>
