@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "lieferando-e3bf3": {
+      "hosting": {
+        "ang-lieferando": [
+          "lieferando-e3bf3"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "lieferando-e3bf3"
+  }
+}

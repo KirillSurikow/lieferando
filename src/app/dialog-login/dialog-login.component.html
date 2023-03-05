@@ -5,6 +5,6 @@
     </button>
 </div>
 <div class="btns">
-    <button class="logBtn" mat-raised-button>Log in</button>
-    <button class="logBtn orangeBG" mat-raised-button>Sign in</button>
+    <button routerLink="/createRestaurant" class="logBtn" (click)="goToCreateRestaurant()" mat-raised-button>Log in</button>
+    <button class="logBtn orangeBG" (click)="closeDialog()" mat-raised-button>Sign in</button>
 </div>

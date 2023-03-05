@@ -10,7 +10,7 @@ import { SortService } from '../services/sort.service';
   styleUrls: ['./restaurant-list.component.scss']
 })
 export class RestaurantListComponent implements OnInit {
-  restaurantS: Restaurant[] = [];
+  restaurantS: Restaurant[] = this.allRestaurants.allRestaurants;
   kitchenChoice: string = 'all';
   ratingFilter: number = 1;
   orderAmount: number = 1000;
@@ -31,7 +31,9 @@ export class RestaurantListComponent implements OnInit {
   }
 
   loadAllRestaurants() {
-    this.restaurantS = this.sort.sortedRestaurant;
+    this.sort.orderByEmitter.subscribe((order : any) => {
+        this.restaurantS = order;
+    });
   };
 
 

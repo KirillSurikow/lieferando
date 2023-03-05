@@ -1,4 +1,4 @@
-<mat-card class="mainCard" *ngFor="let restaurant of restaurantS">
+<mat-card routerLink="/restaurant" class="mainCard" *ngFor="let restaurant of restaurantS">
     <div class="structuralContainer" *ngIf="restaurant.rating >= ratingFilter
          && restaurant.minOrder <= orderAmount 
          && includesKitchen(restaurant)

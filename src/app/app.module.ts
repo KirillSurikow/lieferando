@@ -20,8 +20,13 @@ import { RatingAndAmountComponent } from './rating-and-amount/rating-and-amount.
 import { RestaurantListComponent } from './restaurant-list/restaurant-list.component';
 import { SearchComponent } from './search/search.component';
 import { MatInputModule } from '@angular/material/input';
-
-
+import { ScrollTopButtonComponent } from './scroll-top-button/scroll-top-button.component';
+import { RestaurantComponent } from './restaurant/restaurant.component';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { CreateRestaurantComponent } from './create-restaurant/create-restaurant.component';
+import { RestaurantDescriptionComponent } from './restaurant-description/restaurant-description.component';
 
 
 @NgModule({
@@ -31,7 +36,11 @@ import { MatInputModule } from '@angular/material/input';
     DialogLoginComponent,
     RatingAndAmountComponent,
     RestaurantListComponent,
-    SearchComponent
+    SearchComponent,
+    ScrollTopButtonComponent,
+    RestaurantComponent,
+    CreateRestaurantComponent,
+    RestaurantDescriptionComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +57,8 @@ import { MatInputModule } from '@angular/material/input';
     NgbRatingModule,
     MatFormFieldModule,
     MatInputModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
   
   ],
 

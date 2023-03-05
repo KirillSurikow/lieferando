@@ -1,9 +1,9 @@
 <header>
   <div class="main">
-    <div class="logo">
+    <div routerLink="/" (click)="resetHeader()" class="logo">
       <img src="./../assets/img/logo/pizza-deliver.png" alt="">
     </div>
-    <div class="deliveryOptions">
+    <div class="deliveryOptions" *ngIf="doActive">
       <button mat-raised-button class="address">
         <mat-icon fontIcon="location_on"></mat-icon>
         <input type="text" [(ngModel)]="address"></button>
@@ -31,11 +31,12 @@
       </button>
     </div>
   </div>
-  <div class="kitchens">
+  <div *ngIf="kitActive" class="kitchens">
     <mat-button-toggle-group>
       <mat-button-toggle class="kitchenBtn" [checked]="true ? i == 0 : false" *ngFor="let k of kitchens; let i = index" value="{{ k }}" (click)="changeKitchen(k)">{{ k }}
       </mat-button-toggle>
     </mat-button-toggle-group>
   </div>
 </header>
-<router-outlet></router-outlet>
+<router-outlet ></router-outlet>
+<app-scroll-top-button *ngIf="scrolled"></app-scroll-top-button>

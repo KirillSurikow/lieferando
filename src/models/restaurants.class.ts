@@ -1,5 +1,8 @@
 import { Restaurant } from "./restaurant.class";
+// import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class Restaurants {
     allRestaurants = [
         new Restaurant({
@@ -87,4 +90,8 @@ export class Restaurants {
             'menu': []
         }) 
     ]
+
+    // constructor(firestore: AngularFirestore){
+
+    // }
 }

@@ -99,6 +99,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "ang-lieferando:build:production",
+            "firebaseProject": "lieferando-e3bf3",
+            "firebaseHostingSite": "lieferando-e3bf3"
+          }
         }
       }
     }

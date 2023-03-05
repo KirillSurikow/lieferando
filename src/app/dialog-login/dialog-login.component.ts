@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 
@@ -8,12 +8,19 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./dialog-login.component.scss']
 })
 export class DialogLoginComponent {
+ changeHeader = new EventEmitter();
+
   constructor(
     public dialogRef: MatDialogRef<DialogLoginComponent>,
   ) { }
 
   closeDialog(){
-    this.dialogRef.close()
+    this.dialogRef.close();
+  }
+
+  goToCreateRestaurant(){
+    this.dialogRef.close();
+    this.changeHeader.emit();
   }
 
 }
