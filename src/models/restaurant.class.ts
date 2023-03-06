@@ -12,19 +12,18 @@ export class Restaurant{
     deliveryCostString : string;
     menu : any [];
 
-    constructor(obj: any){
-        this.id = obj.id;
-        this.name = obj.name;
-        this.category = obj.category;
-        this.img = obj.img;
-        this.logo = obj.logo;
-        this.rating = obj.rating;
-        this.minOrder = obj.minOrder;
-        this.minOrderString = obj.minOrderString;
-        this.deliveryTime = obj.deliveryTime;
-        this.deliveryCost = obj.deliveryCost;
-        this.deliveryCostString = obj.deliveryCostString;
-        this.menu = obj.menu;
-    }
-
+    // constructor(obj?: any){
+    //     this.id = obj.id;
+    //     this.name = obj.name;
+    //     this.category = obj.category;
+    //     this.img = obj.img;
+    //     this.logo = obj.logo;
+    //     this.rating = obj.rating;
+    //     this.minOrder = obj.minOrder;
+    //     this.minOrderString = obj.minOrderString;
+    //     this.deliveryTime = obj.deliveryTime;
+    //     this.deliveryCost = obj.deliveryCost;
+    //     this.deliveryCostString = obj.deliveryCostString;
+    //     this.menu = obj.menu;
+    // }
 }

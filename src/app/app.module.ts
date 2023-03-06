@@ -27,6 +27,8 @@ import { environment } from '../environments/environment';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { CreateRestaurantComponent } from './create-restaurant/create-restaurant.component';
 import { RestaurantDescriptionComponent } from './restaurant-description/restaurant-description.component';
+import { RestaurantConditionComponent } from './restaurant-condition/restaurant-condition.component';
+import { RestaurantMenuComponent } from './restaurant-menu/restaurant-menu.component';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { RestaurantDescriptionComponent } from './restaurant-description/restaur
     ScrollTopButtonComponent,
     RestaurantComponent,
     CreateRestaurantComponent,
-    RestaurantDescriptionComponent
+    RestaurantDescriptionComponent,
+    RestaurantConditionComponent,
+    RestaurantMenuComponent
   ],
   imports: [
     BrowserModule,

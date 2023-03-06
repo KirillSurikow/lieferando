@@ -1,1 +1,40 @@
-<p>restaurant-description works!</p>
+<h2>
+    Description
+</h2>
+
+<div class="inputs">
+    <div class="inputColumn">
+        <div>
+            <p>Name of the restaurant:</p>
+            <input type="text" placeholder="restaurant's name" [(ngModel)]="name">
+        </div>
+        <div>
+            <p>Select a thumbnail</p>
+            <input type="text" placeholder="path for your thumbnail" [(ngModel)]="backgroundImg">
+        </div>
+    </div>
+    <div class="inputColumn">
+        <div>
+            <p>Which category?</p>
+            <select name="kitchen" id="kitchen" [(ngModel)]="category">
+                <option style="display: none;" value="" disabled selected>Choose a kitchen</option>
+                <option value="italian">italian</option>
+                <option value="american">american</option>
+                <option value="oriental">oriental</option>
+                <option value="japanese">japanese</option>
+                <option value="chinese">chinese</option>
+                <option value="thai">thai</option>
+            </select>
+        </div>
+        <div>
+            <p>Select a logo</p>
+            <input type="text" placeholder="path for your logo" [(ngModel)]="logoImg">
+        </div>
+    </div>
+</div>
+<div>
+    <button routerLink="/createRestaurant/restaurantCondition" class="orangeBG" (click)="saveData()">
+        Next
+    </button>
+</div>
+
