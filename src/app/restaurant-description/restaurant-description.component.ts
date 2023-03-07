@@ -6,9 +6,7 @@ import { DataService } from '../services/data.service';
   selector: 'app-restaurant-description',
   templateUrl: './restaurant-description.component.html',
   styleUrls: ['./restaurant-description.component.scss'],
-  providers : [
-    DataService
-  ]
+
 })
 export class RestaurantDescriptionComponent {
   name: string = "";
@@ -27,7 +25,7 @@ export class RestaurantDescriptionComponent {
       'logo' : this.logoImg,
       'img' : this.backgroundImg
     }
-
-    this.data.emitData(description);
+   
+    this.data.transferData(description)
   }
 }

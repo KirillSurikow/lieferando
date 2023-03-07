@@ -1,13 +1,19 @@
-import { EventEmitter, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
+import { Observable, Subject } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class DataService{
-    savedData = new EventEmitter<any>();
+   savedData = new Subject<object>();
+    
+   transferData(description : object){
+       this.savedData.next(description)
+   }
 
-    emitData(data : any){
-        this.savedData.emit(data)
-    }
+   getData(): Observable<object> {
+    return this.savedData.asObservable();
+}
+
 }

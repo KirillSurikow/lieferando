@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 import { FilterService } from './services/filter.service';
 import { ViewportScroller } from '@angular/common';
+import { SortService } from './services/sort.service';
+import { DataService } from './services/data.service';
 
 
 
@@ -11,7 +13,9 @@ import { ViewportScroller } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   providers: [
-    FilterService
+    FilterService,
+    SortService,
+    DataService
   ]
 })
 export class AppComponent {
