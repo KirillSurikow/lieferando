@@ -14,14 +14,16 @@ export class RestaurantConditionComponent implements OnInit {
   backgroundImg: string = "";
   category: string = "";
   logoImg: string = "";
+  subscription: Subscription;
 
   constructor(private data: DataService) {
-
+   
   }
 
   ngOnInit(): void {
-    this.data.getData().subscribe((description : Observable<object>) => {
-      console.log(description)
-    })
+    let subscription =  this.data.getData().subscribe((description: any) => {
+      if(description)
+        console.log(description)
+      })
   }
 }

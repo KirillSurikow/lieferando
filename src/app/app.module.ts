@@ -29,6 +29,7 @@ import { CreateRestaurantComponent } from './create-restaurant/create-restaurant
 import { RestaurantDescriptionComponent } from './restaurant-description/restaurant-description.component';
 import { RestaurantConditionComponent } from './restaurant-condition/restaurant-condition.component';
 import { RestaurantMenuComponent } from './restaurant-menu/restaurant-menu.component';
+import { DataService } from './services/data.service';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { RestaurantMenuComponent } from './restaurant-menu/restaurant-menu.compo
   ],
 
   providers: [
-    Restaurants
+    Restaurants,
+    DataService
   ],
   bootstrap: [AppComponent]
 })

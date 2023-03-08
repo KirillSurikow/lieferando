@@ -3,8 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 import { FilterService } from './services/filter.service';
 import { ViewportScroller } from '@angular/common';
-import { SortService } from './services/sort.service';
-import { DataService } from './services/data.service';
+
 
 
 
@@ -12,11 +11,6 @@ import { DataService } from './services/data.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [
-    FilterService,
-    SortService,
-    DataService
-  ]
 })
 export class AppComponent {
   address: string = "Niederstr. 70, 47829 Krefeld";
