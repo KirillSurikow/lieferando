@@ -5,7 +5,7 @@
     <div class="inputColumn">
         <div>
             <p>Enter your rating</p>
-            <select name="rating" id="rating">
+            <select name="rating" id="rating" [(ngModel)]="rating">
                 <option style="display: none;" value="" disabled selected>Rating</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -16,7 +16,7 @@
         </div>
         <div>
             <p>Enter your delivery costs</p>
-            <input type="number" placeholder="delivery costs">
+            <input type="number" placeholder="delivery costs" [(ngModel)]="deliveryCost">
         </div>
 
     </div>
@@ -24,17 +24,17 @@
 
         <div>
             <p>Enter your delivery time</p>
-            <input type="number" placeholder="delivery time">
+            <input type="number" placeholder="delivery time" [(ngModel)]="deliveryTime">
         </div>
         <div>
             <p>Enter your min. order amount</p>
-            <input type="number" placeholder="minimum order amount">
+            <input type="number" placeholder="minimum order amount" [(ngModel)]="minOrder">
         </div>
     </div>
 </div>
 
 <div>
-    <button routerLink="/createRestaurant/restaurantMenu" class="orangeBG">
+    <button (click)="saveData()" class="orangeBG">
         Next
     </button>
 </div>

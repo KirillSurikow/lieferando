@@ -1,9 +1,10 @@
 export class Restaurant{
-    id: number;
     name : string;
+    address : string;
+    city : string;
     category : string[];
-    img : string;
-    logo : string;
+    backgroundImg : string;
+    logoImg : string;
     rating : number;
     minOrder : number;
     minOrderString : string;
@@ -13,11 +14,10 @@ export class Restaurant{
     menu : any [];
 
     // constructor(obj?: any){
-    //     this.id = obj.id;
     //     this.name = obj.name;
     //     this.category = obj.category;
-    //     this.img = obj.img;
-    //     this.logo = obj.logo;
+    //     this.backgroundImg = obj.backgroundImg;
+    //     this.logoImg = obj.logoImg;
     //     this.rating = obj.rating;
     //     this.minOrder = obj.minOrder;
     //     this.minOrderString = obj.minOrderString;

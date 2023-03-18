@@ -1,5 +1,7 @@
-import { Component, } from '@angular/core';
-import { DataService } from '../services/data.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+
 
 
 @Component({
@@ -8,24 +10,42 @@ import { DataService } from '../services/data.service';
   styleUrls: ['./restaurant-description.component.scss'],
 
 })
-export class RestaurantDescriptionComponent {
+export class RestaurantDescriptionComponent implements OnInit {
   name: string = "";
   backgroundImg: string = "";
   category: string = "";
   logoImg: string = "";
+  currentUser: string = "";
+  allRestaurants$: Observable<object>;
 
-  constructor(private data : DataService){
 
+  constructor(private router: Router, private route: ActivatedRoute) {
+
+  }
+
+  ngOnInit() {
+    this.divideLogOrSign()
+
+  }
+
+  divideLogOrSign() {
+    // let obj = JSON.parse(this.route.snapshot.paramMap.get('id'));
+    // this.currentUser = obj.userId;
+    // if (new)
+      // this.createNewUser()
+    // else
+      // this.loadUser();
   }
 
   saveData() {
-    let description = {
+    let describtion = {
       'name': this.name,
-      'category' : this.category,
-      'logo' : this.logoImg,
-      'img' : this.backgroundImg
+      'backgroundImg': this.backgroundImg,
+      'category': this.category,
+      'logoImg': this.logoImg
     }
-   
-    this.data.transferData(description)
+
+    this.router.navigate(['/backoffice/:id/restaurantCondition', { my_object: JSON.stringify(describtion) }]);
   }
+
 }

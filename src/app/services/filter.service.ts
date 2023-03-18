@@ -4,8 +4,6 @@ import { EventEmitter, Injectable } from "@angular/core";
     providedIn: 'root'
 })
 
-
-@Injectable()
 export class FilterService {
     kitchenFilterEmitter = new EventEmitter<string>();
     ratingFilterEmitter = new EventEmitter<number>();

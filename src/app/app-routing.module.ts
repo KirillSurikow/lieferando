@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateRestaurantComponent } from './create-restaurant/create-restaurant.component';
+import { BackofficeHomeComponent } from './backoffice-home/backoffice-home.component';
+import { MyRestaurantsComponent } from './my-restaurants/my-restaurants.component';
+import { RegistrationComponent } from './registration/registration.component';
 import { RestaurantConditionComponent } from './restaurant-condition/restaurant-condition.component';
 import { RestaurantDescriptionComponent } from './restaurant-description/restaurant-description.component';
 import { RestaurantMenuComponent } from './restaurant-menu/restaurant-menu.component';
@@ -19,11 +21,19 @@ const routes: Routes = [
 
   },
   {
-    path: 'createRestaurant',
-    component: CreateRestaurantComponent,
+    path: 'registration',
+    component: RegistrationComponent
+  },
+  {
+    path: 'backoffice/:id',
+    component: BackofficeHomeComponent,
     children: [
       {
         path: '',
+        component: MyRestaurantsComponent
+      },
+      {
+        path: 'characteristics',
         component: RestaurantDescriptionComponent
       },
       {
@@ -33,7 +43,7 @@ const routes: Routes = [
       {
         path: 'restaurantMenu',
         component: RestaurantMenuComponent
-      }
+      },
     ]
   }
 ];

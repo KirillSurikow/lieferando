@@ -3,6 +3,7 @@ import { Restaurants } from 'src/models/restaurants.class';
 import { FilterService } from './../services/filter.service';
 import { Restaurant } from 'src/models/restaurant.class';
 import { SortService } from '../services/sort.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -10,7 +11,8 @@ import { SortService } from '../services/sort.service';
   styleUrls: ['./restaurant-list.component.scss']
 })
 export class RestaurantListComponent implements OnInit {
-  restaurantS: Restaurant[] = this.allRestaurants.allRestaurants;
+  restaurantsAsJSON;
+  restaurantS: Restaurant[] = [];
   kitchenChoice: string = 'all';
   ratingFilter: number = 1;
   orderAmount: number = 1000;
@@ -18,11 +20,12 @@ export class RestaurantListComponent implements OnInit {
   sortBy: any = 'rating';
   @Input() currentFilter: string = 'all';
 
-  constructor(public allRestaurants: Restaurants, private filter: FilterService, public sort : SortService) {
+  constructor(public allRestaurants: Restaurants, private filter: FilterService, public sort: SortService, private firestore: AngularFirestore) {
 
   }
 
   ngOnInit(): void {
+    this.accessDatabase();
     this.loadAllRestaurants();
     this.setKitchenFilter();
     this.setRatingFilter();
@@ -30,9 +33,27 @@ export class RestaurantListComponent implements OnInit {
     this.setSearchFilter();
   }
 
+  accessDatabase() {
+    this
+      .firestore
+      .collection('restaurants')
+      .valueChanges()
+      .subscribe((change) => {
+        this.restaurantsAsJSON = change;
+      })
+  }
+
+  // prepareData() {
+  //   for (let i = 0; i < this.restaurantsAsJSON.length; i++) {
+  //     let obj = new Restaurant(this.restaurantsAsJSON[i]);
+  //     this.restaurantS.push(obj);
+  //     console.log(this.restaurantS)
+  //   }
+  // }
+
   loadAllRestaurants() {
-    this.sort.orderByEmitter.subscribe((order : any) => {
-        this.restaurantS = order;
+    this.sort.orderByEmitter.subscribe((order: any) => {
+      this.restaurantS = order;
     });
   };
 

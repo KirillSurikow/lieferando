@@ -22,14 +22,17 @@ import { SearchComponent } from './search/search.component';
 import { MatInputModule } from '@angular/material/input';
 import { ScrollTopButtonComponent } from './scroll-top-button/scroll-top-button.component';
 import { RestaurantComponent } from './restaurant/restaurant.component';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { CreateRestaurantComponent } from './create-restaurant/create-restaurant.component';
 import { RestaurantDescriptionComponent } from './restaurant-description/restaurant-description.component';
 import { RestaurantConditionComponent } from './restaurant-condition/restaurant-condition.component';
 import { RestaurantMenuComponent } from './restaurant-menu/restaurant-menu.component';
-import { DataService } from './services/data.service';
+import { CurrencyService } from './services/currency.service';
+import { AngularFireModule } from '@angular/fire/compat';
+import { RegistrationComponent } from './registration/registration.component';
+import { BackofficeHomeComponent } from './backoffice-home/backoffice-home.component';
+import { MyRestaurantsComponent } from './my-restaurants/my-restaurants.component';
+
 
 
 @NgModule({
@@ -42,10 +45,12 @@ import { DataService } from './services/data.service';
     SearchComponent,
     ScrollTopButtonComponent,
     RestaurantComponent,
-    CreateRestaurantComponent,
     RestaurantDescriptionComponent,
     RestaurantConditionComponent,
-    RestaurantMenuComponent
+    RestaurantMenuComponent,
+    RegistrationComponent,
+    BackofficeHomeComponent,
+    MyRestaurantsComponent
   ],
   imports: [
     BrowserModule,
@@ -62,14 +67,12 @@ import { DataService } from './services/data.service';
     NgbRatingModule,
     MatFormFieldModule,
     MatInputModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore()),
-  
+    AngularFireModule.initializeApp(environment.firebase),
   ],
 
   providers: [
     Restaurants,
-    DataService
+    CurrencyService
   ],
   bootstrap: [AppComponent]
 })

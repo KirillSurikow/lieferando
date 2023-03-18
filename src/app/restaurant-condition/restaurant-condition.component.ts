@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../services/data.service';
-import { Observable, Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 
 @Component({
@@ -10,20 +10,42 @@ import { Observable, Subscription } from 'rxjs';
 
 })
 export class RestaurantConditionComponent implements OnInit {
+  obj: object;
   name: string = "";
   backgroundImg: string = "";
   category: string = "";
   logoImg: string = "";
-  subscription: Subscription;
+  rating: number;
+  deliveryCost: number;
+  deliveryTime: number;
+  minOrder: number;
 
-  constructor(private data: DataService) {
-   
+
+  constructor(private route: ActivatedRoute, private router: Router) {
+
   }
 
   ngOnInit(): void {
-    let subscription =  this.data.getData().subscribe((description: any) => {
-      if(description)
-        console.log(description)
-      })
+    this.obj = JSON.parse(this.route.snapshot.paramMap.get('my_object'));
+    this.name = this.obj['name'];
+    this.backgroundImg = this.obj['backgroundImg'];
+    this.category = this.obj['category'];
+    this.logoImg = this.obj['logoImg'];
+  }
+
+  saveData(){
+    let decrAndCond = {
+      'name': this.name,
+      'backgroundImg': this.backgroundImg,
+      'category' : this.category,
+      'logoImg' : this.logoImg,
+      'rating': this.rating,
+      'deliveryCost': this.deliveryCost,
+      'deliveryTime' : this.deliveryTime,
+      'minOrder' : this.minOrder,
+
+    }
+
+    this.router.navigate(['/backoffice/:id/restaurantMenu', {my_object: JSON.stringify(decrAndCond)}]);
   }
 }

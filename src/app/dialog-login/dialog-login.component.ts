@@ -1,5 +1,6 @@
 import { Component, EventEmitter } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -8,19 +9,21 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./dialog-login.component.scss']
 })
 export class DialogLoginComponent {
- changeHeader = new EventEmitter();
+  changeHeader = new EventEmitter();
 
   constructor(
     public dialogRef: MatDialogRef<DialogLoginComponent>,
+    private router: Router
   ) { }
 
-  closeDialog(){
+  closeDialog() {
     this.dialogRef.close();
   }
 
-  goToCreateRestaurant(){
+  goToRegistration(value: string) {
     this.dialogRef.close();
     this.changeHeader.emit();
+    this.router.navigate(['/registration', { my_object: JSON.stringify({type : value}) }]);
   }
 
 }

@@ -70,7 +70,5 @@ export class AppComponent {
   resetHeader() {
     this.doActive = true;
     this.kitActive = true;
-
-    console.log(this.doActive, this.kitActive)
   }
 }

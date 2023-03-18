@@ -1,0 +1,57 @@
+:host {
+    display: flex;
+    justify-content: center;
+    padding-top: 75px;
+
+    mat-card {
+        width: 500px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        .searchContainer {
+            position: relative;
+            width: 50%;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            font-weight: bold;
+
+            mat-icon {
+                position: absolute;
+                height: 45px;
+                width: 35px;
+                font-size: 33px;
+                left: 5px;
+                top: 7px;
+            }
+
+            input {
+                height: 45px;
+                width: 100%;
+                border-radius: 8px;
+                outline: none;
+                padding-left: 40px;
+                cursor: pointer;
+                font-size: 16px;
+
+                &:hover {
+                    background-color: rgba(126, 126, 126, 0.1);
+                }
+            }
+        }
+
+        .btn{
+            width: 200px;
+            height: 36px;
+            margin-top: 10px;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}

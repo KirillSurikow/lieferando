@@ -1,1 +1,65 @@
-<p>restaurant-menu works!</p>
+<div class="headLine">
+  <h2>Menu</h2>
+  <button class="createDishBtn orangeBG" (click)="saveMenu()">
+    Save menu
+  </button>
+</div>
+<h3>Congratulation, now you can create your menu</h3>
+<div class="dishMask">
+  <div class="dishAttribute">
+    <input type="text" name="category" list="categoryList" [(ngModel)]="dishCategory"
+      placeholder="e.g. Pizza, Pasta etc.">
+    <datalist id="categoryList">
+      <option *ngFor="let item of categoryList" value="{{ item }}">
+    </datalist>
+    <span class="label orange">Enter the food category</span>
+  </div>
+  <div class="dishAttribute">
+    <input type="text" [(ngModel)]="dishName" placeholder="e.g. Pizza Margherita">
+    <span class="label orange">Enter the dish's name</span>
+  </div>
+  <div class="dishAttribute">
+    <div>
+      <input type="number" [(ngModel)]="dishPrice" placeholder="e.g. 4.5">€
+    </div>
+    <span class="orange adjustSpan">Enter the dish's price</span>
+  </div>
+  <div class="dishAttribute">
+    <textarea type="text" [(ngModel)]="dishDescribtion" placeholder="e.g. Pizza with Salami and Peperoni" cols="30"
+      rows="10"></textarea>
+    <span class="orange adjustSpan">Enter the dish's describtion</span>
+  </div>
+</div>
+<button class="createDishBtn orangeBG" (click)="addDish()">
+  Create Dish
+</button>
+<div class="createdDishes">
+  <mat-card *ngFor="let c of menu; let i = index">
+    <div class="dishCategory">
+      <h4>{{ c.categorykey }}</h4>
+      <div class="dish" *ngFor="let d of c.categoryItem; let j = index">
+        <div class="menuCell">
+          <span style="display: flex;" (click)="showEditName(i,j)" class="dishName" id="{{i}}{{j}}dishNameLabel">
+            {{ d.dishName }}
+          </span>
+          <input style="display: none;" type="text" value="{{ d.dishName }}" id="{{i}}{{j}}dishName">
+        </div>
+        <div class="menuCell">
+          <span style="display: flex; "(click)="showEditDescribtion(i,j)" class="dishDescribtion" id="{{i}}{{j}}dishDescribtionLabel">
+            {{ d.dishDescribtion }}
+          </span>
+          <textarea style="display: none;" id="{{i}}{{j}}dishDescribtion" cols="30" rows="10" value="{{ d.dishDescribtion}}"></textarea>
+        </div>
+        <div class="menuCell">
+          <span style="display: flex;" class="dishPrice" (click)="showEditPrice(i,j)" id="{{i}}{{j}}dishPriceLabel">
+            {{ d.dishPriceAsString }}
+          </span>
+          <input style="display: none;" type="number" value="{{ d.dishPrice }}" id="{{i}}{{j}}dishPrice">
+        </div>
+        <button (click)="updateDish(i,j)" style="display: none;" id="{{i}}{{j}}dishBtn" class="orangeBG">
+          <mat-icon fontIcon="done"></mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-card>
+</div>

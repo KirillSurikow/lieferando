@@ -1,0 +1,17 @@
+<mat-card>
+    <h1>
+        {{ logOrSign }}
+    </h1>
+    <div class="searchContainer">
+        <mat-icon matPrefix>mail</mat-icon>
+        <input placeholder="Email" type="text"  [(ngModel)]="email">
+    </div>
+    <div class="searchContainer">
+        <mat-icon matPrefix>lock</mat-icon>
+        <input placeholder="Password" type="text"  [(ngModel)]="password">
+    </div>
+
+    <button (click)="onSubmit()" class="orangeBG btn">
+        Submit
+    </button>
+</mat-card>
