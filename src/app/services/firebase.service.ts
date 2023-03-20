@@ -1,24 +1,27 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { User } from 'src/models/user.class';
+import { collection, doc, setDoc } from 'firebase/firestore';
+import { FirestoreService } from '../services/firestore.service';
+import { Firestore, collectionData, } from '@angular/fire/firestore';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
   isLoggedIn = false;
-  newUser : object;
+  databaseId = ""
+  userId = "";
+  newUser: any;
 
-  constructor(public auth: AngularFireAuth, private firestore: AngularFirestore, private router: Router) { }
+  constructor(public auth: AngularFireAuth, private firestore: Firestore, private router: Router, private gfs: FirestoreService) { }
 
   async signIn(email: string, password: string) {
     await this.auth.signInWithEmailAndPassword(email, password)
       .then(res => {
-        this.isLoggedIn = true;
-        localStorage.setItem('user', JSON.stringify(res.user))
-        console.log(res)
+        this.userId = res.user.multiFactor['user']['uid'];
+        this.reEnterBackoffice()
       })
       .catch((error) => {
         console.log(error)
@@ -28,39 +31,41 @@ export class FirebaseService {
   async signUp(email: string, password: string) {
     await this.auth.createUserWithEmailAndPassword(email, password)
       .then(res => {
+        this.userId = res.user.multiFactor['user']['uid'];
         this.newUser = {
-          userId: res.user.multiFactor['user']['uid']
+          userId: this.userId,
+          data: {}
         }
-        // let userId = res.user.multiFactor['user']['uid'];
-        this.uploadNewUser(); 
+        this.uploadNewUser();
       })
       .catch(err => {
         console.log(err)
       })
   }
 
-  enterBackoffice(value1: string) {
-    let id = this.returnJSON(value1 )
-    this.router.navigate(['/backoffice', id])
+  async reEnterBackoffice() {
+    let response = await this.gfs.getUser(this.userId);
+    console.log(response)
+
   }
 
-  returnJSON(value1 :string){
+  enterBackoffice(value1: string) {
+    let id = this.returnJSON(value1);
+    this.router.navigate(['/backoffice', id]);
+  }
+
+  returnJSON(value1: string) {
     return JSON.stringify({
-      databaseID : value1,
-      userID : this.newUser['userID']
+      databaseID: value1,
+      userID: this.newUser.userId
     })
   }
 
   uploadNewUser() {
-    this
-      .firestore
-      .collection('users')
-      .add(this.newUser)
-      .then(res =>{
-         let databaseId = res.id
-         this.enterBackoffice( databaseId )
-      })
-      
+    let coll = collection(this.firestore, 'users');
+    setDoc(doc(coll), this.newUser)
+    let databaseID = this.gfs.getUser(this.userId)
+    console.log(databaseID)
   }
 
   logOut() {
