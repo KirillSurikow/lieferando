@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { getFirestore } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { Firestore } from '@angular/fire/firestore';
-
-
+import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 
 const firebaseConfig = {
@@ -23,19 +23,29 @@ const db = getFirestore(app);
   providedIn: 'root'
 })
 export class FirestoreService {
-  constructor(private db  : Firestore) { }
+  databaseIDEmitter = new EventEmitter();
+  dataEmitter = new EventEmitter();
+
+  constructor(private db: Firestore , private firestore: AngularFirestore) { }
 
   async getUser(id: string) {
     const q = query(collection(db, "users"), where("userId", "==", id));
 
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      // console.log({
-      //   databaseID: doc.id
-      // })
-      return {
-          databaseID: doc.id
-        }
+   let querySnapshot$ = await getDocs(q);
+    querySnapshot$.forEach((doc) => {
+      let databaseID = doc.id
+      this.databaseIDEmitter.emit(databaseID)
     });
+  }
+
+  async getData(id : string){
+      this
+      .firestore
+      .collection('users')
+      .doc(id)
+      .valueChanges()
+      .subscribe(data =>{
+          this.dataEmitter.emit(data)
+      })
   }
 }

@@ -13,14 +13,14 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./backoffice-home.component.scss']
 })
 export class BackofficeHomeComponent implements OnInit {
-  data$ : Observable<any>;
+  data: any = "";
   myRestaurants: any = [];
   restaurantNew: object = [];
   userID: string = "";
   databaseID: string = "";
 
 
-  constructor(private firestore: AngularFirestore, private route: ActivatedRoute, private gfs : FirestoreService) {
+  constructor(private firestore: AngularFirestore, private route: ActivatedRoute, private gfs: FirestoreService) {
 
   }
 
@@ -28,12 +28,15 @@ export class BackofficeHomeComponent implements OnInit {
     let obj = JSON.parse(this.route.snapshot.paramMap.get('id'));
     this.userID = obj.userID;
     this.databaseID = obj.databaseID;
-    this.updateAccount();
+    this.setDataListener();
+    this.gfs.getData(this.databaseID);
   }
 
-  async updateAccount() {
-   let user = await this.gfs.getUser(this.userID);
-   console.log(user)
+  setDataListener() {
+    this.gfs.dataEmitter.subscribe(data => {
+      this.data = data;
+      console.log(data.data)
+    })
   }
 
   newRestaurant() {
@@ -43,8 +46,8 @@ export class BackofficeHomeComponent implements OnInit {
       .firestore
       .collection('users')
       .doc(this.databaseID)
-      .update({'data' : this.myRestaurants })
-      .then( res =>{
+      .update({ 'data': this.myRestaurants })
+      .then(res => {
         console.log(res)
       })
   }
