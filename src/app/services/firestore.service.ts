@@ -33,6 +33,7 @@ export class FirestoreService {
 
    let querySnapshot$ = await getDocs(q);
     querySnapshot$.forEach((doc) => {
+      console.log('getUser')
       let databaseID = doc.id
       this.databaseIDEmitter.emit(databaseID)
     });
@@ -45,6 +46,7 @@ export class FirestoreService {
       .doc(id)
       .valueChanges()
       .subscribe(data =>{
+        console.log('getData')
           this.dataEmitter.emit(data)
       })
   }

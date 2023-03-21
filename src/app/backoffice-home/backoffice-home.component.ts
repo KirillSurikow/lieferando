@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { FirestoreService } from '../services/firestore.service';
   templateUrl: './backoffice-home.component.html',
   styleUrls: ['./backoffice-home.component.scss']
 })
-export class BackofficeHomeComponent implements OnInit {
+export class BackofficeHomeComponent implements OnInit, OnDestroy {
   data: any = "";
   myRestaurants: any = [];
   restaurantNew: object = [];
@@ -25,11 +25,17 @@ export class BackofficeHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('backoffice')
     let obj = JSON.parse(this.route.snapshot.paramMap.get('id'));
     this.userID = obj.userID;
     this.databaseID = obj.databaseID;
     this.setDataListener();
     this.gfs.getData(this.databaseID);
+  }
+
+  ngOnDestroy(){
+    console.log('unsubscribed')
+    this.gfs.dataEmitter.unsubscribe();
   }
 
   setDataListener() {
