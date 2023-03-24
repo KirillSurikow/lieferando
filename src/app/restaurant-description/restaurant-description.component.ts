@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Firestore, getDoc } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
+import { doc } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
 
@@ -11,6 +13,9 @@ import { Observable } from 'rxjs';
 
 })
 export class RestaurantDescriptionComponent implements OnInit {
+  userID: string;
+  userData : object;
+  myRestaurants : Array<any>;
   name: string = "";
   backgroundImg: string = "";
   category: string = "";
@@ -19,33 +24,32 @@ export class RestaurantDescriptionComponent implements OnInit {
   allRestaurants$: Observable<object>;
 
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router, private route: ActivatedRoute, private gfs: Firestore) {
 
   }
-
   ngOnInit() {
-    this.divideLogOrSign()
-
+    this.userID = localStorage.getItem('userId')
+    console.log(this.userID)
+    // this.getUserData(this.userID);
   }
 
-  divideLogOrSign() {
-    // let obj = JSON.parse(this.route.snapshot.paramMap.get('id'));
-    // this.currentUser = obj.userId;
-    // if (new)
-      // this.createNewUser()
-    // else
-      // this.loadUser();
+  async getUserData(userID: string) {
+    const docRef = doc(this.gfs, 'users', userID);
+    const docSnap = await getDoc(docRef);
+    this.userData = docSnap.data();
+    console.log(this.userData)
+    // this.assignData();
   }
+
+  assignData() {
+    // this.myRestaurants = this.userData.myRestaurants
+    // console.log(this.userData)
+  }
+
+
 
   saveData() {
-    let describtion = {
-      'name': this.name,
-      'backgroundImg': this.backgroundImg,
-      'category': this.category,
-      'logoImg': this.logoImg
-    }
 
-    this.router.navigate(['/backoffice/:id/restaurantCondition', { my_object: JSON.stringify(describtion) }]);
   }
 
 }

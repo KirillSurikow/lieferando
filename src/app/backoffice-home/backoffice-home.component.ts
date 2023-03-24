@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { doc, docData, Firestore, getDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Restaurant } from 'src/models/restaurant.class';
-import { FirestoreService } from '../services/firestore.service';
+import { FirebaseService } from '../services/firebase.service';
+
 
 
 
@@ -12,49 +13,47 @@ import { FirestoreService } from '../services/firestore.service';
   templateUrl: './backoffice-home.component.html',
   styleUrls: ['./backoffice-home.component.scss']
 })
-export class BackofficeHomeComponent implements OnInit, OnDestroy {
-  data: any = "";
+export class BackofficeHomeComponent implements OnInit {
+  userData: any;
   myRestaurants: any = [];
-  restaurantNew: object = [];
+  restaurantNew: Restaurant;
   userID: string = "";
   databaseID: string = "";
+  userDataObservable: Observable<any>
 
 
-  constructor(private firestore: AngularFirestore, private route: ActivatedRoute, private gfs: FirestoreService) {
+  constructor(private firestore: FirebaseService, private route: ActivatedRoute, private gfs: Firestore) {
 
   }
 
-  ngOnInit(): void {
-    console.log('backoffice')
-    let obj = JSON.parse(this.route.snapshot.paramMap.get('id'));
-    this.userID = obj.userID;
-    this.databaseID = obj.databaseID;
-    this.setDataListener();
-    this.gfs.getData(this.databaseID);
+  ngOnInit() {
+    this.userID = this.route.snapshot.paramMap.get('id');
+    this.getUserData(this.userID);
   }
 
-  ngOnDestroy(){
-    console.log('unsubscribed')
-    this.gfs.dataEmitter.unsubscribe();
+  async getUserData(userID: string) {
+    const docRef = doc(this.gfs, 'users', userID);
+    const docSnap = await getDoc(docRef);
+    this.userData = docSnap.data();
+    this.assignData();
   }
 
-  setDataListener() {
-    this.gfs.dataEmitter.subscribe(data => {
-      this.data = data;
-      console.log(data.data)
-    })
+  assignData() {
+    this.myRestaurants = this.userData.myRestaurants
   }
 
   newRestaurant() {
     this.restaurantNew = new Restaurant();
-    this.myRestaurants.push(this.restaurantNew)
-    this
-      .firestore
-      .collection('users')
-      .doc(this.databaseID)
-      .update({ 'data': this.myRestaurants })
-      .then(res => {
-        console.log(res)
-      })
+    console.log(this.restaurantNew)
+    this.myRestaurants.push(this.restaurantNew);
+    this.prepareUpload()
+  }
+
+  prepareUpload() {
+    let item = JSON.stringify(this.myRestaurants)
+    let object = {
+      myRestaurants: item
+    }
+    this.firestore.uploadChange(this.userID, object);
   }
 }

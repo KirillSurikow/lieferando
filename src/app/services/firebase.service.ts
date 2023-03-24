@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { collection, doc, setDoc } from 'firebase/firestore';
-import { FirestoreService } from '../services/firestore.service';
-import { Firestore, collectionData, } from '@angular/fire/firestore';
+import { collection, doc, DocumentData, DocumentReference, setDoc } from 'firebase/firestore';
+import { Firestore, collectionData, getDoc, docData, } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -11,21 +11,28 @@ import { Firestore, collectionData, } from '@angular/fire/firestore';
 })
 export class FirebaseService {
   isLoggedIn = false;
-  databaseId = ""
   userId = "";
   newUser: any;
+  userData: any;
+  userDataObservable = new Observable((subscriber) => {
+    subscriber.next(this.userData)
+  });
 
-  constructor(public auth: AngularFireAuth, private firestore: Firestore, private router: Router, private gfs: FirestoreService) {
-    this.gfs.databaseIDEmitter.subscribe((response)=>{
-      this.databaseId = response
-    })
-   }
+  // observer = {
+  //   next: (value) => {
+  //     console.log(value)
+  //   }
+  // }
+  // userDataEmitter = new EventEmitter()
+
+  constructor(public auth: AngularFireAuth, private firestore: Firestore, private router: Router) {
+
+  }
 
   async signIn(email: string, password: string) {
     await this.auth.signInWithEmailAndPassword(email, password)
       .then(res => {
         this.userId = res.user.multiFactor['user']['uid'];
-        this.gfs.getUser(this.userId);
         this.enterBackoffice()
       })
       .catch((error) => {
@@ -37,11 +44,10 @@ export class FirebaseService {
     await this.auth.createUserWithEmailAndPassword(email, password)
       .then(res => {
         this.userId = res.user.multiFactor['user']['uid'];
-        this.newUser = {
-          userId: this.userId,
-          data: {}
-        }
-        this.uploadNewUser();
+        let userData = {
+          myRestaurants: []
+        };
+        this.uploadNewUser(userData);
       })
       .catch(err => {
         console.log(err)
@@ -49,26 +55,37 @@ export class FirebaseService {
   }
 
   enterBackoffice() {
-    let id = this.returnJSON();
-    this.router.navigate(['/backoffice', id]);
+    this.router.navigate(['/backoffice', this.userId]);
+    localStorage.setItem('userId',this.userId )
   }
 
-  returnJSON() {
-    return JSON.stringify({
-      databaseID: this.databaseId,
-      userID: this.newUser.userId
-    })
-  }
-
-  async uploadNewUser() {
-    let coll = collection(this.firestore, 'users');
-    setDoc(doc(coll), this.newUser);
-    await this.gfs.getUser(this.userId);
+  async uploadNewUser(userData: object) {
+    console.log(userData)
+    await setDoc(doc(this.firestore, 'users', this.userId), userData);
     this.enterBackoffice();
+  }
+
+  async uploadChange(id : string, change: object) {
+    setDoc(doc(this.firestore, 'users', id), change, { merge: true });
   }
 
   logOut() {
     this.isLoggedIn = false;
     localStorage.removeItem('user')
   }
+
+  // getUserData(userID: string) {
+  //   const docRef = doc(this.firestore, 'users', userID);
+  //   docData(docRef).subscribe(user => {
+
+  //   })
+
+
+
+  //  const observer = {
+  //     next: (value) => {
+  //       console.log(value)
+  //     }
+  //   }
+  // }
 }
