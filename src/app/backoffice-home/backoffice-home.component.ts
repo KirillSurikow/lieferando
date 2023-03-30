@@ -15,12 +15,9 @@ import { FirebaseService } from '../services/firebase.service';
 })
 export class BackofficeHomeComponent implements OnInit {
   userData: any;
-  myRestaurants: any = [];
+  myRestaurants = [];
   restaurantNew: Restaurant;
   userID: string = "";
-  databaseID: string = "";
-  userDataObservable: Observable<any>
-
 
   constructor(private firestore: FirebaseService, private route: ActivatedRoute, private gfs: Firestore) {
 
@@ -35,24 +32,21 @@ export class BackofficeHomeComponent implements OnInit {
     const docRef = doc(this.gfs, 'users', userID);
     const docSnap = await getDoc(docRef);
     this.userData = docSnap.data();
-    this.assignData();
-  }
-
-  assignData() {
-    this.myRestaurants = this.userData.myRestaurants
   }
 
   newRestaurant() {
     this.restaurantNew = new Restaurant();
+    this.myRestaurants.unshift(this.restaurantNew);
+    this.prepareUpload();
     console.log(this.restaurantNew)
-    this.myRestaurants.push(this.restaurantNew);
-    this.prepareUpload()
   }
 
   prepareUpload() {
     let item = JSON.stringify(this.myRestaurants)
     let object = {
-      myRestaurants: item
+      userData: {
+        myRestaurants : item
+      }
     }
     this.firestore.uploadChange(this.userID, object);
   }

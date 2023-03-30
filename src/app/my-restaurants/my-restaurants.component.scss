@@ -1,0 +1,226 @@
+mat-card {
+    padding-top: 16px;
+    padding-bottom: 16px;
+
+    .restaurantSlot {
+        width: 100%;
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        background-color: rgba(126, 126, 126, 0.15);
+        transition: all 200ms ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+            transform: translate(5px, -15px);
+            background-color: rgba(126, 126, 126, 0.10);
+            border-radius: 8px;
+        }
+    }
+
+    .mainCard {
+        display: flex;
+        flex-direction: row;
+        position: relative;
+
+        .arrowBack {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        .mainImage {
+            width: 287px;
+            height: 136px;
+            object-fit: cover;
+            cursor: pointer;
+            margin-right: 10px;
+
+            &:hover {
+                transform: scale(1.1) translate(5px, -5px);
+            }
+        }
+
+        .logoCard {
+            position: absolute;
+            left: 10px;
+            top: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 3px 5px 10px 0px rgba(0, 0, 0, 0.75);
+            height: 40px;
+            width: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            cursor: pointer;
+
+            &:hover {
+                transform: scale(1.1) translate(5px, -5px);
+            }
+
+            .logos {
+                height: 16px;
+                width: 16px;
+            }
+        }
+
+        mat-card-content {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 10px !important;
+
+            .contentContainer {
+                display: flex;
+                flex-direction: column;
+
+                mat-card-title {
+                    &:hover {
+                        cursor: pointer;
+                        transform: scale(1.1) translate(5px, -5px);
+                    }
+                }
+
+                div {
+                    display: flex;
+                    align-items: center;
+                    gap: 3px;
+                    cursor: pointer;
+
+                    span {
+
+                        margin: 5px;
+
+                        &:hover {
+                            transform: scale(1.1) translate(5px, -5px);
+                        }
+
+                        .symbols {
+                            height: 12px;
+                            width: 12px;
+                        }
+                    }
+                }
+            }
+
+            .editDescribtion {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                input {
+                    outline: none;
+                    border-radius: 8px;
+                    height: 30px;
+                }
+
+                .checkBtn {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 8px;
+                    border: none;
+                }
+            }
+
+            .editContainer {
+                display: flex;
+
+                .btnCol {
+                    width: 38px;
+                    height: 115px;
+                    display: flex;
+                    align-items: flex-end;
+
+                    .checkBtn {
+                        top: 4px;
+                        right: 4px;
+                        height: 38px;
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 8px;
+                        border: none;
+                    }
+                }
+
+                .editCol {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    margin-right: 15px;
+
+                    .editCell {
+                        display: flex;
+                        flex-direction: column;
+
+                        select,
+                        input {
+                            width: 100px;
+                            outline: none;
+                            cursor: pointer;
+                            border-radius: 8px;
+                            height: 30px;
+                            width: 80px;
+                        }
+
+                        span {
+                            margin-bottom: 8px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .checkBtn {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            height: 38px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            border: none;
+        }
+    }
+
+    .gradient {
+        background: white;
+        background: linear-gradient(90deg, rgba(242, 245, 246, 0.9529061624649859) 0%, rgba(243, 104, 5, 0.5) 5%, rgba(242, 245, 246, 0.9529061624649859)100%);
+        animation-name: slide;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+    }
+
+    @keyframes slide {
+        0% {
+            background: linear-gradient(0%, rgba(243, 104, 5, 0.5) 5%, rgba(242, 245, 246, 0.9529061624649859)100%);
+        }
+
+        25% {
+            background: linear-gradient(90deg, rgba(242, 245, 246, 0.9529061624649859) 50%, rgba(243, 104, 5, 0.5) 55%, rgba(242, 245, 246, 0.9529061624649859)100%);
+        }
+
+        50% {
+            background: linear-gradient(90deg, rgba(242, 245, 246, 0.9529061624649859) 95%, rgba(243, 104, 5, 0.5) 100%, );
+        }
+
+        75% {
+            background: linear-gradient(90deg, rgba(242, 245, 246, 0.9529061624649859) 50%, rgba(243, 104, 5, 0.5) 55%, rgba(242, 245, 246, 0.9529061624649859)100%);
+        }
+
+        100% {
+            background: linear-gradient(0%, rgba(243, 104, 5, 0.5) 5%, rgba(242, 245, 246, 0.9529061624649859)100%);
+        }
+    }
+}

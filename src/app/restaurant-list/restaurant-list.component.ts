@@ -3,7 +3,8 @@ import { Restaurants } from 'src/models/restaurants.class';
 import { FilterService } from './../services/filter.service';
 import { Restaurant } from 'src/models/restaurant.class';
 import { SortService } from '../services/sort.service';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { FirebaseService } from '../services/firebase.service';
+import { collection, Firestore, getDocs } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -11,7 +12,6 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   styleUrls: ['./restaurant-list.component.scss']
 })
 export class RestaurantListComponent implements OnInit {
-  restaurantsAsJSON;
   restaurantS: Restaurant[] = [];
   kitchenChoice: string = 'all';
   ratingFilter: number = 1;
@@ -20,7 +20,7 @@ export class RestaurantListComponent implements OnInit {
   sortBy: any = 'rating';
   @Input() currentFilter: string = 'all';
 
-  constructor(public allRestaurants: Restaurants, private filter: FilterService, public sort: SortService, private firestore: AngularFirestore) {
+  constructor(public allRestaurants: Restaurants, private filter: FilterService, public sort: SortService, private gfs: Firestore) {
 
   }
 
@@ -33,23 +33,14 @@ export class RestaurantListComponent implements OnInit {
     this.setSearchFilter();
   }
 
-  accessDatabase() {
-    this
-      .firestore
-      .collection('restaurants')
-      .valueChanges()
-      .subscribe((change) => {
-        this.restaurantsAsJSON = change;
-      })
+  async accessDatabase() {
+    const coll = await getDocs(collection(this.gfs, 'restaurants'));
+    coll.forEach((doc) => {
+      let newResObject = new Restaurant(doc.data());
+      this.restaurantS.push(newResObject);
+      console.log(this.restaurantS)
+    });
   }
-
-  // prepareData() {
-  //   for (let i = 0; i < this.restaurantsAsJSON.length; i++) {
-  //     let obj = new Restaurant(this.restaurantsAsJSON[i]);
-  //     this.restaurantS.push(obj);
-  //     console.log(this.restaurantS)
-  //   }
-  // }
 
   loadAllRestaurants() {
     this.sort.orderByEmitter.subscribe((order: any) => {

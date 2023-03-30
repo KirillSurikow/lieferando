@@ -37,6 +37,8 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +54,8 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
     RestaurantMenuComponent,
     RegistrationComponent,
     BackofficeHomeComponent,
-    MyRestaurantsComponent
+    MyRestaurantsComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -72,6 +75,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
+
    
   ],
 

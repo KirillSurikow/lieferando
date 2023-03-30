@@ -1,14 +1,92 @@
-    <mat-card>
-        <h2>My Restaurants</h2>
-        <div>
-            American Bull
+<mat-card>
+    <h2 *ngIf="overview">My Restaurants</h2>
+    <div *ngFor="let rest of myRestaurants; let i = index" (click)="showDetails(i)">
+        <div class="restaurantSlot" @slideLeftOut @slideRightIn *ngIf="overview">
+            {{ rest.name }}
         </div>
-        <div>
-            Sunny Phuket
+        <!-- <img src="./../../assets/img/restaurants/american.jpg" alt="">
+        <img src="./../../assets/img/restaurantLogos/bull.png" alt=""> -->
+    </div>
+
+    <mat-card class="mainCard" [ngClass]="{'gradient': uploading}" @slideLeftIn @slideRightOut *ngIf="detailedView">
+        <div class="logoCard">
+            <img class="logos" src="{{ logo }}" alt="" (click)="changeLogo()">
         </div>
+        <img class="mainImage" mat-card-image src="{{ img }}" (click)="changeImg()">
+        <mat-card-content>
+            <div class="contentContainer">
+                <mat-card-title (click)="changeName()">{{name }}</mat-card-title>
+                <div>
+                    <span (click)="changeCondition()">
+                        <img class="symbols" src="./../../assets/img/symbols/star.png">
+                        {{ rating }}
+                    </span>
+                    <span (click)="changeCondition()">
+                        <img class="symbols" src="./../../assets/img/symbols/lock.png">
+                        min. {{ minOrderString }}
+                    </span>
+                </div>
+                <div>
+                    <span (click)="changeCondition()">
+                        <img class="symbols" src="./../../assets/img/symbols/clock.png">
+                        {{ deliveryTime }} min
+                    </span>
+                    <span (click)="changeCondition()">
+                        <img class="symbols" src="./../../assets/img/symbols/bike.png">
+                        {{ deliveryCostString }}
+                    </span>
+                </div>
+            </div>
+            <div class="editDescribtion" *ngIf="changingName || changingImg || changingLogo" @slideLeftIn
+                @slideRightOut>
+                <input type="text" *ngIf="changingName" [(ngModel)]="copyName">
+                <input type="text" *ngIf="changingImg" [(ngModel)]="copyImg">
+                <input type="text" *ngIf="changingLogo" [(ngModel)]="copyLogo">
+                <button (click)="saveChanges()" class="checkBtn orangeBG">
+                    <mat-icon fontIcon="done"></mat-icon>
+                </button>
+            </div>
+            <div class="editContainer" *ngIf="editActive" @slideLeftIn @slideRightOut>
+                <div class="editCol">
+                    <div class="editCell">
+                        <select name="rating" id="rating" [(ngModel)]="copyRating">
+                            <option style="display: none;" value="" disabled selected>Rating</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <span class="orange">Edit rating</span>
+                    </div>
+                    <div class="editCell">
+                        <input type="number" [(ngModel)]="copyDeliveryTime">
+                        <span class="orange">Edit delivery time</span>
+                    </div>
+                </div>
+                <div class="editCol">
+                    <div class="editCell">
+                        <input type="number" [(ngModel)]="copyMinOrder">
+                        <span class="orange">Edit minimum order amount</span>
+                    </div>
+                    <div class="editCell">
+                        <input type="number" [(ngModel)]="copyDeliveryCost">
+                        <span class="orange">Edit delivery costs</span>
+                    </div>
+                </div>
+                <div class="btnCol">
+                    <button (click)="saveChanges()" class="checkBtn orangeBG">
+                        <mat-icon fontIcon="done"></mat-icon>
+                    </button>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-icon *ngIf="detailedView" (click)="goBackNoSave()" class="arrowBack" fontIcon="arrow_back"></mat-icon>
+        <button *ngIf="publishID==''" (click)="publish()" class="checkBtn orangeBG">
+            Publish
+        </button>
+        <button *ngIf="publishID!==''" (click)="uploadChanges()" class="checkBtn orangeBG">
+            Update
+        </button>
     </mat-card>
-    <mat-card>
-        <h2>
-            Menu
-        </h2>
-    </mat-card>
+</mat-card>

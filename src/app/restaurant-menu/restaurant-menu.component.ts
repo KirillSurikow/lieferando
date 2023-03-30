@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { doc, Firestore, getDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { Restaurant } from 'src/models/restaurant.class';
 import { CurrencyService } from '../services/currency.service';
+import { FirebaseService } from '../services/firebase.service';
 require("core-js/actual/array/group-by");
 
 @Component({
@@ -10,39 +12,62 @@ require("core-js/actual/array/group-by");
   styleUrls: ['./restaurant-menu.component.scss']
 })
 export class RestaurantMenuComponent implements OnInit {
-  obj: object;
+  userID : string;
+  userData: object;
+  publishID : string;
   name: string = "";
   backgroundImg: string = "";
   category: string = "";
   logoImg: string = "";
   rating: number;
   deliveryCost: number;
+  deliveryCostString: string;
   deliveryTime: number;
   minOrder: number;
+  minOrderString: string;
   menuUnsorted: any = [];
   menuObj: any = [];
-  menu: any = [];
+  menu : any;
   dishName: string = "";
   dishCategory: string = "";
   dishPrice: number;
   dishPriceAsString: string = ";"
   dishDescribtion: string = "";
   categoryList: any = [];
+  restaurantNew: Restaurant;
+  myRestaurants = [];
 
-  constructor(private route: ActivatedRoute, private firestore: AngularFirestore, private currency: CurrencyService) {
-
+  constructor(private route: ActivatedRoute,
+     private currency: CurrencyService,  private gfs: Firestore, private firestore: FirebaseService) {
   }
 
   ngOnInit(): void {
-    this.obj = JSON.parse(this.route.snapshot.paramMap.get('my_object'));
-    this.name = this.obj['name'];
-    this.backgroundImg = this.obj['backgroundImg'];
-    this.category = this.obj['category'];
-    this.logoImg = this.obj['logoImg'];
-    this.rating = this.obj['rating'];
-    this.deliveryCost = this.obj['deliveryCost'];
-    this.deliveryTime = this.obj['deliveryTime'];
-    this.minOrder = this.obj['minOrder'];
+    this.userID = localStorage.getItem('userId');
+    this.getUserData(this.userID);
+  }
+
+  async getUserData(userID: string) {
+    const docRef = doc(this.gfs, 'users', userID);
+    const docSnap = await getDoc(docRef);
+    this.userData = docSnap.data();
+    this.extractData();
+  }
+
+  extractData() {
+    let string = this.userData['userData']['myRestaurants'];
+    this.myRestaurants = JSON.parse(string);
+    this.publishID = this.myRestaurants[0]['publishID'];
+    this.name = this.myRestaurants[0]['name'];
+    this.backgroundImg = this.myRestaurants[0]['backgroundImg'];
+    this.category = this.myRestaurants[0]['category'];
+    this.logoImg = this.myRestaurants[0]['logoImg'];
+    this.rating = this.myRestaurants[0]['rating'];
+    this.minOrder = this.myRestaurants[0]['minOrder'];
+    this.minOrderString = this.myRestaurants[0]['minOrderString'];
+    this.deliveryTime = this.myRestaurants[0]['deliveryTime'];
+    this.deliveryCost = this.myRestaurants[0]['deliveryCost'];
+    this.deliveryCostString = this.myRestaurants[0]['deliveryCostString'];
+    this.menu = this.myRestaurants[0]['menu'];
   }
 
   addDish() {
@@ -186,33 +211,48 @@ export class RestaurantMenuComponent implements OnInit {
     btn.style.display = 'none';
   }
 
-  saveMenu() {
-    let json = this.createObject();
-    this.uploadToFirestore(json);
-  }
-
   createObject() {
-    return {
+    let obj = {
       name: this.name,
-      category: this.category,
       backgroundImg: this.backgroundImg,
+      category: this.category,
       logoImg: this.logoImg,
       rating: this.rating,
       minOrder: this.minOrder,
-      minOrderString: this.convertToString(this.minOrder) ,
+      minOrderString: this.minOrderString,
       deliveryTime: this.deliveryTime,
       deliveryCost: this.deliveryCost,
-      deliveryCostString: this.convertToString(this.deliveryCost),
-      menu: this.menu,
+      deliveryCostString: this.deliveryCostString,
+      menu: this.menu
     }
+    this.createClass(obj);
   }
 
-  uploadToFirestore(json : object){
-    this
-    .firestore
-    .collection('restaurants')
-    .add(json) 
+  createClass(obj: object) {
+    this.restaurantNew = new Restaurant(obj);
   }
+
+  async saveData() {
+    this.createObject();
+    this.changeArray();
+    this.prepareUpload();
+  }
+
+  changeArray() {
+    this.myRestaurants[0] = this.restaurantNew;
+  }
+
+  async prepareUpload() {
+    let item = JSON.stringify(this.myRestaurants)
+    let object = {
+      userData: {
+        myRestaurants: item
+      }
+    }
+    await this.firestore.uploadChange(this.userID, object);
+  }
+
+
 }
 
 

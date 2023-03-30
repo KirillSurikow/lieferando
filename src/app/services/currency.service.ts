@@ -13,7 +13,6 @@ export class CurrencyService {
             currency: 'EUR',
             minimumFractionDigits: 2
         });
-        console.log(currency)
         return currency
     }
 

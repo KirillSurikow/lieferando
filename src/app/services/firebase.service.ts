@@ -1,8 +1,8 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { collection, doc, DocumentData, DocumentReference, setDoc } from 'firebase/firestore';
-import { Firestore, collectionData, getDoc, docData, } from '@angular/fire/firestore';
+import { collection, doc, setDoc } from 'firebase/firestore';
+import { Firestore, addDoc, } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 
@@ -18,12 +18,7 @@ export class FirebaseService {
     subscriber.next(this.userData)
   });
 
-  // observer = {
-  //   next: (value) => {
-  //     console.log(value)
-  //   }
-  // }
-  // userDataEmitter = new EventEmitter()
+  publishIdEmitter = new EventEmitter<string>();
 
   constructor(public auth: AngularFireAuth, private firestore: Firestore, private router: Router) {
 
@@ -45,7 +40,7 @@ export class FirebaseService {
       .then(res => {
         this.userId = res.user.multiFactor['user']['uid'];
         let userData = {
-          myRestaurants: []
+          userData: {}
         };
         this.uploadNewUser(userData);
       })
@@ -56,7 +51,7 @@ export class FirebaseService {
 
   enterBackoffice() {
     this.router.navigate(['/backoffice', this.userId]);
-    localStorage.setItem('userId',this.userId )
+    localStorage.setItem('userId', this.userId)
   }
 
   async uploadNewUser(userData: object) {
@@ -65,9 +60,19 @@ export class FirebaseService {
     this.enterBackoffice();
   }
 
-  async uploadChange(id : string, change: object) {
+  async uploadChange(id: string, change: object) {
     setDoc(doc(this.firestore, 'users', id), change, { merge: true });
   }
+
+  async updateRestColl(id: string, change: object) {
+    setDoc(doc(this.firestore, 'restaurants', id), change, { merge: true });
+  }
+
+  async publishChange(restaurant: object) {
+    let docRef = await addDoc(collection(this.firestore, "restaurants"), restaurant)
+    this.publishIdEmitter.emit(docRef.id)
+  }
+
 
   logOut() {
     this.isLoggedIn = false;
