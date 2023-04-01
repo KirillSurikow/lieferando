@@ -37,6 +37,7 @@ export class RestaurantListComponent implements OnInit {
     const coll = await getDocs(collection(this.gfs, 'restaurants'));
     coll.forEach((doc) => {
       let newResObject = new Restaurant(doc.data());
+      console.log(doc.data())
       this.restaurantS.push(newResObject);
       console.log(this.restaurantS)
     });

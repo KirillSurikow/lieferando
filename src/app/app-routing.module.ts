@@ -33,11 +33,11 @@ const routes: Routes = [
         component: MyRestaurantsComponent
       },
       {
-        path: 'characteristics',
+        path: 'characteristics/:direction',
         component: RestaurantDescriptionComponent
       },
       {
-        path: 'restaurantCondition',
+        path: 'restaurantCondition/:direction',
         component: RestaurantConditionComponent
       },
       {

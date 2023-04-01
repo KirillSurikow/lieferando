@@ -58,8 +58,8 @@ export class MyRestaurantsComponent implements OnInit {
   myRestaurants = [];
   overview: boolean = true;
   detailedView: boolean = false;
-  logo: string;
-  img: string;
+  logoImg: string;
+  backgroundImg: string;
   publishID: string;
   name: string;
   rating: string;
@@ -98,37 +98,27 @@ export class MyRestaurantsComponent implements OnInit {
     this.subscribeToPublishID();
   }
 
+  async getUserData(userID: string) {
+      const docRef = doc(this.gfs, 'users', userID);
+      const docSnap = await getDoc(docRef);
+      let fetchedObject = docSnap.data();
+      this.extractData(fetchedObject);
+  }
+
+  extractData(object : object) {
+   if(Object.keys(object['userData']).length !== 0){
+    let string = object['userData']['myRestaurants'];
+    this.myRestaurants = JSON.parse(string);
+    console.log(this.myRestaurants)
+   }
+  }
+
   subscribeToPublishID() {
     this.firestore.publishIdEmitter.subscribe((id) => {
       this.publishID = id;
       this.updateMyRestaurants();
       this.saveChanges();
     })
-  }
-
-  extractData() {
-    let string = this.userData['userData']['myRestaurants'];
-    this.myRestaurants = JSON.parse(string);
-  }
-
-  async getUserData(userID: string) {
-    const docRef = doc(this.gfs, 'users', userID);
-    const docSnap = await getDoc(docRef);
-    this.userData = docSnap.data();
-    this.extractData();
-  }
-
-  createCopies() {
-    this.copyLogo = this.logo;
-    this.copyImg = this.img;
-    this.copyName = this.name;
-    this.copyRating = this.rating;
-    this.copyMinOrder = this.minOrder;
-    this.copyMinOrderString = this.minOrderString;
-    this.copyDeliveryTime = this.deliveryTime;
-    this.copyDeliveryCost = this.deliveryCost;
-    this.copyDeliveryCostString = this.deliveryCostString;
-    this.copyMenu = this.menu;
   }
 
   showDetails(i: number) {
@@ -148,8 +138,8 @@ export class MyRestaurantsComponent implements OnInit {
 
   assignDataToMask(i: number) {
     this.currentRestaurant = i;
-    this.logo = this.myRestaurants[i]['logoImg'];
-    this.img = this.myRestaurants[i]['backgroundImg'];
+    this.logoImg = this.myRestaurants[i]['logoImg'];
+    this.backgroundImg = this.myRestaurants[i]['backgroundImg'];
     this.name = this.myRestaurants[i]['name'];
     this.publishID = this.myRestaurants[i]['publishID'];
     this.rating = this.myRestaurants[i]['rating'];
@@ -159,6 +149,19 @@ export class MyRestaurantsComponent implements OnInit {
     this.deliveryCostString = this.myRestaurants[i]['deliveryCostString'];
     this.deliveryCost = this.myRestaurants[i]['deliveryCost'];
     this.menu = this.myRestaurants[i]['menu'];
+  }
+
+  createCopies() {
+    this.copyLogo = this.logoImg;
+    this.copyImg = this.backgroundImg;
+    this.copyName = this.name;
+    this.copyRating = this.rating;
+    this.copyMinOrder = this.minOrder;
+    this.copyMinOrderString = this.minOrderString;
+    this.copyDeliveryTime = this.deliveryTime;
+    this.copyDeliveryCost = this.deliveryCost;
+    this.copyDeliveryCostString = this.deliveryCostString;
+    this.copyMenu = this.menu;
   }
 
   changeCondition() {
@@ -198,7 +201,6 @@ export class MyRestaurantsComponent implements OnInit {
     }
     await this.firestore.uploadChange(this.userID, object);
   }
-
 
   closeEdits() {
     this.changingLogo = false;
@@ -265,8 +267,8 @@ export class MyRestaurantsComponent implements OnInit {
 
   async prepareJSON() {
     let item = {
-      logo: this.logo,
-      img: this.img,
+      logoImg: this.logoImg,
+      backgroundImg: this.backgroundImg,
       name: this.name,
       rating: this.rating,
       minOrder: this.minOrder,
@@ -285,8 +287,8 @@ export class MyRestaurantsComponent implements OnInit {
   async uploadChanges() {
     this.uploading = true;
     let item = {
-      logo: this.logo,
-      img: this.img,
+      logoImg: this.logoImg,
+      backgroundImg: this.backgroundImg,
       name: this.name,
       rating: this.rating,
       minOrder: this.minOrder,

@@ -10,9 +10,9 @@
 
     <mat-card class="mainCard" [ngClass]="{'gradient': uploading}" @slideLeftIn @slideRightOut *ngIf="detailedView">
         <div class="logoCard">
-            <img class="logos" src="{{ logo }}" alt="" (click)="changeLogo()">
+            <img class="logos" src="{{ logoImg }}" alt="" (click)="changeLogo()">
         </div>
-        <img class="mainImage" mat-card-image src="{{ img }}" (click)="changeImg()">
+        <img class="mainImage" mat-card-image src="{{ backgroundImg }}" (click)="changeImg()">
         <mat-card-content>
             <div class="contentContainer">
                 <mat-card-title (click)="changeName()">{{name }}</mat-card-title>

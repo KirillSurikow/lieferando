@@ -14,9 +14,9 @@ import { FirebaseService } from '../services/firebase.service';
 
 })
 export class RestaurantConditionComponent implements OnInit {
-  userID : string;
+  userID: string;
   userData: object;
-  publishID : string;
+  publishID: string;
   name: string = "";
   backgroundImg: string = "";
   category: string = "";
@@ -28,16 +28,19 @@ export class RestaurantConditionComponent implements OnInit {
   deliveryCost: number;
   deliveryCostString: string;
   menu: any[];
-  restaurantNew: Restaurant;
+  upDatedRes: Restaurant;
   myRestaurants = [];
 
 
   constructor(private route: ActivatedRoute, private router: Router,
-     private gfs: Firestore, private firestore: FirebaseService, private curr: CurrencyService) {
+    private gfs: Firestore, private firestore: FirebaseService, private curr: CurrencyService) {
 
   }
 
   ngOnInit(): void {
+    addEventListener("popstate", () => {
+        this.router.navigate(['../characteristics', 'back'])
+    });
     this.userID = localStorage.getItem('userId');
     this.getUserData(this.userID);
   }
@@ -45,12 +48,14 @@ export class RestaurantConditionComponent implements OnInit {
   async getUserData(userID: string) {
     const docRef = doc(this.gfs, 'users', userID);
     const docSnap = await getDoc(docRef);
-    this.userData = docSnap.data();
-    this.extractData();
+    let fetchedObject = docSnap.data();
+    if (Object.keys(fetchedObject['userData']).length !== 0) {
+      this.extractData(fetchedObject)
+    }
   }
 
-  extractData() {
-    let string = this.userData['userData']['myRestaurants'];
+  extractData(object: object) {
+    let string = object['userData']['myRestaurants'];
     this.myRestaurants = JSON.parse(string);
     this.publishID = this.myRestaurants[0]['publishID'];
     this.name = this.myRestaurants[0]['name'];
@@ -65,36 +70,30 @@ export class RestaurantConditionComponent implements OnInit {
     this.deliveryCostString = this.myRestaurants[0]['deliveryCostString'];
     this.menu = this.myRestaurants[0]['menu'];
   }
-  
-  createObject() {
-    let obj = {
+
+  createJSON() {
+    return {
       name: this.name,
-      backgroundImg: this.backgroundImg,
       category: this.category,
+      backgroundImg: this.backgroundImg,
       logoImg: this.logoImg,
       rating: this.rating,
-      minOrder: this.minOrder,
-      minOrderString: this.curr.returnCurrency(this.minOrder),
-      deliveryTime: this.deliveryTime,
       deliveryCost: this.deliveryCost,
-      deliveryCostString: this.curr.returnCurrency(this.deliveryCost),
-      menu: this.menu
+      deliveryCostString : this.curr.returnCurrency(this.deliveryCost),
+      minOrder : this.minOrder,
+      minOrderString : this.curr.returnCurrency(this.minOrder),
     }
-    this.createClass(obj);
-  }
-
-  createClass(obj: object) {
-    this.restaurantNew = new Restaurant(obj);
   }
 
   async saveData() {
-    this.createObject();
-    this.changeArray();
+    let json = this.createJSON();
+    this.upDatedRes = new Restaurant(json);
+    this.updateArray();
     this.prepareUpload();
   }
 
-  changeArray() {
-    this.myRestaurants[0] = this.restaurantNew;
+  updateArray(){
+    this.myRestaurants[0] = this.upDatedRes;
   }
 
   async prepareUpload() {

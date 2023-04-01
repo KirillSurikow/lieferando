@@ -55,7 +55,6 @@ export class FirebaseService {
   }
 
   async uploadNewUser(userData: object) {
-    console.log(userData)
     await setDoc(doc(this.firestore, 'users', this.userId), userData);
     this.enterBackoffice();
   }
