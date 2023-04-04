@@ -17,7 +17,7 @@ export class RestaurantMenuComponent implements OnInit {
   publishID: string;
   name: string = "";
   backgroundImg: string = "";
-  category: string = "";
+  category: string[] = [];
   logoImg: string = "";
   rating: number;
   deliveryCost: number;
@@ -57,20 +57,22 @@ export class RestaurantMenuComponent implements OnInit {
   }
 
   extractData(object: object) {
-    let string = object['userData']['myRestaurants'];
-    this.myRestaurants = JSON.parse(string);
-    this.publishID = this.myRestaurants[0]['publishID'];
-    this.name = this.myRestaurants[0]['name'];
-    this.backgroundImg = this.myRestaurants[0]['backgroundImg'];
-    this.category = this.myRestaurants[0]['category'];
-    this.logoImg = this.myRestaurants[0]['logoImg'];
-    this.rating = this.myRestaurants[0]['rating'];
-    this.minOrder = this.myRestaurants[0]['minOrder'];
-    this.minOrderString = this.myRestaurants[0]['minOrderString'];
-    this.deliveryTime = this.myRestaurants[0]['deliveryTime'];
-    this.deliveryCost = this.myRestaurants[0]['deliveryCost'];
-    this.deliveryCostString = this.myRestaurants[0]['deliveryCostString'];
-    this.menu = this.myRestaurants[0]['menu'];
+    let string = object['userData']['currRest'];
+    let string2 = object['userData']['myRestaurants'];
+    this.restaurantNew = JSON.parse(string);
+    this.myRestaurants = JSON.parse(string2);
+    this.publishID = this.restaurantNew['publishID'];
+    this.name = this.restaurantNew['name'];
+    this.backgroundImg = this.restaurantNew['backgroundImg'];
+    this.category = this.restaurantNew['category'];
+    this.logoImg = this.restaurantNew['logoImg'];
+    this.rating = this.restaurantNew['rating'];
+    this.minOrder = this.restaurantNew['minOrder'];
+    this.minOrderString = this.restaurantNew['minOrderString'];
+    this.deliveryTime = this.restaurantNew['deliveryTime'];
+    this.deliveryCost = this.restaurantNew['deliveryCost'];
+    this.deliveryCostString = this.restaurantNew['deliveryCostString'];
+    this.menu = this.restaurantNew['menu'];
   }
 
   addDish() {
@@ -237,15 +239,14 @@ export class RestaurantMenuComponent implements OnInit {
   }
 
   updateArray(){
-    this.myRestaurants[0] = this.upDatedRes;
-    console.log(this.myRestaurants)
+    this.myRestaurants.push(this.upDatedRes)
   }
-
 
   async prepareUpload() {
     let item = JSON.stringify(this.myRestaurants)
     let object = {
       userData: {
+        currRest : {},
         myRestaurants: item
       }
     }

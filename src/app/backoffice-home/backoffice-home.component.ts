@@ -34,6 +34,6 @@ export class BackofficeHomeComponent implements OnInit {
   }
 
   newRestaurant(){
-    this.router.navigate(['/characteristics'])
+    // this.router.navigate(['characteristics'])
   }
 }

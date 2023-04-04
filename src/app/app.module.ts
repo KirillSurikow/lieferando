@@ -36,9 +36,6 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,8 +72,6 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
-
-   
   ],
 
   providers: [

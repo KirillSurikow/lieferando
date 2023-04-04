@@ -5,8 +5,6 @@ import { Restaurant } from 'src/models/restaurant.class';
 import { CurrencyService } from '../services/currency.service';
 import { FirebaseService } from '../services/firebase.service';
 
-
-
 @Component({
   selector: 'app-restaurant-condition',
   templateUrl: './restaurant-condition.component.html',
@@ -19,7 +17,7 @@ export class RestaurantConditionComponent implements OnInit {
   publishID: string;
   name: string = "";
   backgroundImg: string = "";
-  category: string = "";
+  category: string[] = [];
   logoImg: string = "";
   rating: number;
   minOrder: number;
@@ -30,6 +28,7 @@ export class RestaurantConditionComponent implements OnInit {
   menu: any[];
   upDatedRes: Restaurant;
   myRestaurants = [];
+  restaurantNew: object;
 
 
   constructor(private route: ActivatedRoute, private router: Router,
@@ -38,9 +37,6 @@ export class RestaurantConditionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    addEventListener("popstate", () => {
-        this.router.navigate(['../characteristics', 'back'])
-    });
     this.userID = localStorage.getItem('userId');
     this.getUserData(this.userID);
   }
@@ -55,20 +51,20 @@ export class RestaurantConditionComponent implements OnInit {
   }
 
   extractData(object: object) {
-    let string = object['userData']['myRestaurants'];
-    this.myRestaurants = JSON.parse(string);
-    this.publishID = this.myRestaurants[0]['publishID'];
-    this.name = this.myRestaurants[0]['name'];
-    this.backgroundImg = this.myRestaurants[0]['backgroundImg'];
-    this.category = this.myRestaurants[0]['category'];
-    this.logoImg = this.myRestaurants[0]['logoImg'];
-    this.rating = this.myRestaurants[0]['rating'];
-    this.minOrder = this.myRestaurants[0]['minOrder'];
-    this.minOrderString = this.myRestaurants[0]['minOrderString'];
-    this.deliveryTime = this.myRestaurants[0]['deliveryTime'];
-    this.deliveryCost = this.myRestaurants[0]['deliveryCost'];
-    this.deliveryCostString = this.myRestaurants[0]['deliveryCostString'];
-    this.menu = this.myRestaurants[0]['menu'];
+    let string = object['userData']['currRest'];
+    this.restaurantNew = JSON.parse(string);
+    this.publishID = this.restaurantNew['publishID'];
+    this.name = this.restaurantNew['name'];
+    this.backgroundImg = this.restaurantNew['backgroundImg'];
+    this.category = this.restaurantNew['category'];
+    this.logoImg = this.restaurantNew['logoImg'];
+    this.rating = this.restaurantNew['rating'];
+    this.minOrder = this.restaurantNew['minOrder'];
+    this.minOrderString = this.restaurantNew['minOrderString'];
+    this.deliveryTime = this.restaurantNew['deliveryTime'];
+    this.deliveryCost = this.restaurantNew['deliveryCost'];
+    this.deliveryCostString = this.restaurantNew['deliveryCostString'];
+    this.menu = this.restaurantNew['menu'];
   }
 
   createJSON() {
@@ -79,28 +75,23 @@ export class RestaurantConditionComponent implements OnInit {
       logoImg: this.logoImg,
       rating: this.rating,
       deliveryCost: this.deliveryCost,
-      deliveryCostString : this.curr.returnCurrency(this.deliveryCost),
-      minOrder : this.minOrder,
-      minOrderString : this.curr.returnCurrency(this.minOrder),
+      deliveryCostString: this.curr.returnCurrency(this.deliveryCost),
+      minOrder: this.minOrder,
+      minOrderString: this.curr.returnCurrency(this.minOrder),
     }
   }
 
   async saveData() {
     let json = this.createJSON();
     this.upDatedRes = new Restaurant(json);
-    this.updateArray();
     this.prepareUpload();
-  }
-
-  updateArray(){
-    this.myRestaurants[0] = this.upDatedRes;
   }
 
   async prepareUpload() {
     let item = JSON.stringify(this.myRestaurants)
     let object = {
       userData: {
-        myRestaurants: item
+        currRest: item
       }
     }
     await this.firestore.uploadChange(this.userID, object);
