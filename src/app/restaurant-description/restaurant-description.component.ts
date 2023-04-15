@@ -2,13 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Firestore, getDoc } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { doc } from 'firebase/firestore';
-import { Observable } from 'rxjs';
 import { Restaurant } from 'src/models/restaurant.class';
 import { CurrencyService } from '../services/currency.service';
-import { DirectionService } from '../services/direction-service';
 import { FirebaseService } from '../services/firebase.service';
-
-
 
 @Component({
   selector: 'app-restaurant-description',
@@ -49,9 +45,9 @@ export class RestaurantDescriptionComponent implements OnInit {
     const docRef = doc(this.gfs, 'users', userID);
     const docSnap = await getDoc(docRef);
     let fetchedObject = docSnap.data();
-    if (Object.keys(fetchedObject['userData']).length !== 0) {
+    let testObj = fetchedObject['userData']['currRest'];
+    if(testObj.length > 0){
       this.extractData(fetchedObject);
-      this.newRestaurant();
     }
   }
 
@@ -72,7 +68,6 @@ export class RestaurantDescriptionComponent implements OnInit {
     this.menu = this.restaurantNew['menu'];
   }
 
-
   newRestaurant() {
     let json = this.createJSON();
     this.restaurantNew = new Restaurant(json);
@@ -81,9 +76,16 @@ export class RestaurantDescriptionComponent implements OnInit {
   createJSON() {
     return {
       name: this.name,
-      category: this.category,
+      category: ['all', this.category],
       backgroundImg: this.backgroundImg,
-      logoImg: this.logoImg
+      logoImg: this.logoImg,
+      rating: this.rating,
+      deliveryCost: this.deliveryCost,
+      deliveryCostString: this.curr.returnCurrency(this.deliveryCost),
+      deliveryTime: this.deliveryTime,
+      minOrder: this.minOrder,
+      minOrderString: this.curr.returnCurrency(this.minOrder),
+      menu: this.menu
     }
   }
 

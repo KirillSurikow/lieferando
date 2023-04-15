@@ -40,7 +40,10 @@ export class FirebaseService {
       .then(res => {
         this.userId = res.user.multiFactor['user']['uid'];
         let userData = {
-          userData: {}
+          userData: {
+            currRest : {},
+            myRestaurants : []
+          }
         };
         this.uploadNewUser(userData);
       })

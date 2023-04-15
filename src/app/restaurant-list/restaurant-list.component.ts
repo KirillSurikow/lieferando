@@ -5,6 +5,7 @@ import { Restaurant } from 'src/models/restaurant.class';
 import { SortService } from '../services/sort.service';
 import { FirebaseService } from '../services/firebase.service';
 import { collection, Firestore, getDocs } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -20,7 +21,7 @@ export class RestaurantListComponent implements OnInit {
   sortBy: any = 'rating';
   @Input() currentFilter: string = 'all';
 
-  constructor(public allRestaurants: Restaurants, private filter: FilterService, public sort: SortService, private gfs: Firestore) {
+  constructor(private filter: FilterService, public sort: SortService, private gfs: Firestore, private router : Router) {
 
   }
 
@@ -37,7 +38,7 @@ export class RestaurantListComponent implements OnInit {
     const coll = await getDocs(collection(this.gfs, 'restaurants'));
     coll.forEach((doc) => {
       let newResObject = new Restaurant(doc.data());
-      console.log(doc.data())
+      newResObject.publishID = doc.id;
       this.restaurantS.push(newResObject);
       console.log(this.restaurantS)
     });
@@ -79,6 +80,11 @@ export class RestaurantListComponent implements OnInit {
   }
 
   includesKitchen(restaurant: any) {
-    return restaurant.category.includes(this.kitchenChoice)
+    return restaurant.category.includes(this.kitchenChoice);
+  }
+
+  goToRestaurant(i : number){
+      let restaurantId = this.restaurantS[i]['publishID'];
+      this.router.navigate(['/restaurant', restaurantId ])
   }
 }

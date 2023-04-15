@@ -31,15 +31,15 @@ export class RestaurantMenuComponent implements OnInit {
   dishName: string = "";
   dishCategory: string = "";
   dishPrice: number;
-  dishPriceAsString: string = ";"
+  dishPriceAsString: string = "";
   dishDescribtion: string = "";
   categoryList: any = [];
   restaurantNew: Restaurant;
   myRestaurants = [];
-  upDatedRes :Restaurant;
+  upDatedRes: Restaurant;
 
   constructor(private route: ActivatedRoute,
-    private currency: CurrencyService, private gfs: Firestore, private firestore: FirebaseService, private curr : CurrencyService) {
+    private currency: CurrencyService, private gfs: Firestore, private firestore: FirebaseService, private curr: CurrencyService) {
   }
 
   ngOnInit(): void {
@@ -51,16 +51,16 @@ export class RestaurantMenuComponent implements OnInit {
     const docRef = doc(this.gfs, 'users', userID);
     const docSnap = await getDoc(docRef);
     let fetchedObject = docSnap.data();
-    if (Object.keys(fetchedObject['userData']).length !== 0) {
-      this.extractData(fetchedObject)
+    let testObj = fetchedObject['userData']['currRest'];
+    if(testObj.length > 0){
+      this.extractData(fetchedObject);
     }
   }
 
   extractData(object: object) {
     let string = object['userData']['currRest'];
-    let string2 = object['userData']['myRestaurants'];
+    this.myRestaurants = this.returnArray(object);
     this.restaurantNew = JSON.parse(string);
-    this.myRestaurants = JSON.parse(string2);
     this.publishID = this.restaurantNew['publishID'];
     this.name = this.restaurantNew['name'];
     this.backgroundImg = this.restaurantNew['backgroundImg'];
@@ -73,6 +73,15 @@ export class RestaurantMenuComponent implements OnInit {
     this.deliveryCost = this.restaurantNew['deliveryCost'];
     this.deliveryCostString = this.restaurantNew['deliveryCostString'];
     this.menu = this.restaurantNew['menu'];
+    console.log(this.restaurantNew);
+  }
+
+  returnArray(object : object){
+    if(typeof object['userData']['myRestaurants'] == 'string'){
+      return JSON.parse(object['userData']['myRestaurants'])
+    }else{
+      return object['userData']['myRestaurants']
+    }
   }
 
   addDish() {
@@ -97,7 +106,6 @@ export class RestaurantMenuComponent implements OnInit {
   initSortMenu() {
     this.groupDishes()
     this.convertToArray()
-
   }
 
   groupDishes() {
@@ -181,7 +189,6 @@ export class RestaurantMenuComponent implements OnInit {
       currency: 'EUR',
       minimumFractionDigits: 2
     });
-    console.log(currency)
     return currency
   }
 
@@ -224,29 +231,32 @@ export class RestaurantMenuComponent implements OnInit {
       logoImg: this.logoImg,
       rating: this.rating,
       deliveryCost: this.deliveryCost,
-      deliveryCostString : this.curr.returnCurrency(this.deliveryCost),
-      minOrder : this.minOrder,
-      minOrderString : this.curr.returnCurrency(this.minOrder),
-      menu : this.menu
+      deliveryCostString: this.curr.returnCurrency(this.deliveryCost),
+      deliveryTime: this.deliveryTime,
+      minOrder: this.minOrder,
+      minOrderString: this.curr.returnCurrency(this.minOrder),
+      menu: this.menu
     }
   }
 
   async saveData() {
     let json = this.createJSON();
     this.upDatedRes = new Restaurant(json);
+    console.log(this.upDatedRes , 'convert to object')
     this.updateArray();
     this.prepareUpload();
   }
 
-  updateArray(){
+  updateArray() {
     this.myRestaurants.push(this.upDatedRes)
+    console.log(this.myRestaurants , 'final')
   }
 
   async prepareUpload() {
     let item = JSON.stringify(this.myRestaurants)
     let object = {
       userData: {
-        currRest : {},
+        currRest: {},
         myRestaurants: item
       }
     }

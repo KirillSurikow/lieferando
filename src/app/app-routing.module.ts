@@ -16,7 +16,7 @@ const routes: Routes = [
 
   },
   {
-    path: 'restaurant',
+    path: 'restaurant/:id',
     component: RestaurantComponent,
 
   },

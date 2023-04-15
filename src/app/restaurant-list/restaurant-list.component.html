@@ -1,5 +1,8 @@
-<mat-card routerLink="/restaurant" class="mainCard" *ngFor="let restaurant of restaurantS">
-    <div class="structuralContainer" >
+<mat-card *ngFor="let restaurant of restaurantS; let i = index" (click)="goToRestaurant(i)" class="mainCard" >
+    <div class="structuralContainer" *ngIf="restaurant.rating >= ratingFilter
+        && restaurant.minOrder <= orderAmount 
+        && includesKitchen(restaurant)
+        && includesSearch(restaurant)">
         <div class="logoCard" >
             <img class="logos" src="{{ restaurant.logoImg }}" alt="">
         </div>

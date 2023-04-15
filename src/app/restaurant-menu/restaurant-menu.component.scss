@@ -4,7 +4,7 @@
     align-items: center;
     padding-bottom: 20px;
 
-    .headLine{
+    .headLine {
         display: flex;
         justify-content: center;
         position: relative;
@@ -12,11 +12,11 @@
         width: 100%;
         margin-bottom: 20px;
 
-        h2{
+        h2 {
             margin-bottom: 0;
         }
 
-        button{
+        button {
             position: absolute;
             right: 27px;
             cursor: pointer;
@@ -38,10 +38,10 @@
             display: flex;
             flex-direction: column;
 
-            #categorylist{
+            #categorylist {
                 width: 100%;
 
-                option{
+                option {
                     width: 100%;
                 }
             }
@@ -113,88 +113,86 @@
             justify-content: flex-start;
             margin-top: 15px;
 
-            .dishCategory{
+            .dishCategory {
                 display: flex;
                 flex-direction: column;
                 gap: 8px;
-                
+
                 .dish {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                padding-top: 5px;
-                padding-bottom: 5px;
-
-                &:hover{
-                    background-color: rgba(126, 126, 126, 0.1);
-                }
-
-                .menuCell {
-                    width: 30%;
-                    .dishName {
-                        margin-left: 20px;
-                        margin-right: 20px;
-                        width: 250px;
-                        cursor: pointer;
-                    }
-
-                    .dishDescribtion {
-                        width: 250px;
-                        word-break: break-all;
-                        cursor: pointer;
-                    }
-
-                    .dishPrice{
-                        cursor: pointer;
-                    }
-
-                    input {
-                        text-align: right;
-                        padding-right: 3px;
-                        width: 100%;
-                        outline: none;
-                        border-radius: 8px;
-                        height: 45px;
-                        cursor: pointer;
-                        border: 1px solid rgba(126, 126, 126, 0.8);
-
-                        &:hover {
-                            background-color: rgba(126, 126, 126, 0.1);
-                        }
-                    }
-
-                    textarea {
-                        text-align: left;
-                        padding-right: 3px;
-                        padding-left: 3px;
-                        width: 100%;
-                        outline: none;
-                        border-radius: 8px;
-                        height: 150px;
-                        cursor: pointer;
-        
-                        &:hover {
-                            background-color: rgba(126, 126, 126, 0.1);
-                        }
-                    }
-                }
-
-                button{
                     display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    border-radius: 8px;
-                    border: none;
-                    cursor: pointer;
-                    height: 26px;
-                    width: 36px;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+
+                    &:hover {
+                        background-color: rgba(126, 126, 126, 0.1);
+                    }
+
+                    .menuCell {
+                        width: 30%;
+
+                        .dishName {
+                            margin-left: 20px;
+                            margin-right: 20px;
+                            width: 250px;
+                            cursor: pointer;
+                        }
+
+                        .dishDescribtion {
+                            width: 250px;
+                            word-break: break-all;
+                            cursor: pointer;
+                        }
+
+                        .dishPrice {
+                            cursor: pointer;
+                        }
+
+                        input {
+                            text-align: right;
+                            padding-right: 3px;
+                            width: 100%;
+                            outline: none;
+                            border-radius: 8px;
+                            height: 45px;
+                            cursor: pointer;
+                            border: 1px solid rgba(126, 126, 126, 0.8);
+
+                            &:hover {
+                                background-color: rgba(126, 126, 126, 0.1);
+                            }
+                        }
+
+                        textarea {
+                            text-align: left;
+                            padding-right: 3px;
+                            padding-left: 3px;
+                            width: 100%;
+                            outline: none;
+                            border-radius: 8px;
+                            height: 150px;
+                            cursor: pointer;
+
+                            &:hover {
+                                background-color: rgba(126, 126, 126, 0.1);
+                            }
+                        }
+                    }
+
+                    button {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 8px;
+                        border: none;
+                        cursor: pointer;
+                        height: 26px;
+                        width: 36px;
+                    }
+
                 }
-
-            }}
-
-            
-
-
+            }
         }
     }
 }

@@ -1,1 +1,55 @@
-<p>restaurant works!</p>
+<div class="content">
+    <div class="imgContainer">
+        <img class="backgroundImg" src="{{ backgroundImg }}" alt="">
+        <div class="logoCard">
+            <img src="{{ logoImg }}" alt="" class="logImg">
+        </div>
+    </div>
+    <div class="headArea">
+        <h1>{{ name }}</h1>
+        <div class="rating">
+            <ngb-rating [max]="5" [rate]="rating" readonly="true"></ngb-rating>
+        </div>
+        <div class="conditions">
+            <img class="symbols" src="./../../assets/img/symbols/lock.png">
+            min. {{ minOrderString }}
+            <img class="symbols" src="./../../assets/img/symbols/clock.png">
+            {{ deliveryTime }} min
+            <img class="symbols" src="./../../assets/img/symbols/bike.png">
+            {{ deliveryCostString }}
+        </div>
+        <div class="searchAndCategory">
+            <div class="categorySelect">
+                <button mat-mini-fab class="greyBackground">
+                    <mat-icon>search</mat-icon>
+                </button>
+                <div class="categoriesContainer">
+                    <button mat-mini-fab *ngIf="adaptPanel" class="greyBackground">
+                        <mat-icon>arrow_backward_los</mat-icon>
+                    </button>
+                    <div class="staticPanel" id="staticPanel">
+                        <div class="shiftPanel" id="shiftPanel">
+                            <div *ngFor="let category of menu" class="category">{{ category.categorykey }}</div>
+                        </div>
+                    </div>
+                    <button mat-mini-fab *ngIf="adaptPanel" class="greyBackground">
+                        <mat-icon>arrow_forward_los</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="menu">
+        <div class="categoryBox" *ngFor="let category of menu; let c = index" id="{{ category.categorykey }}">
+            <h2>{{ category.categorykey }}</h2>
+            <mat-card *ngFor="let dish of category.categoryItem">
+                <h3>{{ dish.dishName }}</h3> 
+                <p>{{ dish.dishDescribtion }}</p>
+                <h3>{{ dish.dishPriceAsString }}</h3> 
+            </mat-card>
+        </div>
+    </div>
+</div>
+<div class="basket">
+
+</div>

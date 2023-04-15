@@ -45,8 +45,9 @@ export class RestaurantConditionComponent implements OnInit {
     const docRef = doc(this.gfs, 'users', userID);
     const docSnap = await getDoc(docRef);
     let fetchedObject = docSnap.data();
-    if (Object.keys(fetchedObject['userData']).length !== 0) {
-      this.extractData(fetchedObject)
+    let testObj = fetchedObject['userData']['currRest'];
+    if(testObj.length > 0){
+      this.extractData(fetchedObject);
     }
   }
 
@@ -65,6 +66,7 @@ export class RestaurantConditionComponent implements OnInit {
     this.deliveryCost = this.restaurantNew['deliveryCost'];
     this.deliveryCostString = this.restaurantNew['deliveryCostString'];
     this.menu = this.restaurantNew['menu'];
+    console.log(this.restaurantNew);
   }
 
   createJSON() {
@@ -76,8 +78,10 @@ export class RestaurantConditionComponent implements OnInit {
       rating: this.rating,
       deliveryCost: this.deliveryCost,
       deliveryCostString: this.curr.returnCurrency(this.deliveryCost),
+      deliveryTime: this.deliveryTime,
       minOrder: this.minOrder,
       minOrderString: this.curr.returnCurrency(this.minOrder),
+      menu: this.menu
     }
   }
 
@@ -88,7 +92,7 @@ export class RestaurantConditionComponent implements OnInit {
   }
 
   async prepareUpload() {
-    let item = JSON.stringify(this.myRestaurants)
+    let item = JSON.stringify(this.upDatedRes)
     let object = {
       userData: {
         currRest: item
