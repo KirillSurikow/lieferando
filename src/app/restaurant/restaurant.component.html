@@ -40,7 +40,7 @@
         </div>
     </div>
     <div class="menu">
-        <div class="categoryBox" *ngFor="let category of menu; let c = index" id="{{ category.categorykey }}">
+        <div class="categoryBox" *ngFor="let category of menu; let c = index" id="{{ category.categorykey }}" #categoryBox>
             <h2>{{ category.categorykey }}</h2>
             <mat-card *ngFor="let dish of category.categoryItem">
                 <h3>{{ dish.dishName }}</h3> 

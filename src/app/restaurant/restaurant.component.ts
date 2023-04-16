@@ -1,4 +1,4 @@
-import {  AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 
@@ -18,11 +18,11 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
   deliveryTime: number;
   deliveryCostString: string;
   menu: Array<object>;
-  categoryElements: any;
   adaptPanel: boolean = false;
-  observer = new IntersectionObserver(entries => {
-    console.log(entries)
-  })
+  categoryBoxes: HTMLElement[] = [];
+  observer: IntersectionObserver | undefined;
+
+  @ViewChildren('categoryBox') categoryBoxesRes: QueryList<ElementRef>;
 
   constructor(private route: ActivatedRoute, private gfs: Firestore,) {
     this.registerMenu();
@@ -35,17 +35,35 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.installObserver();
     this.registerMenu();
   }
 
   registerMenu() {
-    this.categoryElements = document.querySelectorAll('.categoryBox');
-    console.log(this.categoryElements)
+    if (this.categoryBoxesRes) {
+      this.categoryBoxesRes.changes.subscribe((a) => {
+        let response = a._results;
+        for (let i = 0; i < response.length; i++) {
+          let element = response[i]['nativeElement'];
+          this.observer.observe(element)
+        }
+      });
+    }
+  }
+
+  installObserver() {
+    this.observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        console.log(entry.target.getBoundingClientRect())
+      })
+    }
+    )
+
   }
 
   installreszizeListener() {
     let staticPanel = document.getElementById('staticPanel');
-    let shiftPanel = document.getElementById('shiftPanel')
+    let shiftPanel = document.getElementById('shiftPanel');
     window.addEventListener('resize', () => {
       if (shiftPanel.clientWidth >= staticPanel.clientWidth) {
         this.adaptPanel = true;
