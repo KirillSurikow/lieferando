@@ -1,5 +1,6 @@
 :host {
     display: flex;
+    padding-bottom: 15px;
 
     .content {
         width: 75%;
@@ -40,10 +41,10 @@
             padding-left: 60px;
             padding-right: 60px;
             padding-top: 20px;
-            box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.4);
             padding-bottom: 15px;
             display: flex;
             flex-direction: column;
+            box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.4);
 
             .rating {
                 ngb-rating {
@@ -58,74 +59,147 @@
                 gap: 5px;
                 padding-top: 5px;
             }
+        }
 
-            .searchAndCategory {
-                align-self:flex-start;
-                position: sticky;
-                padding-top: 15px;
-                width: 100%;
+        .searchAndCategory {
+            padding-left: 60px;
+            position: sticky;
+            top: 0;
+            padding-top: 15px;
+            padding-bottom: 10px;
+            width: 100%;
+            display: flex;
+            z-index: 1;
+            background-color: white;
+            box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.4);
+
+            .searchContainer {
+                position: relative;
+                width: 70%;
                 display: flex;
+                align-items: center;
+                font-size: 16px;
+                font-weight: bold;
 
-                .categorySelect {
+                .loupe {
+                    position: absolute;
+                    height: 45px;
+                    width: 35px;
+                    font-size: 33px;
+                    top: 7px;
+                    left: 5px;
+                }
+
+                .cancel {
+                    position: absolute;
+                    height: 45px;
+                    width: 35px;
+                    font-size: 33px;
+                    top: 7px;
+                    right: 5px;
+                    cursor: pointer;
+                }
+
+                input {
+                    height: 45px;
+                    width: 100%;
+                    border-radius: 8px;
+                    outline: none;
+                    padding-left: 40px;
+                    cursor: pointer;
+                    font-size: 16px;
+
+                    &:hover {
+                        background-color: rgba(126, 126, 126, 0.1);
+                    }
+                }
+            }
+
+            .categorySelect {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                width: 100%;
+
+                .categoriesContainer {
                     display: flex;
                     align-items: center;
-                    gap: 5px;
                     width: 100%;
 
-                    .categoriesContainer {
+                    .staticPanel {
+                        overflow: hidden;
                         display: flex;
-                        align-items: center;
                         width: 100%;
 
-                        .staticPanel {
-                            overflow: hidden;
+                        .shiftPanel {
                             display: flex;
-                            width: 100%;
+                            padding-left: 8px;
+                            padding-right: 8px;
 
-                            .shiftPanel {
-                                display: flex;
-                                padding-left: 8px;
-                                padding-right: 8px;
+                            .category {
+                                min-width: 75px;
+                                padding: 8px;
+                                border-radius: 15px;
+                                text-align: center;
+                                font-size: 18px;
 
-                                .category {
-                                    min-width: 75px;
-                                    padding: 8px;
-                                    border-radius: 15px;
-                                    text-align: center;
-                                    font-size: 18px;
-
-                                    &:hover {
-                                        cursor: pointer;
-                                        background-color: rgba(168, 157, 157, 0.1);
-                                    }
+                                &:hover {
+                                    cursor: pointer;
+                                    background-color: rgba(168, 157, 157, 0.1);
+                                    color: black;
                                 }
+                            }
+
+                            .selected {
+                                color: white;
+                                background-color: black;
                             }
                         }
                     }
                 }
             }
         }
-        
-        .menu{
+
+        .menu {
             background-color: rgba(212, 209, 209, 0.05);
             padding-left: 60px;
             padding-right: 60px;
             padding-top: 20px;
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
 
-            mat-card{
-                padding: 10px 15px;
+            .categoryBox {
+                scroll-margin: 65px;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
 
-                h3{
-                    font-weight: 700;
+                mat-card {
+                    padding: 10px 15px;
+                    position: relative;
+
+                    button{
+                        position: absolute;
+                        top: 4px;
+                        right: 4px;
+                    }
+
+                    h3 {
+                        font-weight: 700;
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+                        background-color: rgba(168, 157, 157, 0.1);
+                    }
+                }
+
+                .d-none {
+                    display: none;
                 }
             }
         }
-
-    }
-
-    .basket {
-
-        height: 100px;
-        background-color: yellow;
     }
 }

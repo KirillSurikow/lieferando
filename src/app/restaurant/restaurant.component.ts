@@ -21,6 +21,10 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
   adaptPanel: boolean = false;
   categoryBoxes: HTMLElement[] = [];
   observer: IntersectionObserver | undefined;
+  currentCategory: string;
+  categoryInterface: boolean = true;
+  searchInterface: boolean = false;
+  search: string = "";
 
   @ViewChildren('categoryBox') categoryBoxesRes: QueryList<ElementRef>;
 
@@ -54,9 +58,14 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
   installObserver() {
     this.observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        console.log(entry.target.getBoundingClientRect())
+        if (entry.isIntersecting) {
+          this.currentCategory = entry.target.id;
+        }
       })
-    }
+    },
+      {
+        rootMargin: '-250px'
+      }
     )
 
   }
@@ -90,5 +99,30 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     this.minOrderString = this.restaurant.minOrderString;
     this.deliveryTime = this.restaurant.deliveryTime;
     this.deliveryCostString = this.restaurant.deliveryCostString;
+  }
+
+  scrollTo(id: string) {
+    let element = document.getElementById(id);
+    element.scrollIntoView(true)
+  }
+
+  switchToSearch() {
+    this.categoryInterface = false;
+    this.searchInterface = true;
+  }
+
+  cancelSearch() {
+    this.categoryInterface = true;
+    this.searchInterface = false;
+    this.search = "";
+  }
+
+  includesSearch(dish: any){
+    if (dish.dishName.includes(this.search)) {
+      return false;
+    } else if (dish.dishDescribtion.includes(this.search))
+      return false;
+    else
+      return true;
   }
 }

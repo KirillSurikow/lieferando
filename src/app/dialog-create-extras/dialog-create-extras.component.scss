@@ -1,0 +1,101 @@
+:host {
+    padding-top: 15px;
+    border-radius: 8px;
+
+    mat-dialog-content {
+        position: relative;
+        min-height: 350px;
+        max-height: 400px;
+
+       .cancel{
+            position: absolute;
+            right: 4px;
+            top: 4px;
+            cursor: pointer;
+        }
+
+        .addExtraContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-top: 20px;
+            padding-left: 15px;
+            position: sticky;
+            top: 4px;
+            z-index: 1;
+            background-color: white;
+
+            .headline {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-right: 20px;
+
+                h2{
+                    margin: 0;
+                }
+
+                button {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 8px;
+                    border-radius: 8px;
+                    border: none;
+                    cursor: pointer;
+                }
+            }
+
+            .inputLine {
+                display: flex;
+                gap: 4px;
+
+                input {
+                    height: 45px;
+                    width: 40%;
+                    border-radius: 8px;
+                    outline: none;
+                    padding-left: 40px;
+                    cursor: pointer;
+                    font-size: 16px;
+
+                    &:hover {
+                        background-color: rgba(126, 126, 126, 0.1);
+                    }
+                }
+
+                button {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 8px;
+                    border-radius: 8px;
+                    border: none;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .allExtras {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding-top: 8px;
+
+            .extraContainer {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                button {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 8px;
+                    border: none;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

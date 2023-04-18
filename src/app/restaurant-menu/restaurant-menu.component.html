@@ -36,7 +36,12 @@
 <div class="createdDishes">
   <mat-card *ngFor="let c of menu; let i = index">
     <div class="dishCategory">
-      <h4>{{ c.categorykey }}</h4>
+      <div class="categoryHeadArea">
+        <h4>{{ c.categorykey }}</h4>
+        <button class="extrasBtn orangeBG" (click)="openExtrasDialog(c , i)">
+          Customize Extras
+        </button>
+      </div>
       <div class="dish" *ngFor="let d of c.categoryItem; let j = index">
         <div class="menuCell">
           <span style="display: flex;" (click)="showEditName(i,j)" class="dishName" id="{{i}}{{j}}dishNameLabel">
@@ -45,10 +50,12 @@
           <input style="display: none;" type="text" value="{{ d.dishName }}" id="{{i}}{{j}}dishName">
         </div>
         <div class="menuCell">
-          <span style="display: flex; "(click)="showEditDescribtion(i,j)" class="dishDescribtion" id="{{i}}{{j}}dishDescribtionLabel">
+          <span style="display: flex; " (click)="showEditDescribtion(i,j)" class="dishDescribtion"
+            id="{{i}}{{j}}dishDescribtionLabel">
             {{ d.dishDescribtion }}
           </span>
-          <textarea style="display: none;" id="{{i}}{{j}}dishDescribtion" cols="30" rows="10" value="{{ d.dishDescribtion}}"></textarea>
+          <textarea style="display: none;" id="{{i}}{{j}}dishDescribtion" cols="30" rows="10"
+            value="{{ d.dishDescribtion}}"></textarea>
         </div>
         <div class="menuCell">
           <span style="display: flex;" class="dishPrice" (click)="showEditPrice(i,j)" id="{{i}}{{j}}dishPriceLabel">

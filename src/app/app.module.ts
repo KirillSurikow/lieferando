@@ -34,6 +34,8 @@ import { BackofficeHomeComponent } from './backoffice-home/backoffice-home.compo
 import { MyRestaurantsComponent } from './my-restaurants/my-restaurants.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { BasketComponent } from './basket/basket.component';
+import { DialogCreateExtrasComponent } from './dialog-create-extras/dialog-create-extras.component';
 
 
 @NgModule({
@@ -52,6 +54,8 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
     RegistrationComponent,
     BackofficeHomeComponent,
     MyRestaurantsComponent,
+    BasketComponent,
+    DialogCreateExtrasComponent,
 
   ],
   imports: [

@@ -118,6 +118,23 @@
                 flex-direction: column;
                 gap: 8px;
 
+                .categoryHeadArea {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    h4{
+                        margin-bottom: 0;
+                    }
+        
+                    .extrasBtn {
+                        height: 45px;
+                        padding: 5px 15px;
+                        border-radius: 8px;
+                        border: none;
+                    }
+                }
+
                 .dish {
                     display: flex;
                     justify-content: space-between;

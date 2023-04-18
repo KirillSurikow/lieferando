@@ -1,0 +1,27 @@
+<mat-dialog-content>
+    <mat-icon (click)="close()" class="cancel">cancel</mat-icon>
+    <div class="addExtraContainer">
+        <div class="headline">
+            <h2>Customize Extras for {{ categoryName }}</h2>
+            <button class="orangeBG" (click)="saveExtras()">
+                <mat-icon>done</mat-icon>
+            </button>
+        </div>
+        <div class="inputLine">
+            <input placeholder="Enter the extra" type="text" [(ngModel)]="newExtraName">
+            <input placeholder="Enter the price" type="number" [(ngModel)]="newExtraPrice">
+            <button class="orangeBG" (click)="createExtra()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="allExtras">
+        <div class="extraContainer" *ngFor="let extra of allExtras; let i = index">
+            <div>{{ extra.extraName }}</div>
+            <div>{{ extra.extraPriceString }}</div>
+            <button class="deleteBtn orangeBG" (click)="deleteExtra(i)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
+</mat-dialog-content>

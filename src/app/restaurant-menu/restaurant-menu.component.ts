@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Restaurant } from 'src/models/restaurant.class';
 import { CurrencyService } from '../services/currency.service';
 import { FirebaseService } from '../services/firebase.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogCreateExtrasComponent } from '../dialog-create-extras/dialog-create-extras.component';
 require("core-js/actual/array/group-by");
 
 @Component({
@@ -39,7 +41,11 @@ export class RestaurantMenuComponent implements OnInit {
   upDatedRes: Restaurant;
 
   constructor(private route: ActivatedRoute,
-    private currency: CurrencyService, private gfs: Firestore, private firestore: FirebaseService, private curr: CurrencyService) {
+    private currency: CurrencyService,
+    private gfs: Firestore,
+    private firestore: FirebaseService,
+    private curr: CurrencyService,
+    public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -52,7 +58,7 @@ export class RestaurantMenuComponent implements OnInit {
     const docSnap = await getDoc(docRef);
     let fetchedObject = docSnap.data();
     let testObj = fetchedObject['userData']['currRest'];
-    if(testObj.length > 0){
+    if (testObj.length > 0) {
       this.extractData(fetchedObject);
     }
   }
@@ -73,13 +79,12 @@ export class RestaurantMenuComponent implements OnInit {
     this.deliveryCost = this.restaurantNew['deliveryCost'];
     this.deliveryCostString = this.restaurantNew['deliveryCostString'];
     this.menu = this.restaurantNew['menu'];
-    console.log(this.restaurantNew);
   }
 
-  returnArray(object : object){
-    if(typeof object['userData']['myRestaurants'] == 'string'){
+  returnArray(object: object) {
+    if (typeof object['userData']['myRestaurants'] == 'string') {
       return JSON.parse(object['userData']['myRestaurants'])
-    }else{
+    } else {
       return object['userData']['myRestaurants']
     }
   }
@@ -242,14 +247,14 @@ export class RestaurantMenuComponent implements OnInit {
   async saveData() {
     let json = this.createJSON();
     this.upDatedRes = new Restaurant(json);
-    console.log(this.upDatedRes , 'convert to object')
+    console.log(this.upDatedRes, 'convert to object')
     this.updateArray();
     this.prepareUpload();
   }
 
   updateArray() {
     this.myRestaurants.push(this.upDatedRes)
-    console.log(this.myRestaurants , 'final')
+    console.log(this.myRestaurants, 'final')
   }
 
   async prepareUpload() {
@@ -261,6 +266,19 @@ export class RestaurantMenuComponent implements OnInit {
       }
     }
     await this.firestore.uploadChange(this.userID, object);
+  }
+
+  openExtrasDialog(category: object, index: number) {
+    const dialogRef = this.dialog.open(DialogCreateExtrasComponent, {
+      width: '600px',
+    });
+    dialogRef.componentInstance.currentCategory = category;
+    dialogRef.componentInstance.index = index;
+    dialogRef.afterClosed().subscribe(result => {
+      let target = this.menu[result[1]];
+      target['extras'] = result[0];
+      console.log(this.menu)
+    })
   }
 }
 
