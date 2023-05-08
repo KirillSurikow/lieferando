@@ -1,0 +1,61 @@
+<div class="headArea">
+    <div>
+        <h2>
+            Edit {{ dishName }}
+        </h2>
+        <button (click)="saveChanges()" class="orangeBG saveBtn">
+            Save changes
+        </button>
+    </div>
+    <mat-icon (click)="close()" class="closeBtn">close</mat-icon>
+</div>
+<mat-dialog-content>
+    <div class="dishMask">
+        <div class="dishAttribute">
+            <input type="text" [(ngModel)]="dishName" placeholder="e.g. Pizza Margherita">
+            <span class="label orange">Enter the dish's name</span>
+        </div>
+        <div class="dishAttribute">
+            <textarea type="text" [(ngModel)]="dishDescribtion" placeholder="e.g. Pizza with Salami and Peperoni"
+                cols="30" rows="10"></textarea>
+            <span class="orange adjustSpan">Enter the dish's describtion</span>
+        </div>
+        <div class="priceAndPortion">
+            <div *ngIf="!multiplePortions" class="labelAndInput" @slideRightIn @slideLeftOut>
+                <div>
+                    <input type="number" [(ngModel)]="dishPrice" placeholder="e.g. 4.5">€
+                </div>
+                <span class="orange adjustSpan">Enter the dish's price</span>
+            </div>
+            <div *ngIf="multiplePortions" class="portionManager" @slideRightIn @slideLeftOut>
+                <div class="marginR7">
+                    <input type="text" [(ngModel)]="portionTag" placeholder="e.g. Small, 400g or 26cm">
+                </div>
+                <span class="orange adjustSpan">Enter the portion-size</span>
+                <div>
+                    <input type="number" [(ngModel)]="portionPrice" placeholder="e.g. 4.5">€
+                </div>
+                <span class="orange adjustSpan">Enter the portion's price</span>
+                <button (click)="addPortion()" class="orangeBG marginR7">
+                    <mat-icon>done</mat-icon>
+                </button>
+                <div class="allPortions">
+                    <div class="portion" *ngFor="let portion of allPortions ; let i = index">
+                        <div>{{ portion.portionTag }}</div>
+                        <div>{{ portion.portionPriceString }}</div>
+                        <button (click)="deletePortion(i)" class="orangeBG">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="toggleContainer">
+                <div (click)="togglePortion()" [ngClass]="{'activeToggleBar' : multiplePortions}" class="toggleBar">
+                    <div [ngClass]="{'activeThumb' : multiplePortions}" class="toggleThumb">
+                    </div>
+                </div>
+                <span class="orange margin16">Use different portion-sizes</span>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

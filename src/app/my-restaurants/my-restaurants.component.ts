@@ -3,6 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { doc, Firestore, getDoc } from '@angular/fire/firestore';
 import { CurrencyService } from '../services/currency.service';
 import { FirebaseService } from '../services/firebase.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogCreateExtrasComponent } from '../dialog-create-extras/dialog-create-extras.component';
+import { DialogEditDishComponent } from '../dialog-edit-dish/dialog-edit-dish.component';
+
 
 
 const exitTransitionLeft = transition(':leave', [
@@ -117,10 +121,17 @@ export class MyRestaurantsComponent implements OnInit {
   menuUnsorted: any = [];
   menuObj: any = [];
   categoryList: any = [];
+  multiplePortions: boolean = false;
+  allPortions = [];
+  portionTag: string;
+  portionPrice: number;
 
 
-  constructor(private gfs: Firestore, private curr: CurrencyService, private firestore: FirebaseService) {
-
+  constructor(private gfs: Firestore,
+    private curr: CurrencyService,
+    private firestore: FirebaseService,
+    public dialog: MatDialog
+  ) {
   }
 
   ngOnInit(): void {
@@ -221,8 +232,8 @@ export class MyRestaurantsComponent implements OnInit {
     this.myRestaurants[this.currentRestaurant]['minOrder'] = this.copyMinOrder
     this.myRestaurants[this.currentRestaurant]['deliveryTime'] = this.copyDeliveryTime;
     this.myRestaurants[this.currentRestaurant]['deliveryCostString'] = this.curr.returnCurrency(this.copyDeliveryCost);
-    this.myRestaurants[this.currentRestaurant]['deliveryCost'] = this.copyDeliveryCost,
-    this.myRestaurants[this.currentRestaurant]['menu'] = this.copyMenu
+    this.myRestaurants[this.currentRestaurant]['deliveryCost'] = this.copyDeliveryCost;
+    this.myRestaurants[this.currentRestaurant]['menu'] = this.menu;
   }
 
   async prepareUpload() {
@@ -300,7 +311,7 @@ export class MyRestaurantsComponent implements OnInit {
 
   updateMyRestaurants() {
     this.myRestaurants[this.currentRestaurant]['publishID'] = this.publishID;
-    
+
   }
 
   async prepareJSON() {
@@ -308,7 +319,7 @@ export class MyRestaurantsComponent implements OnInit {
       logoImg: this.logoImg,
       backgroundImg: this.backgroundImg,
       name: this.name,
-      category : this.category,
+      category: this.category,
       rating: this.rating,
       minOrder: this.minOrder,
       minOrderString: this.minOrderString,
@@ -451,13 +462,56 @@ export class MyRestaurantsComponent implements OnInit {
     let dish = {
       "dishCategory": this.dishCategory,
       "dishName": this.dishName,
-      "dishPrice": this.dishPrice,
-      "dishPriceAsString": this.convertToString(this.dishPrice),
-      "dishDescribtion": this.dishDescribtion
+      "dishPrice": this.findDishPrice(),
+      "dishPriceAsString": this.findDishPriceString(),
+      "portionPrices": this.findPortionPrices(),
+      "dishDescribtion": this.dishDescribtion,
+      "dishExtras": this.findExtras(this.dishCategory),
+      "multiplePortions": this.multiplePortions,
+      "placed" : false
     }
 
     this.findSpotInArray(dish);
     this.saveChanges();
+    this.clearInputs();
+  }
+
+  findDishPrice(): any {
+    if (!this.multiplePortions) {
+      return this.dishPrice;
+    } else {
+      return null;
+    }
+  }
+
+  findDishPriceString(): any {
+    if (!this.multiplePortions) {
+      return this.curr.returnCurrency(this.dishPrice);
+    } else {
+      return "";
+    }
+  }
+
+  findPortionPrices(): any {
+    if (this.multiplePortions) {
+      return this.allPortions;
+    } else {
+      return [];
+    }
+  }
+
+  findExtras(category): any {
+    if (this.menu) {
+      if (this.menu.find(element => element.categorykey == category)) {
+        let target = this.menu.find(element => element.categorykey == category)
+        let extras = target.categoryItem[0]['dishExtras'];
+        return extras
+      } else {
+        return [];
+      }
+    } else {
+      return [];
+    }
   }
 
   findSpotInArray(dish: object) {
@@ -485,5 +539,70 @@ export class MyRestaurantsComponent implements OnInit {
       minimumFractionDigits: 2
     });
     return currency
+  }
+
+  clearInputs(){
+    this.dishCategory = "";
+    this.dishName ="";
+    this.dishPrice = null;
+    this.portionTag = "";
+    this.portionPrice = null;
+    this.dishDescribtion = "";
+    this.allPortions = [];
+  }
+
+  openExtrasDialog(category: object, index: number) {
+    const dialogRef = this.dialog.open(DialogCreateExtrasComponent, {
+      width: '600px',
+    });
+    dialogRef.componentInstance.currentCategory = category;
+    dialogRef.componentInstance.index = index;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        let target = this.menu[result[1]];
+        target['categoryItem'].forEach(element => {
+          element.dishExtras = result[0];
+          this.saveChanges();
+        });
+      }
+    })
+  }
+
+  openDishEditor(category, index, dish) {
+    const dialogRef = this.dialog.open(DialogEditDishComponent, {
+      width: '700px',
+    })
+
+    dialogRef.componentInstance.dish = dish;
+    dialogRef.componentInstance.index = index;
+    dialogRef.componentInstance.category = category;
+    dialogRef.componentInstance.multiplePortions = dish['multiplePortions'];
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.menu[result[2]]['categoryItem'][result[1]] = result[0];
+        this.saveChanges();
+      }
+    })
+  }
+
+  togglePortion() {
+    if (this.multiplePortions == true)
+      this.multiplePortions = false
+    else
+      this.multiplePortions = true
+  }
+
+  addPortion() {
+    let item = {
+      portionTag: this.portionTag,
+      portionPrice: this.portionPrice,
+      portionPriceString: this.curr.returnCurrency(this.portionPrice)
+    }
+    this.allPortions.push(item)
+    this.allPortions = this.allPortions.sort((a, b) => a.portionPrice - b.portionPrice);
+  }
+
+  deletePortion(i: number) {
+    this.allPortions.splice(i, 1)
   }
 }

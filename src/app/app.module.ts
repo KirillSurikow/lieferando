@@ -36,6 +36,11 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { BasketComponent } from './basket/basket.component';
 import { DialogCreateExtrasComponent } from './dialog-create-extras/dialog-create-extras.component';
+import { DialogCustomizeDishComponent } from './dialog-customize-dish/dialog-customize-dish.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { DialogEditDishComponent } from './dialog-edit-dish/dialog-edit-dish.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 
 @NgModule({
@@ -56,7 +61,8 @@ import { DialogCreateExtrasComponent } from './dialog-create-extras/dialog-creat
     MyRestaurantsComponent,
     BasketComponent,
     DialogCreateExtrasComponent,
-
+    DialogCustomizeDishComponent,
+    DialogEditDishComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,6 +82,8 @@ import { DialogCreateExtrasComponent } from './dialog-create-extras/dialog-creat
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
+    MatSlideToggleModule,
+    NgSelectModule,
   ],
 
   providers: [

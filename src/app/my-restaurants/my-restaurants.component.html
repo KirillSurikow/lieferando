@@ -107,33 +107,16 @@
     </div>
     <mat-card-content>
         <div *ngFor="let c of copyMenu; let i = index" class="dishCategory">
-            <h4>{{ c.categorykey }}</h4>
-            <div class="dish" *ngFor="let d of c.categoryItem; let j = index">
-                <div class="menuCell">
-                    <span style="display: flex;" (click)="showEditName(i,j)" class="dishName"
-                        id="{{i}}{{j}}dishNameLabel">
-                        {{ d.dishName }}
-                    </span>
-                    <input style="display: none;" type="text" value="{{ d.dishName }}" id="{{i}}{{j}}dishName">
-                </div>
-                <div class="menuCell">
-                    <span style="display: flex; " (click)="showEditDescribtion(i,j)" class="dishDescribtion"
-                        id="{{i}}{{j}}dishDescribtionLabel">
-                        {{ d.dishDescribtion }}
-                    </span>
-                    <textarea style="display: none;" id="{{i}}{{j}}dishDescribtion" cols="30" rows="10"
-                        value="{{ d.dishDescribtion}}"></textarea>
-                </div>
-                <div class="menuCell">
-                    <span style="display: flex;" class="dishPrice" (click)="showEditPrice(i,j)"
-                        id="{{i}}{{j}}dishPriceLabel">
-                        {{ d.dishPriceAsString }}
-                    </span>
-                    <input style="display: none;" type="number" value="{{ d.dishPrice }}" id="{{i}}{{j}}dishPrice">
-                </div>
-                <button (click)="updateDish(i,j)" style="display: none;" id="{{i}}{{j}}dishBtn" class="orangeBG">
-                    <mat-icon fontIcon="done"></mat-icon>
+            <div class="categoryHeadArea">
+                <h4>{{ c.categorykey }}</h4>
+                <button class="extrasBtn orangeBG" (click)="openExtrasDialog(c , i)">
+                    Customize Extras
                 </button>
+            </div>
+            <div (click)="openDishEditor(i , j , d)" class="dish" *ngFor="let d of c.categoryItem; let j = index">
+                <h2>
+                    {{ d.dishName }}
+                </h2>
             </div>
         </div>
     </mat-card-content>
@@ -158,12 +141,43 @@
             <input type="text" [(ngModel)]="dishName" placeholder="e.g. Pizza Margherita">
             <span class="label orange">Enter the dish's name</span>
         </div>
-        <div class="dishAttribute">
-            <div>
+        <div class="priceAndPortion">
+            <div *ngIf="!multiplePortions" class="labelAndInput" @slideRightIn @slideLeftOut>
+              <div>
                 <input type="number" [(ngModel)]="dishPrice" placeholder="e.g. 4.5">€
+              </div>
+              <span class="orange adjustSpan">Enter the dish's price</span>
             </div>
-            <span class="orange adjustSpan">Enter the dish's price</span>
-        </div>
+            <div *ngIf="multiplePortions" class="portionManager" @slideRightIn @slideLeftOut>
+              <div class="marginR7">
+                <input type="text" [(ngModel)]="portionTag" placeholder="e.g. Small, 400g or 26cm">
+              </div>
+              <span class="orange adjustSpan">Enter the portion-size</span>
+              <div>
+                <input type="number" [(ngModel)]="portionPrice" placeholder="e.g. 4.5">€
+              </div>
+              <span class="orange adjustSpan">Enter the portion's price</span>
+              <button (click)="addPortion()" class="orangeBG marginR7">
+                <mat-icon>done</mat-icon>
+              </button>
+              <div class="allPortions">
+                <div class="portion" *ngFor="let portion of allPortions ; let i = index">
+                  <div>{{ portion.portionTag }}</div>
+                  <div>{{ portion.portionPriceString }}</div>
+                  <button (click)="deletePortion(i)" class="orangeBG">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="toggleContainer">
+              <div (click)="togglePortion()" [ngClass]="{'activeToggleBar' : multiplePortions}" class="toggleBar">
+                <div [ngClass]="{'activeThumb' : multiplePortions}" class="toggleThumb">
+                </div>
+              </div>
+              <span class="orange margin16">Use different portion-sizes</span>
+            </div>
+          </div>
         <div class="dishAttribute">
             <textarea type="text" [(ngModel)]="dishDescribtion" placeholder="e.g. Pizza with Salami and Peperoni"
                 cols="30" rows="10"></textarea>

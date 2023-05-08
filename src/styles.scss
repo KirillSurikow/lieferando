@@ -28,7 +28,18 @@ body {
     background-color: blue;
 }
 
+.d-none{
+    display: none
+}
+
+.marginR7{
+    margin-right: 7px
+}
+
+
+
 
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+@import "~@ng-select/ng-select/themes/material.theme.css";

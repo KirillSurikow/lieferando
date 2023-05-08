@@ -26,10 +26,4 @@ export class RestaurantOverviewComponent implements OnInit {
     includesKitchen(restaurant : any){
       return restaurant.category.includes(this.kitchenChoice)
     }
-
-
-    // showValue(){
-    //   console.log(this.choiceAmount)
-    // }
-   
 }

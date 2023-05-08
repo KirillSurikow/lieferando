@@ -66,7 +66,6 @@ export class RestaurantConditionComponent implements OnInit {
     this.deliveryCost = this.restaurantNew['deliveryCost'];
     this.deliveryCostString = this.restaurantNew['deliveryCostString'];
     this.menu = this.restaurantNew['menu'];
-    console.log(this.restaurantNew);
   }
 
   createJSON() {

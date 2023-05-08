@@ -40,7 +40,6 @@ export class RestaurantListComponent implements OnInit {
       let newResObject = new Restaurant(doc.data());
       newResObject.publishID = doc.id;
       this.restaurantS.push(newResObject);
-      console.log(this.restaurantS)
     });
   }
 

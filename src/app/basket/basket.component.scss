@@ -1,3 +1,102 @@
-:host{
-    width: 250px;
+:host {
+    box-shadow: 1px 0px 8px 0px rgba(0, 0, 0, 0.4);
+    padding: 8px;
+    flex: 1;
+
+
+    .stickyContainer {
+        top: 0;
+        position: sticky;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h2 {
+            font-weight: bold;
+            padding-top: 16px;
+        }
+
+        mat-icon {
+            font-size: 42px;
+            width: unset;
+            height: unset;
+            margin-top: 75px;
+        }
+
+        div {
+            text-align: center;
+        }
+
+        ;
+
+        .orderList {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 0 8px;
+
+            .order {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+
+
+                .upperPart {
+                    display: flex;
+                    justify-content: space-between;
+
+                    .leftPart {
+                        display: flex;
+                        gap: 16px;
+
+                        .amount {
+                            font-weight: bold;
+                        }
+
+                        .nameAndDescr {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 16px;
+
+                            .name {
+                                font-weight: bold;
+
+                                &:hover {
+                                    cursor: pointer;
+                                    text-decoration: underline;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .lowerPart {
+                    display: flex;
+                    gap: 16px;
+                    justify-content: flex-start;
+
+                    .amountBtn {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: rgba(0, 0, 0, 0.1);
+                        color: black;
+                        border: none;
+                        width: 36px;
+                        height: 36px;
+                        border-radius: 100%;
+
+                        mat-icon {
+                            font-size: 26px;
+                            text-align: center !important;
+                            padding-right: 25px;
+                            margin: 0 !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

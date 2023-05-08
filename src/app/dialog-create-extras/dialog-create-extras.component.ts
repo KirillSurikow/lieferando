@@ -11,7 +11,6 @@ export class DialogCreateExtrasComponent implements OnInit {
   currentCategory: object;
   allExtras = [];
   categoryName: string;
-  blank: boolean = true;
   newExtraName: string;
   newExtraPrice: number;
   index : number;
@@ -23,17 +22,15 @@ export class DialogCreateExtrasComponent implements OnInit {
 
   ngOnInit(): void {
     this.categoryName = this.currentCategory['categorykey']
-    if (this.currentCategory['extras']) {
-      this.currentCategory['extras'] = this.allExtras;
-      this.blank = false;
-    }
+    this.allExtras = this.currentCategory['categoryItem'][0]['dishExtras']
   }
 
   createExtra() {
     let item = {
       extraName: this.newExtraName,
       extraPrice: this.newExtraPrice,
-      extraPriceString: this.curr.returnCurrency(this.newExtraPrice)
+      extraPriceString: this.curr.returnCurrency(this.newExtraPrice),
+      picked : false,
     }
     this.allExtras.unshift(item)
     this.newExtraName = "";

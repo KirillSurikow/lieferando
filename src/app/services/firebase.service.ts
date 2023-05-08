@@ -80,19 +80,4 @@ export class FirebaseService {
     this.isLoggedIn = false;
     localStorage.removeItem('user')
   }
-
-  // getUserData(userID: string) {
-  //   const docRef = doc(this.firestore, 'users', userID);
-  //   docData(docRef).subscribe(user => {
-
-  //   })
-
-
-
-  //  const observer = {
-  //     next: (value) => {
-  //       console.log(value)
-  //     }
-  //   }
-  // }
 }

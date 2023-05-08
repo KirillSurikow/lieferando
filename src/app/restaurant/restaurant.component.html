@@ -24,7 +24,7 @@
             <button mat-mini-fab class="greyBackground" (click)="switchToSearch()">
                 <mat-icon>search</mat-icon>
             </button>
-            <div class="categoriesContainer" >
+            <div class="categoriesContainer">
                 <button mat-mini-fab *ngIf="adaptPanel" class="greyBackground">
                     <mat-icon>arrow_backward_los</mat-icon>
                 </button>
@@ -43,7 +43,7 @@
         </div>
         <div class="searchContainer" *ngIf="searchInterface">
             <mat-icon class="loupe" matPrefix>search</mat-icon>
-            <input placeholder="Search for dishes etc." type="text"  [(ngModel)]="search">
+            <input placeholder="Search for dishes etc." type="text" [(ngModel)]="search">
             <mat-icon class="cancel" (click)="cancelSearch()" matPrefix>cancel</mat-icon>
         </div>
     </div>
@@ -51,13 +51,15 @@
         <div class="categoryBox" *ngFor="let category of menu; let c = index" id="{{ category.categorykey }}"
             #categoryBox>
             <h2>{{ category.categorykey }}</h2>
-            <mat-card *ngFor="let dish of category.categoryItem" [ngClass]="{'d-none' : includesSearch(dish) }">
+            <mat-card *ngFor="let dish of category.categoryItem; let d = index"
+                [ngClass]="{'d-none' : includesSearch(dish) }" (click)="pickDish(dish)">
                 <h3>{{ dish.dishName }}</h3>
                 <p>{{ dish.dishDescribtion }}</p>
-                <h3>{{ dish.dishPriceAsString }}</h3>
+                <h3 class="priceTag">{{ dish.dishPriceAsString }}</h3>
+                <h3 *ngIf="dish.multiplePortions" class="priceTag">{{ dish.portionPrices[0]['portionPriceString'] }}</h3>
                 <button mat-mini-fab disabled>
                     <mat-icon>add</mat-icon>
-                  </button>
+                </button>
             </mat-card>
         </div>
     </div>

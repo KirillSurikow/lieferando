@@ -15,5 +15,4 @@ export class CurrencyService {
         });
         return currency
     }
-
 }

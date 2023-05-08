@@ -1,0 +1,50 @@
+<div class="headArea">
+    <h2>{{ order.dishName }}</h2>
+    <mat-icon (click)="close()">close</mat-icon>
+</div>
+<mat-dialog-content>
+    <div class="descAndPrice">
+        <div>{{ order.dishDescribtion }}</div>
+        <div class="priceTag">{{ order.dishPriceAsString }}</div>
+    </div>
+    <div class="customizeContainer">
+        <span *ngIf="order.multiplePortions">{{ dishName }}:</span>
+        <div *ngIf="order.multiplePortions" class="sizeContainer">
+            <select (change)="order.changePortion()" [(ngModel)]="order.pickedPortionNr">
+                <option *ngFor="let portion of order.portionPrices ; let i = index" [selected]="i == 0 ? true : null"
+                 value="{{ i }}">
+                    {{portion.portionTag}}
+                    {{portion.portionPriceString}}
+                </option>
+            </select>
+        </div>
+        <div *ngIf="order.dishExtras.length !== 0" class="extrasContainer">
+            Your Extras :
+            <ng-container *ngFor="let extra of order.dishExtras ; let i = index">
+                <div class="extra" *ngIf="i < [visibleAmount]">
+                    <div [ngClass]="{'checkBoxInactive' : !extra.picked,
+                    'checkBoxActive' : extra.picked}" (click)="toggleExtra(i)" id="box{{ i }}">
+                        <mat-icon [ngClass]="{'d-none' : !extra.picked}" id="icon{{ i }}">done</mat-icon>
+                    </div>
+                    {{ extra.extraName }} ({{extra.extraPriceString}})
+                </div>
+            </ng-container>
+            <div class="amountBtn" *ngIf="hidden" (click)="showMore()">Show more extras</div>
+            <div class="amountBtn" *ngIf="!hidden" (click)="hideMore()">Hide extras</div>
+        </div>
+    </div>
+</mat-dialog-content>
+<div class="checkoutContainer">
+    <div class="amountContainer">
+        <button [disabled]="order.amount == 0" (click)="decreaseAmount()" class="amountBtn">
+            <mat-icon>remove</mat-icon>
+        </button>
+        <div>
+            {{ order.amount }}
+        </div>
+        <button (click)="increaseAmount()" class="amountBtn">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <button (click)="placeOrder()" class="orangeBG">{{ order.orderPriceString }}</button>
+</div>

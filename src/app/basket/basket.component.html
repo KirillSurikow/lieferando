@@ -1,1 +1,49 @@
-<p>basket works!</p>
+<div class="stickyContainer">
+    <h2>Basket</h2>
+    <div *ngIf="allOrders.length == 0">
+        <mat-icon>lock</mat-icon>
+        <div>
+            Add some delicious dishes from the menu and order your food.
+        </div>
+    </div>
+    <div class="orderList" *ngIf="allOrders.length !== 0">
+        <div class="order" *ngFor="let order of allOrders ; let i = index">
+            <div class="upperPart">
+                <div class="leftPart">
+                    <div class="amount">
+                        {{ order.amount }}
+                    </div>
+                    <div class="nameAndDescr">
+                        <div class="name" (click)="changeOrder(order ,i)">{{ order.dishName }}</div>
+                        <!-- <div class="describtion">{{ order.portion }}
+                            <span *ngIf="allOrders[i]['dishExtras'].length !== 0">
+                                ,
+                            </span>
+                            <span *ngFor="let extra of allOrders[i]['dishExtras'] let j = index">
+                                {{ extra.extraName }}
+                                <span *ngIf="j <= allOrders[i]['dishExtras'].length">
+                                    ,
+                                </span>
+                            </span>
+                        </div> -->
+                    </div>
+                </div>
+                <div>
+                    {{ order.priceForOrderString }}
+                </div>
+            </div>
+            <div class="lowerPart">
+                <button (click)="removeOne(i)" class="amountBtn">
+                    <mat-icon>
+                        remove
+                    </mat-icon>
+                </button>
+                <button (click)=" addOne(i)" class="amountBtn">
+                    <mat-icon>
+                        add
+                    </mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
