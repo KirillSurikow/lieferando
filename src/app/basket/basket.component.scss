@@ -97,6 +97,58 @@
                     }
                 }
             }
+
+            .minOrderNot {
+                margin-top: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 16px;
+                background-color: rgb(255, 249, 223);
+                padding: 12px;
+                border-radius: 8px;
+                font-size: 12px;
+            }
+
+            .minOrder {
+                margin-top: 16px;
+            }
+
+            .bill {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                gap: 8px;
+                margin-top: 16px;
+
+                .slot {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                }
+
+                .slot:nth-child(3) {
+                    font-weight: bold;
+                }
+            }
+
+            .active {
+                color: white;
+                background-color: #f36805;
+            }
+
+            .inActive {
+                color: rgb(136, 130, 130);
+                background-color: rgba(136, 130, 130, 0.4);
+            }
+
+            .payBtn {
+                width: 100%;
+                padding: 8px 0px;
+                border-radius: 16px;
+                border: none;
+                margin-top: 16px;
+            }
         }
     }
 }

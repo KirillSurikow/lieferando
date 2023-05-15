@@ -99,4 +99,8 @@ export class RestaurantConditionComponent implements OnInit {
     }
     await this.firestore.uploadChange(this.userID, object);
   }
+
+  return() {
+    this.router.navigate([`/backoffice/${this.userID}/characteristics`])
+  }
 }

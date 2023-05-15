@@ -31,12 +31,7 @@
       </button>
     </div>
   </div>
-  <div *ngIf="kitActive" class="kitchens">
-    <mat-button-toggle-group>
-      <mat-button-toggle class="kitchenBtn" [checked]="true ? i == 0 : false" *ngFor="let k of kitchens; let i = index" value="{{ k }}" (click)="changeKitchen(k)">{{ k }}
-      </mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
+
 </header>
 <router-outlet ></router-outlet>
 <app-scroll-top-button *ngIf="scrolled"></app-scroll-top-button>

@@ -5,6 +5,7 @@ import { doc } from 'firebase/firestore';
 import { Restaurant } from 'src/models/restaurant.class';
 import { CurrencyService } from '../services/currency.service';
 import { FirebaseService } from '../services/firebase.service';
+import { DirectionService } from '../services/direction-service';
 
 @Component({
   selector: 'app-restaurant-description',
@@ -29,16 +30,21 @@ export class RestaurantDescriptionComponent implements OnInit {
   menu: any[];
   restaurantNew: Restaurant;
   myRestaurants = [];
-  direction;
+
 
   constructor(private router: Router, private route: ActivatedRoute,
     private gfs: Firestore, private firestore: FirebaseService,
-    private curr: CurrencyService) {
+    private curr: CurrencyService, private direction: DirectionService) {
   }
 
   async ngOnInit() {
     this.userID = localStorage.getItem('userId');
-    await this.getUserData(this.userID)
+    await this.getUserData(this.userID);
+    this.hideBtn();
+  }
+
+  hideBtn() {
+    this.direction.hide();
   }
 
   async getUserData(userID: string) {
@@ -46,7 +52,7 @@ export class RestaurantDescriptionComponent implements OnInit {
     const docSnap = await getDoc(docRef);
     let fetchedObject = docSnap.data();
     let testObj = fetchedObject['userData']['currRest'];
-    if(testObj.length > 0){
+    if (testObj.length > 0) {
       this.extractData(fetchedObject);
     }
   }
@@ -98,9 +104,13 @@ export class RestaurantDescriptionComponent implements OnInit {
     let item = JSON.stringify(this.restaurantNew)
     let object = {
       userData: {
-        currRest : item
+        currRest: item
       }
     }
     await this.firestore.uploadChange(this.userID, object);
+  }
+
+  return() {
+    this.router.navigate([`/backoffice/${this.userID}`])
   }
 }

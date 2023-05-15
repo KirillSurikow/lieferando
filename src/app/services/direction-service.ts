@@ -5,13 +5,12 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class DirectionService {
 
-  direction = 'forward';
-  directionEmitter = new EventEmitter<string>();
+
+  hideEmitter = new EventEmitter<boolean>();
 
   constructor() { }
   
-  onChangeDirection(){
-    this.direction = 'backward';
-    this.directionEmitter.emit(this.direction);
+  hide(){
+    this.hideEmitter.emit(false);
   }
 }

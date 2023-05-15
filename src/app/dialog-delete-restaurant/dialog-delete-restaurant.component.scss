@@ -1,0 +1,27 @@
+mat-dialog-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    div {
+        display: flex;
+        gap: 4px;
+
+
+        .yesBtn {
+            background-color: #f36805;
+            color: white;
+        }
+
+        .noBtn {
+            background-color: white;
+            border: 1px solid black;
+        }
+
+        button {
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+        }
+    }
+}

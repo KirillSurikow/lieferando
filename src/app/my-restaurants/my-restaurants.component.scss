@@ -2,20 +2,58 @@ mat-card {
     padding-top: 16px;
     padding-bottom: 16px;
 
-    .restaurantSlot {
-        width: 100%;
-        padding-left: 16px;
-        padding-right: 16px;
-        padding-top: 8px;
-        padding-bottom: 8px;
-        background-color: rgba(126, 126, 126, 0.15);
-        transition: all 200ms ease-in-out;
-        cursor: pointer;
+    .headArea {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-        &:hover {
-            transform: translate(5px, -15px);
-            background-color: rgba(126, 126, 126, 0.10);
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 200px;
+            height: 36px;
+            border: none;
             border-radius: 8px;
+        }
+    }
+
+    .myRestaurants {
+        margin-top: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .restaurantSlot {
+            width: 100%;
+            padding-left: 16px;
+            padding-right: 16px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            background-color: rgba(126, 126, 126, 0.15);
+            transition: all 200ms ease-in-out;
+            cursor: pointer;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            mat-icon {
+                color: transparent;
+
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
+
+            &:hover {
+                transform: translate(5px, -15px);
+                background-color: rgba(126, 126, 126, 0.10);
+                border-radius: 8px;
+
+                mat-icon {
+                    color: black;
+                }
+            }
         }
     }
 
@@ -113,12 +151,13 @@ mat-card {
             .editDescribtion {
                 display: flex;
                 align-items: center;
+                flex-direction: row;
                 gap: 10px;
 
                 input {
                     outline: none;
                     border-radius: 8px;
-                    height: 30px;
+                    height: 36px;
                 }
 
                 .checkBtn {
@@ -127,6 +166,7 @@ mat-card {
                     align-items: center;
                     border-radius: 8px;
                     border: none;
+                    position: unset !important;
                 }
             }
 
@@ -140,8 +180,7 @@ mat-card {
                     align-items: flex-end;
 
                     .checkBtn {
-                        top: 4px;
-                        right: 4px;
+                        position: unset !important;
                         height: 38px;
                         width: 100%;
                         display: flex;
@@ -293,17 +332,31 @@ mat-card {
         .dish {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             padding-top: 5px;
             padding-bottom: 5px;
             cursor: pointer;
 
             h2 {
                 padding-left: 8px;
+                margin-bottom: 0;
+
+            }
+
+            mat-icon {
+                color: white;
+
+                &:hover {
+                    transform: scale(1.1);
+                }
             }
 
             &:hover {
                 background-color: rgba(126, 126, 126, 0.1);
+
+                mat-icon {
+                    color: black;
+                }
             }
         }
     }

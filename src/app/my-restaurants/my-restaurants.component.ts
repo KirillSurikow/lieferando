@@ -6,6 +6,7 @@ import { FirebaseService } from '../services/firebase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateExtrasComponent } from '../dialog-create-extras/dialog-create-extras.component';
 import { DialogEditDishComponent } from '../dialog-edit-dish/dialog-edit-dish.component';
+import { DialogDeleteRestaurantComponent } from '../dialog-delete-restaurant/dialog-delete-restaurant.component';
 
 
 
@@ -219,7 +220,6 @@ export class MyRestaurantsComponent implements OnInit {
     this.prepareArray();
     this.prepareUpload();
     this.assignDataToMask(this.currentRestaurant);
-    this.closeEdits();
   }
 
   prepareArray() {
@@ -604,5 +604,23 @@ export class MyRestaurantsComponent implements OnInit {
 
   deletePortion(i: number) {
     this.allPortions.splice(i, 1)
+  }
+
+  deleteDish(i,j){
+    this.menu[i]['categoryItem'].splice(j,1);
+  }
+
+  deleteRestaurant(event , i){
+    event.stopPropagation();
+
+    const dialogRef = this.dialog.open(DialogDeleteRestaurantComponent, {
+      width: '400px',
+    })
+
+    dialogRef.afterClosed().subscribe( result =>{
+      if(result){
+          this.myRestaurants.splice(i , 1)
+      }
+    })
   }
 }

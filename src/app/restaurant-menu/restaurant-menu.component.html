@@ -1,8 +1,11 @@
 <div class="headLine">
-  <h2>Menu</h2>
-  <button class="createDishBtn orangeBG" (click)="saveData()" routerLink="../">
-    Save menu
-  </button>
+  <div>
+    <h2>Menu</h2>
+    <button class="createDishBtn orangeBG" (click)="saveData()" routerLink="../">
+      Save menu
+    </button>
+  </div>
+  <mat-icon (click)="return()">arrow_back</mat-icon>
 </div>
 <h3>Congratulation, now you can create your menu</h3>
 <div class="dishMask">
@@ -75,7 +78,7 @@
         </button>
       </div>
       <div class="dish" *ngFor="let d of c.categoryItem; let j = index" (click)="openDishEditor(i , j , d)">
-        <h2 >
+        <h2>
           {{ d.dishName }}
         </h2>
       </div>

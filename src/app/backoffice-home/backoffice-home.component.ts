@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { doc, docData, Firestore, getDoc } from '@angular/fire/firestore';
+import { Component,  OnInit } from '@angular/core';
+import { doc, Firestore, getDoc } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Restaurant } from 'src/models/restaurant.class';
 import { FirebaseService } from '../services/firebase.service';
+import { DirectionService } from '../services/direction-service';
 
 
 
@@ -17,14 +16,20 @@ export class BackofficeHomeComponent implements OnInit {
   userData: any;
   myRestaurants = [];
   userID: string = "";
+  home: boolean;
 
-  constructor(private firestore: FirebaseService, private route: ActivatedRoute, private gfs: Firestore, private router: Router) {
+  constructor(private firestore: FirebaseService, private acRoute: ActivatedRoute,
+    private gfs: Firestore, private router: Router, private direction: DirectionService) {
 
   }
 
   ngOnInit() {
-    this.userID = this.route.snapshot.paramMap.get('id');
+    this.userID = this.acRoute.snapshot.paramMap.get('id');
     this.getUserData(this.userID);
+    this.home = true;
+    this.direction.hideEmitter.subscribe(result =>{
+       this.home = result;
+    })
   }
 
   async getUserData(userID: string) {
@@ -33,7 +38,7 @@ export class BackofficeHomeComponent implements OnInit {
     this.userData = docSnap.data();
   }
 
-  newRestaurant(){
-    // this.router.navigate(['characteristics'])
+  navigateToBO(){
+    this.router.navigate([`/backoffice/${this.userID}`])
   }
 }

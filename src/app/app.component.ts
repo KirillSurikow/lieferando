@@ -16,13 +16,12 @@ export class AppComponent {
   address: string = "Niederstr. 70, 47829 Krefeld";
   delivery: boolean = true;
   pickUp: boolean = false;
-  kitchens: any = ['all', 'italian', 'american', 'oriental', 'japanese', 'thai', 'chinese'];
   lang: string = './../assets/img/languages/united-kingdom.png';
   scrolled: boolean = false;
   doActive: boolean = true;
   kitActive: boolean = true;
 
-  constructor(public dialog: MatDialog, private kitchenChoice: FilterService, private scroller: ViewportScroller) { }
+  constructor(public dialog: MatDialog,  private scroller: ViewportScroller) { }
 
   @HostListener('window: scroll', ['$event']) onScrollEvent($event: any) {
     const currPosition = this.scroller.getScrollPosition();
@@ -43,9 +42,6 @@ export class AppComponent {
     this.pickUp = true;
   }
 
-  changeKitchen(k: string) {
-    this.kitchenChoice.changeKitchenFilterEvent(k)
-  }
 
   changeLanguage(lang: string) {
     if (lang == 'english') {

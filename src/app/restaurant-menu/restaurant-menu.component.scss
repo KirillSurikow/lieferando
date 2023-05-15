@@ -6,20 +6,26 @@
 
     .headLine {
         display: flex;
-        justify-content: center;
-        position: relative;
+        justify-content: space-between;
         align-items: center;
         width: 100%;
         margin-bottom: 20px;
+        padding : 0px 50px;
 
-        h2 {
-            margin-bottom: 0;
-        }
+        div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
 
-        button {
-            position: absolute;
-            right: 27px;
-            cursor: pointer;
+            h2 {
+                margin-bottom: 0;
+            }
+
+            button {
+                right: 27px;
+                cursor: pointer;
+                margin-top: unset !important;
+            }
         }
     }
 
@@ -133,18 +139,18 @@
                     }
                 }
 
-                .allPortions{
+                .allPortions {
                     display: flex;
                     flex-direction: column;
                     padding-top: 25px;
                     padding-right: 7px;
 
-                    .portion{
+                    .portion {
                         display: flex;
                         align-items: center;
                         gap: 8px;
 
-                        button{
+                        button {
                             width: 24px;
                             height: 24px;
                             display: flex;
@@ -153,7 +159,7 @@
                             border: none;
                             border-radius: 8px;
 
-                            mat-icon{
+                            mat-icon {
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
@@ -306,14 +312,15 @@
                 .dish {
                     display: flex;
                     justify-content: space-between;
-                    align-items: flex-start;
+                    align-items: center;
                     padding-top: 5px;
                     padding-bottom: 5px;
                     cursor: pointer;
 
-                    h2{
+                    h2 {
                         padding-left: 8px;
                         margin: 0;
+                        margin-bottom: 0 !important;
                     }
 
                     &:hover {

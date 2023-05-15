@@ -1,0 +1,6 @@
+<div class="kitchens">
+    <mat-button-toggle-group>
+      <mat-button-toggle class="kitchenBtn" [checked]="true ? i == 0 : false" *ngFor="let k of kitchens; let i = index" value="{{ k }}" (click)="changeKitchen(k)">{{ k }}
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>

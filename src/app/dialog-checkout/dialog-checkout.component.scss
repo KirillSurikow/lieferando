@@ -1,0 +1,11 @@
+mat-dialog-content{
+    height: 50vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    mat-icon{
+        font-size: 36px;
+    }
+}

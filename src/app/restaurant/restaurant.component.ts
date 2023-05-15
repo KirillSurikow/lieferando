@@ -158,7 +158,7 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
       'minOrderString': this.minOrderString,
       'deliveryCost': this.deliveryCost,
       'deliveryCostString': this.deliveryCostString,
-      'deliveryTime': this.deliveryTime,
+      'deliveryTime': this.deliveryTime
     }
     this.order.placeOrder([order , false]);
   }
@@ -167,8 +167,12 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(DialogCustomizeDishComponent, {
       width: '600px'
     })
-    console.log(dish.dishExtras)
     dialogRef.componentInstance.dish = dish;
     dialogRef.componentInstance.changingOrder = false;
+    dialogRef.componentInstance.minOrder = this.minOrder;
+    dialogRef.componentInstance.minOrderString = this.minOrderString;
+    dialogRef.componentInstance.deliveryCost = this.deliveryCost;
+    dialogRef.componentInstance.deliveryCostString = this.deliveryCostString;
+    dialogRef.componentInstance.deliveryTime = this.deliveryTime;
   }
 }

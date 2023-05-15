@@ -1,6 +1,6 @@
 import { Component, OnInit, Type } from '@angular/core';
 import { doc, Firestore, getDoc } from '@angular/fire/firestore';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Restaurant } from 'src/models/restaurant.class';
 import { CurrencyService } from '../services/currency.service';
 import { FirebaseService } from '../services/firebase.service';
@@ -81,7 +81,7 @@ export class RestaurantMenuComponent implements OnInit {
   dishDescribtion: string = "";
   categoryList: any = [];
   restaurantNew: Restaurant;
-  myRestaurants : Array<object> = [];
+  myRestaurants: Array<object> = [];
   upDatedRes: Restaurant;
   multiplePortions: boolean = false;
   allPortions = [];
@@ -93,7 +93,8 @@ export class RestaurantMenuComponent implements OnInit {
     private gfs: Firestore,
     private firestore: FirebaseService,
     private curr: CurrencyService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private router : Router) {
   }
 
   ngOnInit(): void {
@@ -114,9 +115,9 @@ export class RestaurantMenuComponent implements OnInit {
 
   extractData(object: object) {
     let string = object['userData']['currRest'];
-    console.log(object['userData']['myRestaurants'] , typeof object['userData']['myRestaurants'])
+    console.log(object['userData']['myRestaurants'], typeof object['userData']['myRestaurants'])
     this.myRestaurants = this.returnArray(object);
-    console.log(this.myRestaurants , typeof this.myRestaurants)
+    console.log(this.myRestaurants, typeof this.myRestaurants)
     this.restaurantNew = JSON.parse(string);
     this.publishID = this.restaurantNew['publishID'];
     this.name = this.restaurantNew['name'];
@@ -150,9 +151,9 @@ export class RestaurantMenuComponent implements OnInit {
       "dishDescribtion": this.dishDescribtion,
       "dishExtras": this.findExtras(this.dishCategory),
       "multiplePortions": this.multiplePortions,
-      "placed" : false
+      "placed": false
     }
-  
+
     this.menuUnsorted.push(dish);
     this.initSortMenu();
     this.updateDatalist();
@@ -162,7 +163,7 @@ export class RestaurantMenuComponent implements OnInit {
   findDishPrice(): any {
     if (!this.multiplePortions) {
       return this.dishPrice;
-    }else{
+    } else {
       return null
     }
   }
@@ -170,7 +171,7 @@ export class RestaurantMenuComponent implements OnInit {
   findDishPriceString(): any {
     if (!this.multiplePortions) {
       return this.curr.returnCurrency(this.dishPrice);
-    } else{
+    } else {
       return ""
     }
   }
@@ -178,7 +179,7 @@ export class RestaurantMenuComponent implements OnInit {
   findPortionPrices(): any {
     if (this.multiplePortions) {
       return this.allPortions;
-    }else{
+    } else {
       return []
     }
   }
@@ -239,9 +240,9 @@ export class RestaurantMenuComponent implements OnInit {
     return currency
   }
 
-  clearInputs(){
+  clearInputs() {
     this.dishCategory = "";
-    this.dishName ="";
+    this.dishName = "";
     this.dishPrice = null;
     this.portionTag = "";
     this.portionPrice = null;
@@ -351,14 +352,14 @@ export class RestaurantMenuComponent implements OnInit {
   async saveData() {
     let json = this.createJSON();
     this.upDatedRes = new Restaurant(json);
-    console.log(this.myRestaurants , 1)
+    console.log(this.myRestaurants, 1)
     this.updateArray();
     this.prepareUpload();
   }
 
   updateArray() {
     this.myRestaurants.push(this.upDatedRes)
-    console.log(this.myRestaurants , 2)
+    console.log(this.myRestaurants, 2)
   }
 
   async prepareUpload() {
@@ -421,9 +422,13 @@ export class RestaurantMenuComponent implements OnInit {
     dialogRef.componentInstance.multiplePortions = this.multiplePortions;
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-         this.menu[result[2]]['categoryItem'][result[1]] = result[0]
+        this.menu[result[2]]['categoryItem'][result[1]] = result[0]
       }
     })
+  }
+
+  return() {
+    this.router.navigate([`/backoffice/${this.userID}/restaurantCondition`])
   }
 
 }

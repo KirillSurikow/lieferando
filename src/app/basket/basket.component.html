@@ -15,7 +15,7 @@
                     </div>
                     <div class="nameAndDescr">
                         <div class="name" (click)="changeOrder(order ,i)">{{ order.dishName }}</div>
-                        <!-- <div class="describtion">{{ order.portion }}
+                        <div class="describtion">{{ order.portion }}
                             <span *ngIf="allOrders[i]['dishExtras'].length !== 0">
                                 ,
                             </span>
@@ -25,7 +25,7 @@
                                     ,
                                 </span>
                             </span>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -45,5 +45,33 @@
                 </button>
             </div>
         </div>
+        <div *ngIf="!minOrderReached" class="minOrderNot">
+            <div>
+                Amount needed to reach the minimum order value
+            </div>
+            <div>
+                {{ minOrderDiffString }}
+            </div>
+        </div>
+        <div *ngIf="!minOrderReached"  class="minOrder">
+            Unfortunately you can't order yet. The minimum order value is {{ minOrderString }}.
+        </div>
+        <div class="bill">
+            <div class="slot">
+                <div>Subtotal</div>
+                <div>{{ subTotalString }}</div>
+            </div>
+            <div class="slot">
+                <div>Delivery cost</div>
+                <div>{{ deliveryCostString }}</div>
+            </div>
+            <div class="slot">
+                <div>Total</div>
+                <div>{{ totalString }}</div>
+            </div>
+        </div>
+        <button (click)="checkOut()" class="payBtn" [ngClass]="{'active' : minOrderReached , 'inActive' : !minOrderReached}">
+            Pay {{ totalString }}
+        </button>
     </div>
 </div>

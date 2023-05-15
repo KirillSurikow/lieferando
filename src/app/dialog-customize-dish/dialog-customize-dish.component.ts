@@ -19,6 +19,21 @@ export class DialogCustomizeDishComponent implements OnInit {
   hidden: boolean = true;
   changingOrder: boolean = false;
   orderNr: number = null;
+  dishName : string;
+  dishDescribtion : string;
+  dishPriceAsString : string;
+  multiplePortions : boolean;
+  dishExtras = [];
+  amount : number;
+  orderPriceString : string;
+  orderPrice : number;
+  portionPrices  = [];
+  singlePrice : number;
+  minOrder : number;
+  minOrderString : string;
+  deliveryCost : number;
+  deliveryCostString : string;
+  deliveryTime : number;
 
   constructor(private dialogRef: MatDialogRef<DialogCustomizeDishComponent>,
     private curr: CurrencyService,
@@ -30,11 +45,17 @@ export class DialogCustomizeDishComponent implements OnInit {
       this.order = new Order(this.dish);
       if (this.order.multiplePortions) {
         this.order.orderPrice = this.order.portionPrices[0]['portionPrice'];
-        this.order.orderPriceString = this.curr.returnCurrency(this.order.orderPrice);
+        this.order.orderPriceString = this.curr.returnCurrency(this.orderPrice);
       }else{
-       this.order.orderPrice = this.order.singlePrice;
-       this.order.orderPriceString = this.curr.returnCurrency(this.order.orderPrice);
+       this.order.orderPrice = this.singlePrice;
+       this.order.orderPriceString = this.curr.returnCurrency(this.orderPrice);
       }
+      if(this.order.dishExtras){
+        this.order.dishExtras.forEach(extra => {
+          extra.picked = false;
+        });
+      }
+      this.order.countPrice();
     }
     if (this.changingOrder) {
       this.order = new Order(this.changingDish);
@@ -44,8 +65,7 @@ export class DialogCustomizeDishComponent implements OnInit {
         this.order.orderPriceString = this.curr.returnCurrency(this.order.orderPrice);
         this.order.changePortion();
       }else{
-       this.order.orderPrice = this.order.dishCopy['dishPrice'];
-       this.order.orderPriceString = this.curr.returnCurrency(this.order.orderPrice);
+       this.order.singlePrice = this.order.dishCopy['dishPrice'];
        this.order.countPrice();
       }
     }
@@ -99,6 +119,11 @@ export class DialogCustomizeDishComponent implements OnInit {
       'priceForOrderString': this.curr.returnCurrency(this.order.orderPrice),
       'dishCopy': this.returnDishCopy(),
       'multiplePortions': this.order.multiplePortions,
+      'minOrder': this.minOrder,
+      'minOrderString': this.minOrderString,
+      'deliveryCost': this.deliveryCost,
+      'deliveryCostString': this.deliveryCostString,
+      'deliveryTime': this.deliveryTime
     }
     this.orderService.placeOrder([order, this.changingOrder, this.orderNr]);
     this.dialogRef.close();

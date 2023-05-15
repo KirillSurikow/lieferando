@@ -125,31 +125,4 @@ header {
 
         }
     }
-
-    .kitchens {
-        display: flex;
-        justify-content: center;
-
-        mat-button-toggle-group {
-            display: flex;
-            border: none;
-
-            .kitchenBtn {
-                margin-left: 3px;
-                margin-right: 3px;
-                border: none;
-                border-radius: 25px;
-                text-align: center;
-
-                &:first-child{
-                    width: 35px;
-                }
-            }
-
-            .mat-button-toggle-checked {
-                color: white;
-                background-color: black;
-            }
-        }
-    }
 }

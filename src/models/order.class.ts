@@ -62,7 +62,7 @@ export class Order {
       this.singlePrice = this.portionPrices[this.pickedPortionNr]['portionPrice'];
       this.countPrice();
     } else {
-      console.log(this.dishCopy['portionPrices']) // bei portions picked einbauen für bessere nachverfolgbarkeit
+      console.log(this.dishCopy['portionPrices']) 
     }
   }
 

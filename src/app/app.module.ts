@@ -40,6 +40,9 @@ import { DialogCustomizeDishComponent } from './dialog-customize-dish/dialog-cus
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { DialogEditDishComponent } from './dialog-edit-dish/dialog-edit-dish.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DialogCheckoutComponent } from './dialog-checkout/dialog-checkout.component';
+import { KitchenFilterComponent } from './kitchen-filter/kitchen-filter.component';
+import { DialogDeleteRestaurantComponent } from './dialog-delete-restaurant/dialog-delete-restaurant.component';
 
 
 
@@ -63,6 +66,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     DialogCreateExtrasComponent,
     DialogCustomizeDishComponent,
     DialogEditDishComponent,
+    DialogCheckoutComponent,
+    KitchenFilterComponent,
+    DialogDeleteRestaurantComponent,
   ],
   imports: [
     BrowserModule,

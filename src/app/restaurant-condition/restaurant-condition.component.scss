@@ -3,6 +3,12 @@
     flex-direction: column;
     gap: 20px;
 
+    .headArea{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
     .inputs{
         display: flex;
         .inputColumn {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 
@@ -7,7 +7,7 @@ import { FirebaseService } from '../services/firebase.service';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss']
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit, DoCheck {
   logOrSign: string = "";
   email: string = "";
   password: string = "";
@@ -21,11 +21,16 @@ export class RegistrationComponent implements OnInit {
     this.logOrSign = obj.type;
   }
 
+  ngDoCheck(): void {
+    let obj = JSON.parse(this.route.snapshot.paramMap.get('my_object'));
+    this.logOrSign = obj.type;
+  }
+
   onSubmit() {
     if (this.logOrSign == 'Log in')
       this.firebase.signIn(this.email, this.password)
     else
-      this.firebase.signUp (this.email, this.password)
+      this.firebase.signUp(this.email, this.password)
   }
 
 }
