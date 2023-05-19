@@ -48,6 +48,7 @@ import { RespFilterComponent } from './resp-filter/resp-filter.component';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,6 +74,7 @@ import { RespFilterComponent } from './resp-filter/resp-filter.component';
     DialogDeleteRestaurantComponent,
     RespSearchComponent,
     RespFilterComponent,
+ 
   ],
   imports: [
     BrowserModule,

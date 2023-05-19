@@ -1,9 +1,11 @@
-
-
 header {
     width: 100%;
-    box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.4);
+    box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.4);
     padding-bottom: 4px;
+
+    .respToggleGroup {
+        display: none;
+    }
 
 
     .main {
@@ -16,6 +18,7 @@ header {
 
         .logo {
             cursor: pointer;
+
             img {
                 height: 75px;
             }
@@ -72,8 +75,8 @@ header {
         .settings {
             display: flex;
             flex-direction: row;
-            
-            .flags{
+
+            .flags {
                 height: 40px;
                 width: auto;
             }
@@ -98,13 +101,13 @@ header {
                 }
             }
 
-            mat-menu-item{
+            mat-menu-item {
                 display: flex;
                 justify-content: center !important;
                 align-items: center !important;
 
 
-                
+
             }
 
             .menuBtn {
@@ -124,5 +127,83 @@ header {
             }
 
         }
+    }
+
+    @media(max-width : 680px) {
+        .main {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+
+            .logo {
+                display: none;
+            }
+
+            .deliveryOptions {
+                .address {
+                    width: 250px;
+                }
+
+                mat-button-toggle-group {
+                    display: none;
+                }
+            }
+
+            .settings {
+                position: absolute;
+                left: 8px;
+
+                .langBtn {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+@media(max-width : 680px) {
+    header {
+        height: 120px;
+        display: flex;
+        gap: 8px;
+        flex-direction: column;
+        align-items: center;
+
+        .respToggleGroup {
+            display: flex;
+            border: none;
+            background-color: #f5f3f1;
+            padding: 2px;
+            border-radius: 25px;
+
+            mat-button-toggle {
+                border-radius: 25px;
+                color: rgb(132, 130, 130);
+                background-color: #f5f3f1;
+
+                &:first-child {
+                    margin-right: 2px;
+                }
+            }
+
+            .mat-button-toggle-checked {
+                background-color: white;
+                color: black;
+            }
+        }
+    }
+}
+
+@media(max-width : 390px){
+    .main{
+        justify-content: flex-start !important;
+    }
+}
+
+@media(max-width : 350px){
+    .address{
+        width: 200px !important;
     }
 }

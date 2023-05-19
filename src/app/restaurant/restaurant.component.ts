@@ -30,19 +30,19 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
   categoryInterface: boolean = true;
   searchInterface: boolean = false;
   search: string = "";
+  distance: number = 0;
 
   @ViewChildren('categoryBox') categoryBoxesRes: QueryList<ElementRef>;
 
   constructor(private route: ActivatedRoute,
     private gfs: Firestore,
     private dialog: MatDialog,
-    private order : OrderService ) {
+    private order: OrderService) {
   }
 
   ngOnInit(): void {
     this.restaurantId = this.route.snapshot.paramMap.get('id');
     this.getRestaurantData(this.restaurantId);
-    this.installreszizeListener();
   }
 
   ngAfterViewInit(): void {
@@ -77,19 +77,6 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
 
   }
 
-  installreszizeListener() {
-    let staticPanel = document.getElementById('staticPanel');
-    let shiftPanel = document.getElementById('shiftPanel');
-    window.addEventListener('resize', () => {
-      if (shiftPanel.clientWidth >= staticPanel.clientWidth) {
-        this.adaptPanel = true;
-      } else {
-        this.adaptPanel = false;
-      }
-    })
-  }
-
-
   async getRestaurantData(id: string) {
     const docRef = doc(this.gfs, 'restaurants', id);
     const docSnap = await getDoc(docRef);
@@ -108,7 +95,6 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     this.deliveryCostString = this.restaurant.deliveryCostString;
     this.deliveryCost = this.restaurant.deliveryCost;
     this.minOrder = this.restaurant.minOrder;
-    console.log(this.menu[0]['categoryItem'][0]['dishExtras'])
   }
 
   scrollTo(id: string) {
@@ -153,14 +139,14 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
       'singlePrice': dish.dishPrice,
       'priceForOrder': dish.dishPrice,
       'priceForOrderString': dish.dishPriceAsString,
-      'multiplePortions' : dish.multiplePortions,
+      'multiplePortions': dish.multiplePortions,
       'minOrder': this.minOrder,
       'minOrderString': this.minOrderString,
       'deliveryCost': this.deliveryCost,
       'deliveryCostString': this.deliveryCostString,
       'deliveryTime': this.deliveryTime
     }
-    this.order.placeOrder([order , false]);
+    this.order.placeOrder([order, false]);
   }
 
   openCustomizeDialog(dish) {
@@ -175,4 +161,6 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     dialogRef.componentInstance.deliveryCostString = this.deliveryCostString;
     dialogRef.componentInstance.deliveryTime = this.deliveryTime;
   }
+
+
 }

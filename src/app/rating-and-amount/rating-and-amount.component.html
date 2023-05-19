@@ -1,7 +1,7 @@
 <div class="orderAmount">
     <h2>Minimum order amount</h2>
-    <label class="amountChoice" *ngFor="let item of orderAmount">
-        <input id="{{ item.id }}" type="radio"  [(ngModel)]="choiceAmount" [value]="item.value" 
+    <label class="amountChoice" *ngFor="let item of orderAmount , let i = index">
+        <input id="{{ item.id }}" type="radio"  [checked]="i == 0" [value]="item.value" 
             name="orderAmount" (click)="changeOrderAmount(item.value)" >
         <span class="checkmark"></span>
         {{ item.label }}

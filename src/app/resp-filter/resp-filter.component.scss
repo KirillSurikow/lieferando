@@ -53,6 +53,12 @@
                 }
             }
 
+            @media(max-width:375px) {
+                .currentSelect {
+                    width: 220px;
+                }
+            }
+
             .options {
                 display: flex;
                 flex-direction: column;
@@ -85,5 +91,11 @@
         margin-top: 16px;
         cursor: pointer;
         color: blue;
+    }
+}
+
+@media(max-width:375px) {
+    .selectArea {
+        margin-top: 20px;
     }
 }

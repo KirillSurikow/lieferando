@@ -25,20 +25,10 @@
                 <mat-icon>search</mat-icon>
             </button>
             <div class="categoriesContainer">
-                <button mat-mini-fab *ngIf="adaptPanel" class="greyBackground">
-                    <mat-icon>arrow_backward_los</mat-icon>
-                </button>
-                <div class="staticPanel" id="staticPanel">
-                    <div class="shiftPanel" id="shiftPanel">
-                        <div *ngFor="let category of menu" class="category" (click)="scrollTo(category.categorykey)"
-                            [ngClass]="{'selected' : category.categorykey == currentCategory}">
-                            {{ category.categorykey }}
-                        </div>
-                    </div>
+                <div *ngFor="let category of menu" class="category" (click)="scrollTo(category.categorykey)"
+                    [ngClass]="{'selected' : category.categorykey == currentCategory}">
+                    {{ category.categorykey }}
                 </div>
-                <button mat-mini-fab *ngIf="adaptPanel" class="greyBackground">
-                    <mat-icon>arrow_forward_los</mat-icon>
-                </button>
             </div>
         </div>
         <div class="searchContainer" *ngIf="searchInterface">
@@ -56,7 +46,8 @@
                 <h3>{{ dish.dishName }}</h3>
                 <p>{{ dish.dishDescribtion }}</p>
                 <h3 class="priceTag">{{ dish.dishPriceAsString }}</h3>
-                <h3 *ngIf="dish.multiplePortions" class="priceTag">{{ dish.portionPrices[0]['portionPriceString'] }}</h3>
+                <h3 *ngIf="dish.multiplePortions" class="priceTag">{{ dish.portionPrices[0]['portionPriceString'] }}
+                </h3>
                 <button mat-mini-fab disabled>
                     <mat-icon>add</mat-icon>
                 </button>
@@ -65,3 +56,6 @@
     </div>
 </div>
 <app-basket></app-basket>
+<div class="respBasket">
+    <app-basket></app-basket> 
+</div>

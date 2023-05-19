@@ -31,7 +31,16 @@
       </button>
     </div>
   </div>
-
+  <mat-button-toggle-group class="respToggleGroup" name="fontStyle" aria-label="Font Style">
+    <mat-button-toggle checked (click)="deliver()" value="bold">
+      <mat-icon [ngClass]="{orange : delivery}" fontIcon="motorcycle"></mat-icon>
+      Delivery
+    </mat-button-toggle>
+    <mat-button-toggle (click)="pickUpFkt()" value="bold">
+      <mat-icon [ngClass]="{orange : pickUp}" fontIcon="pan_tool"></mat-icon>
+      Pick up
+    </mat-button-toggle>
+  </mat-button-toggle-group>
 </header>
 <router-outlet ></router-outlet>
 <app-scroll-top-button *ngIf="scrolled"></app-scroll-top-button>

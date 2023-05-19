@@ -9,17 +9,19 @@
         <img class="mainImage" mat-card-image src="{{ restaurant.backgroundImg }}">
         <mat-card-content>
             <mat-card-title>{{ restaurant.name }}</mat-card-title>
-            <div>
-                <img class="symbols" src="./../../assets/img/symbols/star.png">
-                {{ restaurant.rating }}
-                <img class="symbols" src="./../../assets/img/symbols/lock.png">
-                min. {{ restaurant.minOrderString }}
-            </div>
-            <div>
-                <img class="symbols" src="./../../assets/img/symbols/clock.png">
-                {{ restaurant.deliveryTime }} min
-                <img class="symbols" src="./../../assets/img/symbols/bike.png">
-                {{ restaurant.deliveryCostString }}
+            <div class="conditions">
+                <div>
+                    <img class="symbols" src="./../../assets/img/symbols/star.png">
+                    {{ restaurant.rating }}
+                    <img class="symbols" src="./../../assets/img/symbols/lock.png">
+                    min. {{ restaurant.minOrderString }}
+                </div>
+                <div>
+                    <img class="symbols" src="./../../assets/img/symbols/clock.png">
+                    {{ restaurant.deliveryTime }} min
+                    <img class="symbols" src="./../../assets/img/symbols/bike.png">
+                    {{ restaurant.deliveryCostString }}
+                </div>
             </div>
         </mat-card-content>
     </div>

@@ -8,6 +8,8 @@
         mat-button-toggle-group {
             display: flex;
             border: none;
+            max-width: 95%;
+            overflow-x: auto;
 
             .kitchenBtn {
                 margin-left: 3px;
