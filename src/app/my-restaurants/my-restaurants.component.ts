@@ -154,7 +154,6 @@ export class MyRestaurantsComponent implements OnInit {
   extractData(object: object) {
     let string = object['userData']['myRestaurants'];
     this.myRestaurants = JSON.parse(string);
-    console.log(this.myRestaurants)
   }
 
   subscribeToPublishID() {
@@ -610,16 +609,17 @@ export class MyRestaurantsComponent implements OnInit {
     this.menu[i]['categoryItem'].splice(j,1);
   }
 
-  deleteRestaurant(event , i){
-    event.stopPropagation();
+  deleteRestaurant($event , i){
+    $event.stopPropagation();
 
     const dialogRef = this.dialog.open(DialogDeleteRestaurantComponent, {
       width: '400px',
     })
 
     dialogRef.afterClosed().subscribe( result =>{
-      if(result){
+      if(result == true){
           this.myRestaurants.splice(i , 1)
+          this.prepareUpload();
       }
     })
   }

@@ -1,26 +1,30 @@
-.kitchens {
-    display: flex;
-    justify-content: center;
+:host {
+    padding-bottom: 16px;
 
-    mat-button-toggle-group {
+    .kitchens {
         display: flex;
-        border: none;
+        justify-content: center;
 
-        .kitchenBtn {
-            margin-left: 3px;
-            margin-right: 3px;
+        mat-button-toggle-group {
+            display: flex;
             border: none;
-            border-radius: 25px;
-            text-align: center;
 
-            &:first-child{
-                width: 35px;
+            .kitchenBtn {
+                margin-left: 3px;
+                margin-right: 3px;
+                border: none;
+                border-radius: 25px;
+                text-align: center;
+
+                &:first-child {
+                    width: 35px;
+                }
             }
-        }
 
-        .mat-button-toggle-checked {
-            color: white;
-            background-color: black;
+            .mat-button-toggle-checked {
+                color: white;
+                background-color: black;
+            }
         }
     }
 }

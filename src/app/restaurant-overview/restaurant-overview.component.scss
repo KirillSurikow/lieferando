@@ -5,12 +5,58 @@
     background-color: rgba(210, 206, 206, 0.1);
     padding-bottom: 20px;
     padding-right: 8px;
-    
-    div{
+    padding-left: 8px;
+    min-height: 100vh;
+
+    .listAndRating {
         display: flex;
-        flex-direction: row
-    };
+        flex-direction: row;
+    }
+
+    .respMenu{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: 50px;
+        width: 100%;
+        display: none;
+        z-index: 2;
+        background-color: white;
+        border-top: 2px solid grey;
+
+        .button{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50%;
+        }
+
+    }
+
+
+
+    @media(max-width : 880px) {
+        .originalSearch {
+            display: none;
+        }
+
+        .listAndRating {
+            width: 100%;
+        }
+
+
+        app-restaurant-list {
+            width: 100%;
+            padding-bottom: 60px;
+        }
+
+        .originalRatAndAmount {
+            display: none;
+        }
+
+        .respMenu{
+            display: flex;
+        }
+
+    }
 }
-
-
-

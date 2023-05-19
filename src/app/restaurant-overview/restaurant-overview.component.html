@@ -1,6 +1,20 @@
 <app-kitchen-filter></app-kitchen-filter>
-<app-search></app-search>
-<div>
-    <app-rating-and-amount></app-rating-and-amount>
+<app-search class="originalSearch"></app-search>
+<div class="listAndRating">
+    <app-rating-and-amount class="originalRatAndAmount"></app-rating-and-amount>
     <app-restaurant-list></app-restaurant-list>
 </div>
+<div class="respMenu">
+    <div class="button">
+        <mat-icon (click)="openFilter()">
+            tune
+        </mat-icon>
+    </div>
+    <div class="button">
+        <mat-icon (click)="openSearch()">
+            search
+        </mat-icon>
+    </div>
+</div>
+<app-resp-search *ngIf="searchActive" @slideUpIn @slideDownOut></app-resp-search>
+<app-resp-filter *ngIf="filterActive" @slideUpIn @slideDownOut></app-resp-filter>

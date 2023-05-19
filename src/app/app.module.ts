@@ -43,6 +43,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DialogCheckoutComponent } from './dialog-checkout/dialog-checkout.component';
 import { KitchenFilterComponent } from './kitchen-filter/kitchen-filter.component';
 import { DialogDeleteRestaurantComponent } from './dialog-delete-restaurant/dialog-delete-restaurant.component';
+import { RespSearchComponent } from './resp-search/resp-search.component';
+import { RespFilterComponent } from './resp-filter/resp-filter.component';
 
 
 
@@ -69,6 +71,8 @@ import { DialogDeleteRestaurantComponent } from './dialog-delete-restaurant/dial
     DialogCheckoutComponent,
     KitchenFilterComponent,
     DialogDeleteRestaurantComponent,
+    RespSearchComponent,
+    RespFilterComponent,
   ],
   imports: [
     BrowserModule,

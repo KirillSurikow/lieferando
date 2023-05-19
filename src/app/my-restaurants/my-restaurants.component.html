@@ -8,7 +8,7 @@
     <div class="myRestaurants" *ngFor="let rest of myRestaurants; let i = index" >
         <div class="restaurantSlot" @slideLeftOut @slideRightIn *ngIf="overview" (click)="showDetails(i)">
             {{ rest.name }}
-            <mat-icon (click)="deleteRestaurant(event , i)">delete</mat-icon>
+            <mat-icon (click)="deleteRestaurant($event , i)">delete</mat-icon>
         </div>
 
         <!-- <img src="./../../assets/img/restaurants/american.jpg" alt="">

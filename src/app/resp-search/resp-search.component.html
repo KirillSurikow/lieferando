@@ -1,0 +1,27 @@
+<div class="searchContainer">
+    <mat-icon (click)="closeSearch()">arrow_back</mat-icon>
+    <input placeholder="Search for a Restaurant" type="text" (keyup)="searchRestaurant()" [(ngModel)]="search">
+</div>
+<mat-card *ngFor="let restaurant of restaurantS; let i = index" (click)="goToRestaurant(i)" class="mainCard">
+    <div class="structuralContainer" *ngIf="includesSearch(restaurant)">
+        <div class="logoCard">
+            <img class="logos" src="{{ restaurant.logoImg }}" alt="">
+        </div>
+        <img class="mainImage" mat-card-image src="{{ restaurant.backgroundImg }}">
+        <mat-card-content>
+            <mat-card-title>{{ restaurant.name }}</mat-card-title>
+            <div>
+                <img class="symbols" src="./../../assets/img/symbols/star.png">
+                {{ restaurant.rating }}
+                <img class="symbols" src="./../../assets/img/symbols/lock.png">
+                min. {{ restaurant.minOrderString }}
+            </div>
+            <div>
+                <img class="symbols" src="./../../assets/img/symbols/clock.png">
+                {{ restaurant.deliveryTime }} min
+                <img class="symbols" src="./../../assets/img/symbols/bike.png">
+                {{ restaurant.deliveryCostString }}
+            </div>
+        </mat-card-content>
+    </div>
+</mat-card>

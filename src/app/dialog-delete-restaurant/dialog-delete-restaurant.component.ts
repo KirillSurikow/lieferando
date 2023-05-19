@@ -10,10 +10,10 @@ export class DialogDeleteRestaurantComponent {
   constructor(private dialog: MatDialogRef<DialogDeleteRestaurantComponent>) { }
 
   deleteRestaurant() {
-    this.dialog.close([true])
+    this.dialog.close(true)
   }
 
   dontDeleteRestaurant() {
-    this.dialog.close([false])
+    this.dialog.close(false)
   }
 }
