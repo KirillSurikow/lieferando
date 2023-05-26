@@ -14,9 +14,10 @@ export class Order {
   pickedPortionNr: any = 0;
   placed: boolean;
   dishCopy: object;
+  pickedExtrasText : string = "";
 
   constructor(obj) {
-    // console.log(obj)
+    console.log(obj)
     if (obj.amount) {
       this.amount = obj.amount;
     } else {
@@ -27,6 +28,7 @@ export class Order {
     this.dishCategory = obj.dishCategory;
     this.dishExtras = obj.dishExtras;
     this.singlePrice = obj.dishPrice;
+
     if(!obj.dishPrice){
       this.singlePrice = obj.singlePrice;
     }
@@ -81,24 +83,28 @@ export class Order {
     return currency
   }
 
-
-  // returnPortion(): any {
-  //   if (this.dishPortions.length == 0) {
-  //     return "";
-  //   } else {
-  //     return this.dishPortions[this.pickedPortionNr];
-  //   }
-  // }
-
   returnPortionNr() {
     if (this.portionPrices) {
-      return this.pickedPortionNr;
+      let nr = parseInt(this.pickedPortionNr)
+      return nr;
     } else {
-      return "";
+      return null;
     }
   }
 
   returnSinglePrice() {
     return this.orderPrice / this.amount;
+  }
+
+  returnDescribtion() : any {
+    let pickedExtrasText = '';
+    for (let i = 0; i < this.dishExtras.length; i++) {
+      let extra = this.dishExtras[i];
+      if (extra.picked) {
+        pickedExtrasText += `${extra.extraName}, `
+      }
+    }
+    pickedExtrasText = pickedExtrasText.slice(0, -2);
+    return pickedExtrasText;
   }
 }

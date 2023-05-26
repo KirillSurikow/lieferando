@@ -4,21 +4,14 @@
     </h2>
     <mat-icon (click)="return()">arrow_back</mat-icon>
 </div>
-
 <div class="inputs">
-    <div class="inputColumn">
-        <div>
-            <p>Name of the restaurant:</p>
+    <div class="inputRows">
+        <div class="inputCells">
+            <div class="label">Choose a name</div>
             <input type="text" placeholder="restaurant's name" [(ngModel)]="name">
         </div>
-        <div>
-            <p>Select a thumbnail</p>
-            <input type="text" placeholder="path for your thumbnail" [(ngModel)]="backgroundImg">
-        </div>
-    </div>
-    <div class="inputColumn">
-        <div>
-            <p>Which category?</p>
+        <div class="inputCells">
+            <div class="label">Choose a category</div>
             <select name="kitchen" id="kitchen" [(ngModel)]="category">
                 <option style="display: none;" value="" disabled selected>Choose a kitchen</option>
                 <option value="italian">italian</option>
@@ -29,9 +22,29 @@
                 <option value="thai">thai</option>
             </select>
         </div>
-        <div>
-            <p>Select a logo</p>
-            <input type="text" placeholder="path for your logo" [(ngModel)]="logoImg">
+    </div>
+    <div class="inputRows">
+        <div class="inputCells">
+            <div class="label">Pick a logo</div>
+            <div class="dragContainer" appDragDrop (fileDropped)="uploadLogo($event)" (click)="logoInput.click()">
+                <mat-icon>cloud_upload</mat-icon>
+                <div *ngIf="logoImg" class="uploadedFile">
+                    <span>{{ logoImg }}</span>
+                    <mat-icon (click)="removeLogo($event)">delete</mat-icon>
+                </div>
+                <input type="file" hidden #logoInput (change)="uploadLogo($event.target.files)">
+            </div>
+        </div>
+        <div class="inputCells">
+            <div class="label">Pick a background theme</div>
+            <div class="dragContainer" appDragDrop (fileDropped)="uploadTheme($event)" (click)="backgroundInput.click()">
+                <mat-icon>cloud_upload</mat-icon>
+                <div *ngIf="backgroundImg" class="uploadedFile">
+                    <span>{{ backgroundImg }}</span>
+                    <mat-icon (click)="removeBackground($event)">delete</mat-icon>
+                </div>
+                <input type="file" #backgroundInput hidden (change)="uploadTheme($event.target.files)">
+            </div>
         </div>
     </div>
 </div>
@@ -40,4 +53,3 @@
         Next
     </button>
 </div>
-

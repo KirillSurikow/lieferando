@@ -63,8 +63,10 @@ export class RestaurantMenuComponent implements OnInit {
   publishID: string;
   name: string = "";
   backgroundImg: string = "";
+  backgroundImgURL : string;
   category: string[] = [];
   logoImg: string = "";
+  logoImgURL: string = "";
   rating: number;
   deliveryCost: number;
   deliveryCostString: string;
@@ -89,18 +91,21 @@ export class RestaurantMenuComponent implements OnInit {
   portionPrice: number;
 
   constructor(private route: ActivatedRoute,
-    private currency: CurrencyService,
     private gfs: Firestore,
     private firestore: FirebaseService,
     private curr: CurrencyService,
     public dialog: MatDialog,
-    private router : Router) {
+    private router: Router) {
   }
 
   ngOnInit(): void {
+    this.organizingUserData();
+    console.log(typeof this.myRestaurants)
+  }
+
+  organizingUserData() {
     this.userID = localStorage.getItem('userId');
     this.getUserData(this.userID);
-    console.log(typeof this.myRestaurants)
   }
 
   async getUserData(userID: string) {
@@ -122,6 +127,8 @@ export class RestaurantMenuComponent implements OnInit {
     this.publishID = this.restaurantNew['publishID'];
     this.name = this.restaurantNew['name'];
     this.backgroundImg = this.restaurantNew['backgroundImg'];
+    this.backgroundImgURL = this.restaurantNew['backgroundImgURL'];
+    this.logoImgURL = this.restaurantNew['logoImgURL'];
     this.category = this.restaurantNew['category'];
     this.logoImg = this.restaurantNew['logoImg'];
     this.rating = this.restaurantNew['rating'];
@@ -142,7 +149,15 @@ export class RestaurantMenuComponent implements OnInit {
   }
 
   addDish() {
-    let dish = {
+    let dish = this.returnDish()
+    this.menuUnsorted.push(dish);
+    this.initSortMenu();
+    this.updateDatalist();
+    this.clearInputs();
+  }
+
+  returnDish() {
+    return {
       "dishCategory": this.dishCategory,
       "dishName": this.dishName,
       "dishPrice": this.findDishPrice(),
@@ -153,11 +168,6 @@ export class RestaurantMenuComponent implements OnInit {
       "multiplePortions": this.multiplePortions,
       "placed": false
     }
-
-    this.menuUnsorted.push(dish);
-    this.initSortMenu();
-    this.updateDatalist();
-    this.clearInputs();
   }
 
   findDishPrice(): any {
@@ -198,22 +208,29 @@ export class RestaurantMenuComponent implements OnInit {
     }
   }
 
-  updateDatalist() {
-    this.categoryList = this.menuUnsorted.map(item => item.dishCategory)
-      .filter((value, index, self) => self.indexOf(value) === index)
-  }
-
+  /**
+   * the menu is sorted in various steps
+   * 
+   */
   initSortMenu() {
     this.groupDishes()
     this.convertToArray()
   }
 
+  /**
+   * first dhe dishes are grouped by category, but the result is an object
+   * 
+   */
   groupDishes() {
     this.menuObj = this.menuUnsorted.groupBy((dish) => {
       return dish.dishCategory
     })
   }
 
+  /**
+   * the second step of sorting, puts converts the object to an array
+   * 
+   */
   convertToArray() {
     let item = {}
     let secondConvert = [];
@@ -229,6 +246,11 @@ export class RestaurantMenuComponent implements OnInit {
       secondConvert.push(item)
       this.menu = secondConvert;
     }
+  }
+
+  updateDatalist() {
+    this.categoryList = this.menuUnsorted.map(item => item.dishCategory)
+      .filter((value, index, self) => self.indexOf(value) === index)
   }
 
   convertToString(number: number) {
@@ -250,95 +272,14 @@ export class RestaurantMenuComponent implements OnInit {
     this.allPortions = [];
   }
 
-  showEditName(i: number, j: number) {
-    let label = document.getElementById(`${i}${j}dishNameLabel`);
-    let input = document.getElementById(`${i}${j}dishName`);
-    let btn = document.getElementById(`${i}${j}dishBtn`);
-    label.style.display = 'none';
-    input.style.display = 'flex';
-    btn.style.display = 'flex';
-  }
-
-  showEditPrice(i: number, j: number) {
-    let label = document.getElementById(`${i}${j}dishPriceLabel`);
-    let input = document.getElementById(`${i}${j}dishPrice`);
-    let btn = document.getElementById(`${i}${j}dishBtn`);
-    label.style.display = 'none';
-    input.style.display = 'flex';
-    btn.style.display = 'flex';
-  }
-
-  showEditDescribtion(i: number, j: number) {
-    let label = document.getElementById(`${i}${j}dishDescribtionLabel`);
-    let input = document.getElementById(`${i}${j}dishDescribtion`);
-    let btn = document.getElementById(`${i}${j}dishBtn`);
-    label.style.display = 'none';
-    input.style.display = 'flex';
-    btn.style.display = 'flex';
-  }
-
-  updateDish(i: number, j: number) {
-    this.reverseLayout(i, j);
-    this.changeValues(i, j);
-  }
-
-  changeValues(i: number, j: number) {
-    let newName = (<HTMLInputElement>document.getElementById(`${i}${j}dishName`)).value;
-    let newPrice = (<HTMLInputElement>document.getElementById(`${i}${j}dishPrice`)).value;
-    let newDescribtion = (<HTMLInputElement>document.getElementById(`${i}${j}dishDescribtion`)).value
-    this.menu[i]['categoryItem'][j]['dishName'] = newName;
-    this.menu[i]['categoryItem'][j]['dishPrice'] = newPrice;
-    this.menu[i]['categoryItem'][j]['dishPriceAsString'] = this.returnCurrency(newPrice);
-    this.menu[i]['categoryItem'][j]['dishDescribtion'] = newDescribtion;
-  }
-
-  returnCurrency(value: string) {
-    let number = Number(value);
-    let currency = number.toLocaleString('de-DE', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 2
-    });
-    return currency
-  }
-
-  reverseLayout(i: number, j: number) {
-    this.reverseName(i, j);
-    this.reverseDescribtion(i, j);
-    this.reversePrice(i, j);
-    this.reverseBtn(i, j)
-  }
-
-  reverseName(i: number, j: number) {
-    let labelName = document.getElementById(`${i}${j}dishNameLabel`);
-    let inputName = document.getElementById(`${i}${j}dishName`);
-    labelName.style.display = 'flex';
-    inputName.style.display = 'none';
-  }
-  reverseDescribtion(i: number, j: number) {
-    let labelDescribtion = document.getElementById(`${i}${j}dishDescribtionLabel`);
-    let inputDescribtion = document.getElementById(`${i}${j}dishDescribtion`);
-    labelDescribtion.style.display = 'flex';
-    inputDescribtion.style.display = 'none';
-  }
-  reversePrice(i: number, j: number) {
-    let labelPrice = document.getElementById(`${i}${j}dishPriceLabel`);
-    let inputPrice = document.getElementById(`${i}${j}dishPrice`);
-    labelPrice.style.display = 'flex';
-    inputPrice.style.display = 'none';
-  }
-
-  reverseBtn(i: number, j: number) {
-    let btn = document.getElementById(`${i}${j}dishBtn`);
-    btn.style.display = 'none';
-  }
-
   createJSON() {
     return {
       name: this.name,
       category: this.category,
       backgroundImg: this.backgroundImg,
       logoImg: this.logoImg,
+      backgroundImgURL: this.backgroundImgURL,
+      logoImgURL: this.logoImgURL,
       rating: this.rating,
       deliveryCost: this.deliveryCost,
       deliveryCostString: this.curr.returnCurrency(this.deliveryCost),
@@ -373,6 +314,12 @@ export class RestaurantMenuComponent implements OnInit {
     await this.firestore.uploadChange(this.userID, object);
   }
 
+  /**
+   * function already documented at myRestaurants
+   * 
+   * @param category 
+   * @param index 
+   */
   openExtrasDialog(category: object, index: number) {
     const dialogRef = this.dialog.open(DialogCreateExtrasComponent, {
       width: '600px',
@@ -410,7 +357,13 @@ export class RestaurantMenuComponent implements OnInit {
     this.allPortions.splice(i, 1)
   }
 
-
+/**
+ * function already documented at myRestaurants
+ * 
+ * @param category 
+ * @param index 
+ * @param dish 
+ */
   openDishEditor(category, index, dish) {
     const dialogRef = this.dialog.open(DialogEditDishComponent, {
       width: '700px',

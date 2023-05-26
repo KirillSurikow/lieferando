@@ -5,10 +5,11 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class DirectionService {
 
-
+  registrationEmitter = new EventEmitter<boolean>();
   hideEmitter = new EventEmitter<boolean>();
   closeSearchEmitte = new EventEmitter<boolean>();
   closeFilterEmitter = new EventEmitter<boolean>();
+  closeBaketEmitter = new EventEmitter<any>();
 
   constructor() { }
   
@@ -23,4 +24,14 @@ export class DirectionService {
   closeFilter(){
     this.closeFilterEmitter.emit(false);
   }
+
+  changeHeader(status){
+    this.registrationEmitter.emit(status)
+  }
+
+  closeRespBasket(){
+    this.closeBaketEmitter.emit()
+  }
+
+  
 }

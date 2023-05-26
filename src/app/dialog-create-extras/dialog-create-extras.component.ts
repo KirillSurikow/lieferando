@@ -21,6 +21,10 @@ export class DialogCreateExtrasComponent implements OnInit {
 
 
   ngOnInit(): void {
+     this.organizingLayout();
+  }
+
+  organizingLayout(){
     this.categoryName = this.currentCategory['categorykey']
     this.allExtras = this.currentCategory['categoryItem'][0]['dishExtras']
   }

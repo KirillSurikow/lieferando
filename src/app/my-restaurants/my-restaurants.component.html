@@ -10,16 +10,13 @@
             {{ rest.name }}
             <mat-icon (click)="deleteRestaurant($event , i)">delete</mat-icon>
         </div>
-
-        <!-- <img src="./../../assets/img/restaurants/american.jpg" alt="">
-        <img src="./../../assets/img/restaurantLogos/bull.png" alt=""> -->
     </div>
 
     <mat-card class="mainCard" [ngClass]="{'gradient': uploading}" @slideLeftIn @slideRightOut *ngIf="detailedView">
         <div class="logoCard">
-            <img class="logos" src="{{ logoImg }}" alt="" (click)="changeLogo()">
+            <img class="logos" src="{{ logoImgURL }}" alt="" (click)="changeLogo()">
         </div>
-        <img class="mainImage" mat-card-image src="{{ backgroundImg }}" (click)="changeImg()">
+        <img class="mainImage" mat-card-image src="{{ backgroundImgURL }}" (click)="changeImg()">
         <mat-card-content>
             <div *ngIf="!changingName && !changingImg && !changingLogo && !editActive" class="contentContainer">
                 <mat-card-title (click)="changeName()">{{name }}</mat-card-title>
@@ -47,8 +44,24 @@
             <div class="editDescribtion" *ngIf="changingName || changingImg || changingLogo" @slideLeftIn
                 @slideRightOut>
                 <input type="text" *ngIf="changingName" [(ngModel)]="copyName">
-                <input type="text" *ngIf="changingImg" [(ngModel)]="copyImg">
-                <input type="text" *ngIf="changingLogo" [(ngModel)]="copyLogo">
+                <!-- <input type="text"  [(ngModel)]="copyImg"> -->
+                <div class="dragContainer"  *ngIf="changingImg" appDragDrop (fileDropped)="uploadTheme($event)" (click)="backgroundInput.click()">
+                    <mat-icon>cloud_upload</mat-icon>
+                    <div *ngIf="backgroundImg" class="uploadedFile">
+                        <span>{{ backgroundImg }}</span>
+                        <mat-icon (click)="removeBackground($event)">delete</mat-icon>
+                    </div>
+                    <input type="file" #backgroundInput hidden (change)="uploadTheme($event.target.files)">
+                </div>
+                <!-- <input type="text"  [(ngModel)]="copyLogo"> -->
+                <div class="dragContainer" *ngIf="changingLogo" appDragDrop (fileDropped)="uploadLogo($event)" (click)="logoInput.click()">
+                    <mat-icon>cloud_upload</mat-icon>
+                    <div *ngIf="logoImg" class="uploadedFile">
+                        <span>{{ logoImg }}</span>
+                        <mat-icon (click)="removeLogo($event)">delete</mat-icon>
+                    </div>
+                    <input type="file" hidden #logoInput (change)="uploadLogo($event.target.files)">
+                </div>
                 <button (click)="saveChanges()" class="checkBtn orangeBG">
                     <mat-icon fontIcon="done"></mat-icon>
                 </button>

@@ -10,7 +10,7 @@
         align-items: center;
         width: 100%;
         margin-bottom: 20px;
-        padding : 0px 50px;
+        padding: 0px 50px;
 
         div {
             display: flex;
@@ -25,6 +25,19 @@
                 right: 27px;
                 cursor: pointer;
                 margin-top: unset !important;
+            }
+        }
+    }
+
+    @media (max-width:500px) {
+        .headLine {
+            align-items: flex-start;
+            padding: 0;
+
+            div {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
             }
         }
     }
@@ -108,6 +121,17 @@
 
         }
 
+        @media(max-width :760px) {
+            .dishAttribute {
+                width: 100%;
+
+                input,
+                textarea {
+                    width: 100%;
+                }
+            }
+        }
+
         .priceAndPortion {
             display: flex;
             align-items: center;
@@ -170,6 +194,29 @@
                 }
             }
 
+            @media(max-width : 760px) {
+                .portionManager {
+                    width: 100%;
+
+                    div {
+                        width: 100%;
+
+                        input {
+                            width: calc(100% - 7px);
+                        }
+                    }
+
+                    .marginR7 {
+                        margin: 0;
+                        width: 100%;
+
+                        input {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+
             .labelAndInput {
                 display: flex;
                 flex-direction: column;
@@ -222,6 +269,8 @@
                 }
             }
 
+
+
             .toggleContainer {
                 display: flex;
                 align-items: center;
@@ -263,6 +312,54 @@
                 .activeToggleBar {
                     background-color: #f36805 !important;
                 }
+            }
+        }
+
+        @media(max-width :760px) {
+            .priceAndPortion {
+                width: 100%;
+
+                .labelAndInput {
+                    width: 100%;
+
+                    div {
+                        input {
+                            width: calc(100% - 7px);
+                        }
+                    }
+                }
+            }
+        }
+
+        @media (max-width : 440px) {
+            .priceAndPortion {
+                width: 100%;
+
+                .labelAndInput {
+                    width: 100%;
+
+                    input {
+                        width: 100%;
+                    }
+                }
+
+                .portionManager {
+                    width: 100%;
+
+                    div {
+                        width: 100%;
+
+                        input {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+
+        @media(max-width : 670px) {
+            .priceAndPortion {
+                flex-direction: column;
             }
         }
     }

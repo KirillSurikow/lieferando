@@ -44,9 +44,17 @@ export class RestaurantOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.restaurantOV = this.allRestaurants.allRestaurants;
+    this.installingKitchenFilter()
+    this.installingFilterAndSearchEmitter()
+  }
+
+  installingKitchenFilter() {
     this.filter.kitchenFilterEmitter.subscribe((choice) => {
       this.kitchenChoice = choice;
     });
+  }
+
+  installingFilterAndSearchEmitter() {
     this.direction.closeSearchEmitte.subscribe((result) => {
       this.searchActive = result;
     });
@@ -64,7 +72,7 @@ export class RestaurantOverviewComponent implements OnInit {
     document.body.style.overflowY = "hidden";
   }
 
-  openFilter(){
+  openFilter() {
     this.filterActive = true;
     document.body.style.overflowY = "hidden";
   }

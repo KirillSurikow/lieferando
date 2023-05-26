@@ -17,8 +17,10 @@ export class RestaurantConditionComponent implements OnInit {
   publishID: string;
   name: string = "";
   backgroundImg: string = "";
+  backgroundImgURL : string;
   category: string[] = [];
   logoImg: string = "";
+  logoImgURL : string;
   rating: number;
   minOrder: number;
   minOrderString: string;
@@ -37,6 +39,10 @@ export class RestaurantConditionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.organizingUserData();
+  }
+
+  organizingUserData() {
     this.userID = localStorage.getItem('userId');
     this.getUserData(this.userID);
   }
@@ -46,17 +52,23 @@ export class RestaurantConditionComponent implements OnInit {
     const docSnap = await getDoc(docRef);
     let fetchedObject = docSnap.data();
     let testObj = fetchedObject['userData']['currRest'];
-    if(testObj.length > 0){
+    if (testObj.length > 0) {
       this.extractData(fetchedObject);
     }
   }
 
+  /**
+   * extract data from fetched object
+   * 
+   */
   extractData(object: object) {
     let string = object['userData']['currRest'];
     this.restaurantNew = JSON.parse(string);
     this.publishID = this.restaurantNew['publishID'];
     this.name = this.restaurantNew['name'];
     this.backgroundImg = this.restaurantNew['backgroundImg'];
+    this.backgroundImgURL = this.restaurantNew['backgroundImgURL'];
+    this.logoImgURL = this.restaurantNew['logoImgURL'];
     this.category = this.restaurantNew['category'];
     this.logoImg = this.restaurantNew['logoImg'];
     this.rating = this.restaurantNew['rating'];
@@ -74,6 +86,8 @@ export class RestaurantConditionComponent implements OnInit {
       category: this.category,
       backgroundImg: this.backgroundImg,
       logoImg: this.logoImg,
+      backgroundImgURL: this.backgroundImgURL,
+      logoImgURL: this.logoImgURL,
       rating: this.rating,
       deliveryCost: this.deliveryCost,
       deliveryCostString: this.curr.returnCurrency(this.deliveryCost),
@@ -84,6 +98,10 @@ export class RestaurantConditionComponent implements OnInit {
     }
   }
 
+  /**
+   * data from developing restaurant collected in a json, transfered to an object and uploaded
+   * 
+   */
   async saveData() {
     let json = this.createJSON();
     this.upDatedRes = new Restaurant(json);

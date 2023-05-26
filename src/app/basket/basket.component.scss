@@ -3,6 +3,12 @@
     padding: 8px;
     flex: 1;
 
+    .backArrow {
+        position: absolute;
+        left: 4px;
+        top: 8px;
+        margin-top: 0 !important;
+    }
 
     .stickyContainer {
         top: 0;
@@ -149,6 +155,20 @@
                 border: none;
                 margin-top: 16px;
             }
+        }
+    }
+}
+
+@media(max-width: 880px) {
+    :host {
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        height: 100vh;
+
+        .stickyContainer {
+            width: 90%;
+            height: 100%;
         }
     }
 }

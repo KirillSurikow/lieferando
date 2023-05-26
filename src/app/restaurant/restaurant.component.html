@@ -1,8 +1,8 @@
 <div class="content">
     <div class="imgContainer">
-        <img class="backgroundImg" src="{{ backgroundImg }}" alt="">
+        <img class="backgroundImg" src="{{ backgroundImgURL }}" alt="">
         <div class="logoCard">
-            <img src="{{ logoImg }}" alt="" class="logImg">
+            <img src="{{ logoImgURL }}" alt="" class="logImg">
         </div>
     </div>
     <div class="headArea">
@@ -55,7 +55,10 @@
         </div>
     </div>
 </div>
-<app-basket></app-basket>
-<div class="respBasket">
-    <app-basket></app-basket> 
+<button (click)="showBasket()" *ngIf="basketFilled" class="showBasket">
+    Show basket
+</button>
+<app-basket id="originalBasket"></app-basket>
+<div id="respBasket" class="d-none">
+    <app-basket></app-basket>
 </div>

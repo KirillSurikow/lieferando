@@ -1,3 +1,6 @@
+<mat-icon (click)="closeBasket()" class="backArrow">
+    arrow_back
+</mat-icon>
 <div class="stickyContainer">
     <h2>Basket</h2>
     <div *ngIf="allOrders.length == 0">
@@ -15,16 +18,8 @@
                     </div>
                     <div class="nameAndDescr">
                         <div class="name" (click)="changeOrder(order ,i)">{{ order.dishName }}</div>
-                        <div class="describtion">{{ order.portion }}
-                            <span *ngIf="allOrders[i]['dishExtras'].length !== 0">
-                                ,
-                            </span>
-                            <span *ngFor="let extra of allOrders[i]['dishExtras'] let j = index">
-                                {{ extra.extraName }}
-                                <span *ngIf="j <= allOrders[i]['dishExtras'].length">
-                                    ,
-                                </span>
-                            </span>
+                        <div class="describtion">{{ order.portionPrices[order.pickedPortionNr].portionTag }}
+                            <span>{{ order.pickedExtrasText }}</span>
                         </div>
                     </div>
                 </div>
@@ -53,7 +48,7 @@
                 {{ minOrderDiffString }}
             </div>
         </div>
-        <div *ngIf="!minOrderReached"  class="minOrder">
+        <div *ngIf="!minOrderReached" class="minOrder">
             Unfortunately you can't order yet. The minimum order value is {{ minOrderString }}.
         </div>
         <div class="bill">
@@ -70,7 +65,8 @@
                 <div>{{ totalString }}</div>
             </div>
         </div>
-        <button (click)="checkOut()" class="payBtn" [ngClass]="{'active' : minOrderReached , 'inActive' : !minOrderReached}">
+        <button (click)="checkOut()" class="payBtn"
+            [ngClass]="{'active' : minOrderReached , 'inActive' : !minOrderReached}">
             Pay {{ totalString }}
         </button>
     </div>

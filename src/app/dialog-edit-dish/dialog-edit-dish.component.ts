@@ -68,6 +68,14 @@ export class DialogEditDishComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<DialogEditDishComponent>, private curr: CurrencyService) { }
 
   ngOnInit(): void {
+    this.preparingData()
+  }
+  
+  /**
+   * assigning the dish's data to the mask
+   * 
+   */
+  preparingData() {
     this.dishCategory = this.dish['dishCategory'];
     this.dishName = this.dish['dishName'];
     this.dishDescribtion = this.dish['dishDescribtion'];
@@ -81,6 +89,10 @@ export class DialogEditDishComponent implements OnInit {
     }
   }
 
+  /**
+   * a dish can have multiple portions or just a single one
+   * 
+   */
   togglePortion() {
     if (this.multiplePortions == true)
       this.multiplePortions = false
@@ -88,6 +100,10 @@ export class DialogEditDishComponent implements OnInit {
       this.multiplePortions = true
   }
 
+  /**
+   * adding portions to a dish
+   * 
+   */
   addPortion() {
     let item = {
       portionTag: this.portionTag,
@@ -98,6 +114,9 @@ export class DialogEditDishComponent implements OnInit {
     this.allPortions = this.allPortions.sort((a, b) => a.portionPrice - b.portionPrice);
   }
 
+  /**
+   * preparing a json holding the dish's data
+   */
   saveChanges() {
     let dish = {
       'dishCategory': this.dishCategory,
@@ -108,11 +127,16 @@ export class DialogEditDishComponent implements OnInit {
       "portionPrices": this.findPortionPrices(),
       "dishExtras": this.dishExtras,
       "multiplePortions": this.multiplePortions,
-      "placed" : false
+      "placed": false
     }
     this.dialogRef.close([dish, this.index, this.category])
   }
 
+  /**
+   * there is a differentiation concerning the dishPrice if there are multiple portions
+   * 
+   * @returns number
+   */
   findDishPrice(): any {
     if (!this.multiplePortions) {
       return this.dishPrice;
@@ -121,6 +145,11 @@ export class DialogEditDishComponent implements OnInit {
     }
   }
 
+    /**
+   * there is a differentiation concerning the dishPrice if there are multiple portions
+   * 
+   * @returns string
+   */
   findDishPriceString(): any {
     if (!this.multiplePortions) {
       return this.curr.returnCurrency(this.dishPrice);
@@ -129,6 +158,11 @@ export class DialogEditDishComponent implements OnInit {
     }
   }
 
+      /**
+   * there is a differentiation concerning the dishPrice if there are multiple portions
+   * 
+   * @returns object
+   */
   findPortionPrices(): any {
     if (this.multiplePortions) {
       return this.allPortions;

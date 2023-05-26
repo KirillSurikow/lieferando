@@ -9,7 +9,7 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    overflow-x:hidden;
+    overflow-x: hidden;
 }
 
 .orange {
@@ -21,20 +21,25 @@ body {
     background-color: #f36805 !important;
 }
 
-.greyBackground{
-    background-color: rgba(0, 0, 0,0.6) !important;
+.greyBackground {
+    background-color: rgba(0, 0, 0, 0.6) !important;
 }
 
-.createExtras{
+.createExtras {
     background-color: blue;
 }
 
-.d-none{
+.d-none {
     display: none
 }
 
-.marginR7{
+.marginR7 {
     margin-right: 7px
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: rgba(243, 104, 5, 0.6);
+    width: 10px
 }
 
 

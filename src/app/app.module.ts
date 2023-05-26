@@ -45,6 +45,9 @@ import { KitchenFilterComponent } from './kitchen-filter/kitchen-filter.componen
 import { DialogDeleteRestaurantComponent } from './dialog-delete-restaurant/dialog-delete-restaurant.component';
 import { RespSearchComponent } from './resp-search/resp-search.component';
 import { RespFilterComponent } from './resp-filter/resp-filter.component';
+import { DragDropDirective } from './directives/drag-drop.directive';
+import { getStorage, provideStorage } from '@angular/fire/storage';
+
 
 
 
@@ -74,6 +77,8 @@ import { RespFilterComponent } from './resp-filter/resp-filter.component';
     DialogDeleteRestaurantComponent,
     RespSearchComponent,
     RespFilterComponent,
+    DragDropDirective,
+   
  
   ],
   imports: [
@@ -94,6 +99,7 @@ import { RespFilterComponent } from './resp-filter/resp-filter.component';
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
     MatSlideToggleModule,
     NgSelectModule,
   ],

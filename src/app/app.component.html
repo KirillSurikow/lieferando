@@ -1,4 +1,4 @@
-<header>
+<header *ngIf="doActive">
   <div class="main">
     <div routerLink="/" (click)="resetHeader()" class="logo">
       <img src="./../assets/img/logo/pizza-deliver.png" alt="">
@@ -41,6 +41,25 @@
       Pick up
     </mat-button-toggle>
   </mat-button-toggle-group>
+</header>
+<header *ngIf="!doActive" class="registHeader">
+  <div class="registMain">
+    <div routerLink="/" (click)="resetHeader()" class="registerLogo">
+      <img src="./../assets/img/logo/pizza-deliver.png" alt="">
+    </div>
+    <div class="settings">
+      <button [matMenuTriggerFor]="menu" class="langBtn">
+        <img [src]="lang">
+      </button>
+      <mat-menu #menu="matMenu">
+        <button  mat-menu-item (click)="changeLanguage('german')">deutsch <img class="flags" src="./../assets/img/languages/germany.png"></button>
+        <button  mat-menu-item (click)="changeLanguage('english')">english <img class="flags" src="./../assets/img/languages/united-kingdom.png"></button>
+      </mat-menu>
+      <button (click)="openDialog()" class="menuBtn">
+        <mat-icon fontIcon="menu"></mat-icon>
+      </button>
+    </div>
+  </div>
 </header>
 <router-outlet ></router-outlet>
 <app-scroll-top-button *ngIf="scrolled"></app-scroll-top-button>

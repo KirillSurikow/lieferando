@@ -5,9 +5,13 @@
     <mat-icon (click)="return()">arrow_back</mat-icon>
 </div>
 <div class="inputs">
-    <div class="inputColumn">
-        <div>
-            <p>Enter your rating</p>
+    <div class="inputRows">
+        <div class="inputCells">
+            <div class="label">Enter your delivery costs</div>
+            <input type="number" placeholder="delivery costs" [(ngModel)]="deliveryCost">
+        </div>
+        <div class="inputCells">
+            <div class="label">Enter your rating</div>
             <select name="rating" id="rating" [(ngModel)]="rating">
                 <option style="display: none;" value="" disabled selected>Rating</option>
                 <option value="1">1</option>
@@ -17,25 +21,18 @@
                 <option value="5">5</option>
             </select>
         </div>
-        <div>
-            <p>Enter your delivery costs</p>
-            <input type="number" placeholder="delivery costs" [(ngModel)]="deliveryCost">
-        </div>
-
     </div>
-    <div class="inputColumn">
-
-        <div>
-            <p>Enter your delivery time</p>
+    <div class="inputRows">
+        <div class="inputCells">
+            <div class="label">Enter your delivery time</div>
             <input type="number" placeholder="delivery time" [(ngModel)]="deliveryTime">
         </div>
-        <div>
-            <p>Enter your min. order amount</p>
+        <div class="inputCells">
+            <div class="label">Enter your minimum order amount</div>
             <input type="number" placeholder="minimum order amount" [(ngModel)]="minOrder">
         </div>
     </div>
 </div>
-
 <div>
     <button (click)="saveData()" routerLink="../restaurantMenu" class="orangeBG">
         Next

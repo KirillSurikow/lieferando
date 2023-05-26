@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Restaurants } from 'src/models/restaurants.class';
 import { FilterService } from './../services/filter.service';
 import { Restaurant } from 'src/models/restaurant.class';
 import { SortService } from '../services/sort.service';
-import { FirebaseService } from '../services/firebase.service';
 import { collection, Firestore, getDocs } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
@@ -27,6 +25,7 @@ export class RestaurantListComponent implements OnInit {
 
   ngOnInit(): void {
     this.accessDatabase();
+    this.prepareSortService();
     this.loadAllRestaurants();
     this.setKitchenFilter();
     this.setRatingFilter();
@@ -34,6 +33,10 @@ export class RestaurantListComponent implements OnInit {
     this.setSearchFilter();
   }
 
+  /**
+   * download all published restaurants
+   * 
+   */
   async accessDatabase() {
     const coll = await getDocs(collection(this.gfs, 'restaurants'));
     coll.forEach((doc) => {
@@ -43,6 +46,14 @@ export class RestaurantListComponent implements OnInit {
     });
   }
 
+  prepareSortService(){
+    this.sort.restaurantListCopy = this.restaurantS;
+  }
+
+  /**
+   * sort restaurants by default
+   * 
+   */
   loadAllRestaurants() {
     this.sort.orderByEmitter.subscribe((order: any) => {
       this.restaurantS = order;

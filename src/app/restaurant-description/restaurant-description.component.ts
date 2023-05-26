@@ -6,6 +6,7 @@ import { Restaurant } from 'src/models/restaurant.class';
 import { CurrencyService } from '../services/currency.service';
 import { FirebaseService } from '../services/firebase.service';
 import { DirectionService } from '../services/direction-service';
+import { Storage, deleteObject, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-restaurant-description',
@@ -19,8 +20,12 @@ export class RestaurantDescriptionComponent implements OnInit {
   publishID: string;
   name: string = "";
   backgroundImg: string = "";
-  category: string[] = [];
+  backgroundImgFile: any;
+  backgroundImgURL: string;
   logoImg: string = "";
+  logoImgFile: any;
+  logoImgURL: string;
+  category: string[] = [];
   rating: number;
   minOrder: number;
   minOrderString: string;
@@ -34,13 +39,18 @@ export class RestaurantDescriptionComponent implements OnInit {
 
   constructor(private router: Router, private route: ActivatedRoute,
     private gfs: Firestore, private firestore: FirebaseService,
-    private curr: CurrencyService, private direction: DirectionService) {
+    private curr: CurrencyService, private direction: DirectionService,
+    private storage: Storage) {
   }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.organizeUserData();
+    this.hideBtn();
+  }
+
+  async organizeUserData() {
     this.userID = localStorage.getItem('userId');
     await this.getUserData(this.userID);
-    this.hideBtn();
   }
 
   hideBtn() {
@@ -63,6 +73,8 @@ export class RestaurantDescriptionComponent implements OnInit {
     this.publishID = this.restaurantNew['publishID'];
     this.name = this.restaurantNew['name'];
     this.backgroundImg = this.restaurantNew['backgroundImg'];
+    this.backgroundImgURL = this.restaurantNew['backgroundImgURL'];
+    this.logoImgURL = this.restaurantNew['logoImgURL'];
     this.category = this.restaurantNew['category'];
     this.logoImg = this.restaurantNew['logoImg'];
     this.rating = this.restaurantNew['rating'];
@@ -76,6 +88,7 @@ export class RestaurantDescriptionComponent implements OnInit {
 
   newRestaurant() {
     let json = this.createJSON();
+    console.log(json)
     this.restaurantNew = new Restaurant(json);
   }
 
@@ -85,6 +98,8 @@ export class RestaurantDescriptionComponent implements OnInit {
       category: ['all', this.category],
       backgroundImg: this.backgroundImg,
       logoImg: this.logoImg,
+      backgroundImgURL: this.backgroundImgURL,
+      logoImgURL: this.logoImgURL,
       rating: this.rating,
       deliveryCost: this.deliveryCost,
       deliveryCostString: this.curr.returnCurrency(this.deliveryCost),
@@ -110,7 +125,85 @@ export class RestaurantDescriptionComponent implements OnInit {
     await this.firestore.uploadChange(this.userID, object);
   }
 
+  prepareUploadLogo() {
+    this.deleteOldLogo();
+    this.uploadNewLogo();
+  }
+
+  async deleteOldLogo() {
+    const storageRef = ref(this.storage, `${this.userID} ${this.name}-logo`);
+    await deleteObject(storageRef).then(() => {
+
+    }).catch((error) => {
+
+    });
+  }
+
+  async uploadNewLogo() {
+    const storageRef = ref(this.storage, `${this.userID} ${this.name}-logo`);
+    const uploadTask = uploadBytesResumable(storageRef, this.logoImgFile);
+    uploadTask.on('state_changed',
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downLoadUrl) => {
+          this.logoImgURL = downLoadUrl
+        })
+      }
+    )
+  }
+
+  prepareUploadTheme() {
+    this.deleteOldTheme();
+    this.uploadNewTheme()
+  }
+
+  deleteOldTheme() {
+    const storageRef = ref(this.storage, `${this.userID} ${this.name}-theme`);
+    deleteObject(storageRef).then(() => {
+
+    }).catch((error) => {
+      console.log('error')
+    });
+  }
+
+  uploadNewTheme() {
+    const storageRef = ref(this.storage, `${this.userID} ${this.name}-theme`);
+    const uploadTask = uploadBytesResumable(storageRef, this.backgroundImgFile);
+    uploadTask.on('state_changed',
+    () => {
+      getDownloadURL(uploadTask.snapshot.ref).then((downLoadUrl) => {
+        this.backgroundImgURL = downLoadUrl
+      })
+    }
+  )
+  }
+
   return() {
     this.router.navigate([`/backoffice/${this.userID}`])
+  }
+
+  uploadLogo(event) {
+    this.logoImgFile = event[0];
+    let name = event[0].name;
+    this.logoImg = name;
+    this.prepareUploadLogo();
+  }
+
+  uploadTheme(event) {
+    this.backgroundImgFile = event[0];
+    let name = event[0].name;
+    this.backgroundImg = name;
+    this.prepareUploadTheme();
+  }
+
+  removeBackground(event) {
+    event.stopPropagation()
+    this.backgroundImgFile = null;
+    this.backgroundImg = "";
+  }
+
+  removeLogo(event) {
+    event.stopPropagation()
+    this.logoImgFile = null;
+    this.logoImg = "";
   }
 }

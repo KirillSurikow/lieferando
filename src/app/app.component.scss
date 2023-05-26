@@ -196,14 +196,120 @@ header {
     }
 }
 
-@media(max-width : 390px){
-    .main{
+@media(max-width:680px) {
+    .registHeader {
+        height: unset;
+    }
+}
+
+@media(max-width : 390px) {
+    .main {
         justify-content: flex-start !important;
     }
 }
 
-@media(max-width : 350px){
-    .address{
+@media(max-width : 350px) {
+    .address {
         width: 200px !important;
     }
 }
+
+.registHeader {
+    width: 100%;
+    box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.4);
+    padding-bottom: 4px;
+
+    .respToggleGroup {
+        display: none;
+    }
+
+
+    .registMain {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-top: 12px;
+        align-items: center;
+        width: 100%;
+
+        .registerLogo {
+            cursor: pointer;
+
+            img {
+                height: 75px;
+            }
+        }
+
+
+        .settings {
+            display: flex;
+            flex-direction: row;
+
+            .flags {
+                height: 40px;
+                width: auto;
+            }
+
+            .langBtn {
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 100%;
+                width: 50px;
+                border: none;
+                background-color: white;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #f5f3f1;
+                }
+
+                img {
+                    height: 30px;
+                }
+            }
+
+            mat-menu-item {
+                display: flex;
+                justify-content: center !important;
+                align-items: center !important;
+            }
+
+            .menuBtn {
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 100%;
+                width: 50px;
+                border: none;
+                background-color: white;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #f5f3f1;
+                }
+            }
+
+        }
+    }
+
+    @media(max-width : 680px) {
+        .main {
+            width: 100%;
+
+            .settings {
+                position: absolute;
+                left: 8px;
+
+                .langBtn {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+

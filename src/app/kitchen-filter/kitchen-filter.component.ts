@@ -12,7 +12,13 @@ export class KitchenFilterComponent {
   constructor(private kitchenChoice: FilterService) {
 
   }
+  
 
+  /**
+   * you can filter the restaurants by kitchen category
+   * 
+   * @param k string
+   */
   changeKitchen(k: string) {
     this.kitchenChoice.changeKitchenFilterEvent(k)
   }

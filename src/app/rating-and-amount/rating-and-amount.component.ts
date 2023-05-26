@@ -37,10 +37,20 @@ export class RatingAndAmountComponent {
 
   }
 
+  /**
+   * a new filter on the restaurants is applied by changing the minimum order amount
+   * 
+   * @param a number
+   */
   changeOrderAmount(a : number){
     this.filter.changeOrderAmountFilterEvent(a);
   }
 
+  /**
+   * a new filter on the restaurants is applied by changing the rating
+   * 
+   * @param a number
+   */
   changeRating(r : number){
     this.filter.changeRatingFilterEvent(r);
   }

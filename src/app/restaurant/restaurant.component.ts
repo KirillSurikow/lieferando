@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { DialogCustomizeDishComponent } from '../dialog-customize-dish/dialog-customize-dish.component';
 import { OrderService } from '../services/order.service';
+import { DirectionService } from '../services/direction-service';
 
 @Component({
   selector: 'app-restaurant',
@@ -14,8 +15,8 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
   restaurantId: string;
   restaurant: any;
   name: string;
-  backgroundImg: string;
-  logoImg: string;
+  backgroundImgURL: string;
+  logoImgURL: string;
   rating: number;
   minOrder: number;
   minOrderString: string;
@@ -31,18 +32,23 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
   searchInterface: boolean = false;
   search: string = "";
   distance: number = 0;
+  basketFilled: boolean = false;
+  respBasketVisible: boolean = false;
 
   @ViewChildren('categoryBox') categoryBoxesRes: QueryList<ElementRef>;
 
   constructor(private route: ActivatedRoute,
     private gfs: Firestore,
     private dialog: MatDialog,
-    private order: OrderService) {
+    private order: OrderService,
+    private direction: DirectionService) {
   }
 
   ngOnInit(): void {
-    this.restaurantId = this.route.snapshot.paramMap.get('id');
-    this.getRestaurantData(this.restaurantId);
+    this.preparingRestaurantData();
+    this.organizeLayout();
+    this.installBasketButton();
+    this.installCloseBasketSubscribtion();
   }
 
   ngAfterViewInit(): void {
@@ -50,6 +56,39 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     this.registerMenu();
   }
 
+  organizeLayout() {
+    this.direction.changeHeader(false);
+  }
+
+  preparingRestaurantData() {
+    this.restaurantId = this.route.snapshot.paramMap.get('id');
+    this.getRestaurantData(this.restaurantId);
+  }
+
+  /**
+   * if there are items in the basket, then a button to open the basket appears.(only in mobile)
+   * 
+   */
+  installBasketButton() {
+    this.order.buttonEmitter.subscribe((result) => {
+      this.basketFilled = result;
+    });
+  }
+
+  /**
+   * Subscribtion if the basket is closed (only in mobile)
+   * 
+   */
+  installCloseBasketSubscribtion() {
+    this.direction.closeBaketEmitter.subscribe(() => {
+      this.closeRespBasket();
+    })
+  }
+
+  /**
+   * all food categories of the menu are registered and passed to the intersection observer
+   * 
+   */
   registerMenu() {
     if (this.categoryBoxesRes) {
       this.categoryBoxesRes.changes.subscribe((a) => {
@@ -62,6 +101,10 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * an intersecion observer is installed. Every time another foodcategory comes in the viewport, the appropriate index tab highlights
+   * 
+   */
   installObserver() {
     this.observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -77,6 +120,11 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
 
   }
 
+  /**
+   * downloads the restaurants data
+   * 
+   * @param id string
+   */
   async getRestaurantData(id: string) {
     const docRef = doc(this.gfs, 'restaurants', id);
     const docSnap = await getDoc(docRef);
@@ -86,8 +134,8 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
 
   assignData() {
     this.name = this.restaurant.name;
-    this.backgroundImg = this.restaurant.backgroundImg;
-    this.logoImg = this.restaurant.logoImg;
+    this.backgroundImgURL = this.restaurant.backgroundImgURL;
+    this.logoImgURL = this.restaurant.logoImgURL;
     this.rating = this.restaurant.rating;
     this.menu = this.restaurant.menu;
     this.minOrderString = this.restaurant.minOrderString;
@@ -97,11 +145,20 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     this.minOrder = this.restaurant.minOrder;
   }
 
+  /**
+   * by pressing on an index tab the corresponding section is scrolled in to the viewport
+   * 
+   * @param id string
+   */
   scrollTo(id: string) {
     let element = document.getElementById(id);
     element.scrollIntoView(true)
   }
 
+  /**
+   * changing to search layout
+   * 
+   */
   switchToSearch() {
     this.categoryInterface = false;
     this.searchInterface = true;
@@ -122,6 +179,12 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
       return true;
   }
 
+  /**
+   * if the dish has no extras and just one portion, the dish is placed immediatly in the basket,
+   *  otherwise an dialog to customize the dish is opened
+   * 
+   * @param dish object
+   */
   pickDish(dish: object) {
     if (dish['dishExtras'].length > 0 || dish['portionPrices'].length > 0) {
       this.openCustomizeDialog(dish);
@@ -130,6 +193,11 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * a json with the dish's data is prepared and transfered to the order service
+   * 
+   * @param dish object
+   */
   placeOrder(dish: any) {
     let order = {
       'dishName': dish.dishName,
@@ -149,6 +217,11 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     this.order.placeOrder([order, false]);
   }
 
+  /**
+   * a dialog to customize the dish is opened
+   * 
+   * @param dish object
+   */
   openCustomizeDialog(dish) {
     const dialogRef = this.dialog.open(DialogCustomizeDishComponent, {
       width: '600px'
@@ -162,5 +235,23 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     dialogRef.componentInstance.deliveryTime = this.deliveryTime;
   }
 
+  /**
+   * the basket is opened (only mobile)
+   * 
+   */
+  showBasket() {
+    let body = document.body;
+    body.style.overflowY = "hidden"
+    let obj = document.getElementById('respBasket');
+    obj.classList.remove('d-none');
+    obj.classList.add('swipeIn')
+  }
 
+  closeRespBasket() {
+    let body = document.body;
+    body.style.overflowY = "auto"
+    let obj = document.getElementById('respBasket');
+    obj.classList.add('d-none');
+    obj.classList.remove('swipeIn')
+  }
 }

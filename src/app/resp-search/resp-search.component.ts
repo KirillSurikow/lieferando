@@ -21,6 +21,10 @@ export class RespSearchComponent implements OnInit {
     this.accessDatabase();
   }
 
+  /**
+   * downloading all restaurants
+   * 
+   */
   async accessDatabase() {
     const coll = await getDocs(collection(this.gfs, 'restaurants'));
     coll.forEach((doc) => {
@@ -30,18 +34,39 @@ export class RespSearchComponent implements OnInit {
     });
   }
 
+  /**
+   * searching for a restaurnt
+   * 
+   */
   searchRestaurant() {
     this.filter.searchForRestaurant(this.search)
   }
 
+  /**
+   * for every restaurant it is checked if it matches the search
+   * 
+   * @param restaurant object
+   * @returns boolean
+   */
   includesSearch(restaurant: any) {
     return restaurant.name.includes(this.search)
   }
 
+    /**
+   * for every restaurant it is checked if it matches the search
+   * 
+   * @param restaurant object
+   * @returns boolean
+   */
   includesKitchen(restaurant: any) {
     return restaurant.category.includes(this.kitchenChoice);
   }
 
+  /**
+   * opens a restaurant
+   * 
+   * @param i number
+   */
   goToRestaurant(i: number) {
     let restaurantId = this.restaurantS[i]['publishID'];
     this.router.navigate(['/restaurant', restaurantId])

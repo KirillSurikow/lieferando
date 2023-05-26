@@ -10,26 +10,27 @@ import { Restaurants } from "src/models/restaurants.class";
 export class SortService {
     sortedRestaurant: Restaurant[] = [];
     orderByEmitter = new EventEmitter<Obj>();
+    restaurantListCopy : Restaurant[] = [];
 
     constructor(private restData: Restaurants) {
 
     }
 
     onRating(): void {
-        this.sortedRestaurant = this.restData.allRestaurants.sort(this.sortByRating);
+        this.sortedRestaurant = this.restaurantListCopy.sort(this.sortByRating);
         this.changeSortBy();
     }
     onMinOrder(): void {
-        this.sortedRestaurant = this.restData.allRestaurants.sort(this.sortByMinOrder);
+        this.sortedRestaurant = this.restaurantListCopy.sort(this.sortByMinOrder);
         this.changeSortBy();
     }
     onDeliveryTime(): void {
-        this.sortedRestaurant = this.restData.allRestaurants.sort(this.sortByDeliveryTime);
+        this.sortedRestaurant = this.restaurantListCopy.sort(this.sortByDeliveryTime);
         this.changeSortBy();
     }
 
     onDeliveryCost(): void {
-        this.sortedRestaurant = this.restData.allRestaurants.sort(this.sortByDeliveryCost);
+        this.sortedRestaurant = this.restaurantListCopy.sort(this.sortByDeliveryCost);
         this.changeSortBy();
     }
 

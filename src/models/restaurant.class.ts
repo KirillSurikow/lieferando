@@ -5,7 +5,9 @@ export class Restaurant{
     city : string;
     category : string[];
     backgroundImg : string;
+    backgroundImgURL: string;
     logoImg : string;
+    logoImgURL : string;
     rating : number;
     minOrder : number;
     minOrderString : string;
@@ -19,7 +21,9 @@ export class Restaurant{
         this.name = obj? obj.name || "" : "";
         this.category = obj? obj.category || "" : "";
         this.backgroundImg = obj? obj.backgroundImg || "" : "";
+        this.backgroundImgURL = obj? obj.backgroundImgURL || "" : "";
         this.logoImg = obj? obj.logoImg || "" : "";
+        this.logoImgURL= obj? obj.logoImgURL || "" : "";
         this.rating = obj? obj.rating || "" : "";
         this.minOrder = obj? obj.minOrder || "" : "";
         this.minOrderString = obj? obj.minOrderString || "" : "";

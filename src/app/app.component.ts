@@ -1,8 +1,9 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 import { FilterService } from './services/filter.service';
 import { ViewportScroller } from '@angular/common';
+import { DirectionService } from './services/direction-service';
 
 
 
@@ -12,7 +13,7 @@ import { ViewportScroller } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   address: string = "Niederstr. 70, 47829 Krefeld";
   delivery: boolean = true;
   pickUp: boolean = false;
@@ -21,7 +22,13 @@ export class AppComponent {
   doActive: boolean = true;
   kitActive: boolean = true;
 
-  constructor(public dialog: MatDialog,  private scroller: ViewportScroller) { }
+  constructor(public dialog: MatDialog,  private scroller: ViewportScroller, private direction : DirectionService) { }
+
+  ngOnInit(): void {
+    this.direction.registrationEmitter.subscribe((result)=>{
+      this.doActive = result;
+    })
+  }
 
   @HostListener('window: scroll', ['$event']) onScrollEvent($event: any) {
     const currPosition = this.scroller.getScrollPosition();
@@ -55,11 +62,6 @@ export class AppComponent {
     const dialogRef = this.dialog.open(DialogLoginComponent, {
       width: '600px',
       height: '210px'
-    });
-
-    const sub = dialogRef.componentInstance.changeHeader.subscribe(() => {
-      this.doActive = false;
-      this.kitActive = false;
     });
   }
 

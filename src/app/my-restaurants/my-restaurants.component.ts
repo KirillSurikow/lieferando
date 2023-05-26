@@ -1,6 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { doc, Firestore, getDoc } from '@angular/fire/firestore';
+import { Storage, deleteObject, getDownloadURL, ref, uploadBytesResumable, } from '@angular/fire/storage';
 import { CurrencyService } from '../services/currency.service';
 import { FirebaseService } from '../services/firebase.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -85,6 +86,10 @@ export class MyRestaurantsComponent implements OnInit {
   detailedView: boolean = false;
   logoImg: string;
   backgroundImg: string;
+  logoImgURL: string;
+  logoImgFile: any;
+  backgroundImgFile: any;
+  backgroundImgURL: string;
   publishID: string;
   name: string;
   category: string[];
@@ -103,6 +108,8 @@ export class MyRestaurantsComponent implements OnInit {
   changingDescribtion: string;
   copyLogo: string;
   copyImg: string;
+  copyLogoImgURL: string;
+  copyBackgroundImgURL: string;
   copyName: string;
   copyRating: string;
   copyMinOrder: number;
@@ -131,16 +138,26 @@ export class MyRestaurantsComponent implements OnInit {
   constructor(private gfs: Firestore,
     private curr: CurrencyService,
     private firestore: FirebaseService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private storage: Storage
   ) {
   }
 
   ngOnInit(): void {
-    this.userID = localStorage.getItem('userId');
-    this.getUserData(this.userID);
+    this.organizeUserData();
     this.subscribeToPublishID();
   }
 
+  organizeUserData() {
+    this.userID = localStorage.getItem('userId');
+    this.getUserData(this.userID);
+  }
+
+  /**
+   * downloading user data from firebase
+   * 
+   * @param userID string
+   */
   async getUserData(userID: string) {
     const docRef = doc(this.gfs, 'users', userID);
     const docSnap = await getDoc(docRef);
@@ -151,11 +168,21 @@ export class MyRestaurantsComponent implements OnInit {
     }
   }
 
+  /**
+   * extracting the user's restaurants
+   *     
+   * @param object object
+   */
   extractData(object: object) {
     let string = object['userData']['myRestaurants'];
     this.myRestaurants = JSON.parse(string);
   }
 
+  /**
+   * if a restaurant is published,
+   *  it has a publishId because there are two collections in firebase. One for the public and for the restaurant owners
+   * 
+   */
   subscribeToPublishID() {
     this.firestore.publishIdEmitter.subscribe((id) => {
       this.publishID = id;
@@ -164,6 +191,11 @@ export class MyRestaurantsComponent implements OnInit {
     })
   }
 
+  /**
+   * you can view details of a restaurant
+   * 
+   * @param i id of restaurant
+   */
   showDetails(i: number) {
     this.hideOverview();
     this.showDetailedView();
@@ -171,18 +203,33 @@ export class MyRestaurantsComponent implements OnInit {
     this.createCopies();
   }
 
+  /**
+   * changing the layout for a detailed view
+   * 
+   */
   showDetailedView() {
     this.detailedView = true;
   }
 
+  /**
+  * changing the layout for an overview
+  * 
+  */
   hideOverview() {
     this.overview = false;
   }
 
+  /**
+   * assinging the restaurant's data to the mask
+   *     
+   * @param i number
+   */
   assignDataToMask(i: number) {
     this.currentRestaurant = i;
     this.logoImg = this.myRestaurants[i]['logoImg'];
     this.backgroundImg = this.myRestaurants[i]['backgroundImg'];
+    this.logoImgURL = this.myRestaurants[i]['logoImgURL'];
+    this.backgroundImgURL = this.myRestaurants[i]['backgroundImgURL'];
     this.name = this.myRestaurants[i]['name'];
     this.category = this.myRestaurants[i]['category'];
     this.publishID = this.myRestaurants[i]['publishID'];
@@ -195,9 +242,15 @@ export class MyRestaurantsComponent implements OnInit {
     this.menu = this.myRestaurants[i]['menu'];
   }
 
+  /**
+   * since the data could be edited, it is necessary to create copies
+   * 
+   */
   createCopies() {
     this.copyLogo = this.logoImg;
     this.copyImg = this.backgroundImg;
+    this.copyLogoImgURL = this.logoImgURL;
+    this.copyBackgroundImgURL = this.backgroundImgURL;
     this.copyName = this.name;
     this.copyRating = this.rating;
     this.copyMinOrder = this.minOrder;
@@ -208,6 +261,10 @@ export class MyRestaurantsComponent implements OnInit {
     this.copyMenu = this.menu;
   }
 
+  /**
+   * changing the layout for editing the condition
+   * 
+   */
   changeCondition() {
     this.editActive = true;
     this.changingLogo = false;
@@ -221,9 +278,15 @@ export class MyRestaurantsComponent implements OnInit {
     this.assignDataToMask(this.currentRestaurant);
   }
 
+  /**
+   * preparing the array which should be uploaded to firebase
+   * 
+   */
   prepareArray() {
     this.myRestaurants[this.currentRestaurant]['logoImg'] = this.copyLogo;
     this.myRestaurants[this.currentRestaurant]['backgroundImg'] = this.copyImg;
+    this.myRestaurants[this.currentRestaurant]['logoImgURL'] = this.logoImgURL;
+    this.myRestaurants[this.currentRestaurant]['backgroundImgURL'] = this.backgroundImgURL;
     this.myRestaurants[this.currentRestaurant]['name'] = this.copyName;
     this.myRestaurants[this.currentRestaurant]['publishID'] = this.publishID;
     this.myRestaurants[this.currentRestaurant]['rating'] = this.copyRating;
@@ -235,6 +298,10 @@ export class MyRestaurantsComponent implements OnInit {
     this.myRestaurants[this.currentRestaurant]['menu'] = this.menu;
   }
 
+  /**
+  * preparing the object which should be uploaded to firebase
+  * 
+  */
   async prepareUpload() {
     let item = JSON.stringify(this.myRestaurants)
     let object = {
@@ -254,11 +321,19 @@ export class MyRestaurantsComponent implements OnInit {
     this.addDishActive = false;
   }
 
+  /**
+   * editing data but not saving them
+   * 
+   */
   goBackNoSave() {
     this.selectRightPath();
     this.createCopies();
   }
 
+  /**
+   * the return arrow can trigger different functions depending on the current layout
+   * 
+   */
   selectRightPath() {
     if (this.detailedView && this.changingLogo
       || this.detailedView && this.changingName
@@ -303,6 +378,10 @@ export class MyRestaurantsComponent implements OnInit {
     this.editActive = false;
   }
 
+  /**
+   * trigger the upload to the restaurant collection and it's animation
+   * 
+   */
   publish() {
     this.uploading = true;
     this.prepareJSON();
@@ -313,10 +392,16 @@ export class MyRestaurantsComponent implements OnInit {
 
   }
 
+  /**
+   * upload to the public collection
+   * 
+   */
   async prepareJSON() {
     let item = {
       logoImg: this.logoImg,
       backgroundImg: this.backgroundImg,
+      logoImgURL: this.logoImgURL,
+      backgroundImgURL: this.backgroundImgURL,
       name: this.name,
       category: this.category,
       rating: this.rating,
@@ -333,6 +418,10 @@ export class MyRestaurantsComponent implements OnInit {
     }, 2000);
   }
 
+  /**
+   * upload to the private collection
+   * 
+   */
   async uploadChanges() {
     this.uploading = true;
     let item = {
@@ -362,90 +451,10 @@ export class MyRestaurantsComponent implements OnInit {
     this.saveChanges();
   }
 
-
-  showEditName(i: number, j: number) {
-    let label = document.getElementById(`${i}${j}dishNameLabel`);
-    let input = document.getElementById(`${i}${j}dishName`);
-    let btn = document.getElementById(`${i}${j}dishBtn`);
-    label.style.display = 'none';
-    input.style.display = 'flex';
-    btn.style.display = 'flex';
-  }
-
-  showEditPrice(i: number, j: number) {
-    let label = document.getElementById(`${i}${j}dishPriceLabel`);
-    let input = document.getElementById(`${i}${j}dishPrice`);
-    let btn = document.getElementById(`${i}${j}dishBtn`);
-    label.style.display = 'none';
-    input.style.display = 'flex';
-    btn.style.display = 'flex';
-  }
-
-  showEditDescribtion(i: number, j: number) {
-    let label = document.getElementById(`${i}${j}dishDescribtionLabel`);
-    let input = document.getElementById(`${i}${j}dishDescribtion`);
-    let btn = document.getElementById(`${i}${j}dishBtn`);
-    label.style.display = 'none';
-    input.style.display = 'flex';
-    btn.style.display = 'flex';
-  }
-
-  updateDish(i: number, j: number) {
-    this.reverseLayout(i, j);
-    this.changeValues(i, j);
-  }
-
-  changeValues(i: number, j: number) {
-    let newName = (<HTMLInputElement>document.getElementById(`${i}${j}dishName`)).value;
-    let newPrice = (<HTMLInputElement>document.getElementById(`${i}${j}dishPrice`)).value;
-    let newDescribtion = (<HTMLInputElement>document.getElementById(`${i}${j}dishDescribtion`)).value
-    this.menu[i]['categoryItem'][j]['dishName'] = newName;
-    this.menu[i]['categoryItem'][j]['dishPrice'] = newPrice;
-    this.menu[i]['categoryItem'][j]['dishPriceAsString'] = this.returnCurrency(newPrice);
-    this.menu[i]['categoryItem'][j]['dishDescribtion'] = newDescribtion;
-  }
-
-  returnCurrency(value: string) {
-    let number = Number(value);
-    let currency = number.toLocaleString('de-DE', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 2
-    });
-    return currency
-  }
-
-  reverseLayout(i: number, j: number) {
-    this.reverseName(i, j);
-    this.reverseDescribtion(i, j);
-    this.reversePrice(i, j);
-    this.reverseBtn(i, j)
-  }
-
-  reverseName(i: number, j: number) {
-    let labelName = document.getElementById(`${i}${j}dishNameLabel`);
-    let inputName = document.getElementById(`${i}${j}dishName`);
-    labelName.style.display = 'flex';
-    inputName.style.display = 'none';
-  }
-  reverseDescribtion(i: number, j: number) {
-    let labelDescribtion = document.getElementById(`${i}${j}dishDescribtionLabel`);
-    let inputDescribtion = document.getElementById(`${i}${j}dishDescribtion`);
-    labelDescribtion.style.display = 'flex';
-    inputDescribtion.style.display = 'none';
-  }
-  reversePrice(i: number, j: number) {
-    let labelPrice = document.getElementById(`${i}${j}dishPriceLabel`);
-    let inputPrice = document.getElementById(`${i}${j}dishPrice`);
-    labelPrice.style.display = 'flex';
-    inputPrice.style.display = 'none';
-  }
-
-  reverseBtn(i: number, j: number) {
-    let btn = document.getElementById(`${i}${j}dishBtn`);
-    btn.style.display = 'none';
-  }
-
+  /**
+   * changing layout to add dishes
+   * 
+   */
   openAddDish() {
     this.menuActive = false;
     setTimeout(() => {
@@ -457,6 +466,10 @@ export class MyRestaurantsComponent implements OnInit {
     this.addDishActive = false;
   }
 
+  /**
+   * preparing a json holding the data for a new dish
+   * 
+   */
   addDish() {
     let dish = {
       "dishCategory": this.dishCategory,
@@ -467,7 +480,7 @@ export class MyRestaurantsComponent implements OnInit {
       "dishDescribtion": this.dishDescribtion,
       "dishExtras": this.findExtras(this.dishCategory),
       "multiplePortions": this.multiplePortions,
-      "placed" : false
+      "placed": false
     }
 
     this.findSpotInArray(dish);
@@ -513,6 +526,11 @@ export class MyRestaurantsComponent implements OnInit {
     }
   }
 
+  /**
+   * since the target array is a mapped array it is necessary to find the right spot or create a new
+   * 
+   * @param dish object
+   */
   findSpotInArray(dish: object) {
     let spot = this.menu.find(category => category.categorykey == this.dishCategory);
     if (spot) {
@@ -522,6 +540,11 @@ export class MyRestaurantsComponent implements OnInit {
     }
   }
 
+  /**
+   * if a new food category is created it is necessary to create a new item in the array
+   * 
+   * @param dish 
+   */
   createNewCategory(dish: object) {
     let newCategory = dish['dishCategory'];
     let json = {
@@ -540,9 +563,9 @@ export class MyRestaurantsComponent implements OnInit {
     return currency
   }
 
-  clearInputs(){
+  clearInputs() {
     this.dishCategory = "";
-    this.dishName ="";
+    this.dishName = "";
     this.dishPrice = null;
     this.portionTag = "";
     this.portionPrice = null;
@@ -550,6 +573,12 @@ export class MyRestaurantsComponent implements OnInit {
     this.allPortions = [];
   }
 
+  /**
+   * open dialog to edit extras
+   * 
+   * @param category object
+   * @param index number
+   */
   openExtrasDialog(category: object, index: number) {
     const dialogRef = this.dialog.open(DialogCreateExtrasComponent, {
       width: '600px',
@@ -567,6 +596,13 @@ export class MyRestaurantsComponent implements OnInit {
     })
   }
 
+  /**
+   * open dialog ot edit a dish
+   * 
+   * @param category string 
+   * @param index number
+   * @param dish object
+   */
   openDishEditor(category, index, dish) {
     const dialogRef = this.dialog.open(DialogEditDishComponent, {
       width: '700px',
@@ -605,22 +641,101 @@ export class MyRestaurantsComponent implements OnInit {
     this.allPortions.splice(i, 1)
   }
 
-  deleteDish(i,j){
-    this.menu[i]['categoryItem'].splice(j,1);
+  deleteDish(i, j) {
+    this.menu[i]['categoryItem'].splice(j, 1);
   }
 
-  deleteRestaurant($event , i){
+  deleteRestaurant($event, i) {
     $event.stopPropagation();
 
     const dialogRef = this.dialog.open(DialogDeleteRestaurantComponent, {
       width: '400px',
     })
 
-    dialogRef.afterClosed().subscribe( result =>{
-      if(result == true){
-          this.myRestaurants.splice(i , 1)
-          this.prepareUpload();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.myRestaurants.splice(i, 1)
+        this.prepareUpload();
       }
     })
+  }
+
+  uploadLogo(event) {
+    this.logoImgFile = event[0];
+    let name = event[0].name;
+    this.logoImg = name;
+    this.prepareUploadLogo();
+  }
+
+  uploadTheme(event) {
+    this.backgroundImgFile = event[0];
+    let name = event[0].name;
+    this.backgroundImg = name;
+    this.prepareUploadTheme();
+  }
+
+  removeBackground(event) {
+    event.stopPropagation()
+    this.backgroundImgFile = null;
+    this.backgroundImg = "";
+  }
+
+  removeLogo(event) {
+    event.stopPropagation()
+    this.logoImgFile = null;
+    this.logoImg = "";
+  }
+
+  prepareUploadLogo() {
+    this.deleteOldLogo();
+    this.uploadNewLogo();
+
+  }
+
+  deleteOldLogo() {
+    const storageRef = ref(this.storage, `${this.userID} ${this.name}-logo`);
+    deleteObject(storageRef).then(() => {
+
+    }).catch((error) => {
+
+    });
+  }
+
+  uploadNewLogo() {
+    const storageRef = ref(this.storage, `${this.userID} ${this.name}-logo`);
+    const uploadTask = uploadBytesResumable(storageRef, this.logoImgFile);
+    uploadTask.on('state_changed',
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downLoadUrl) => {
+          this.logoImgURL = downLoadUrl
+        })
+      }
+    )
+  }
+
+  prepareUploadTheme() {
+    this.deleteOldTheme();
+    this.uploadNewTheme()
+  }
+
+  deleteOldTheme() {
+    const storageRef = ref(this.storage, `${this.userID} ${this.name}-theme`);
+    deleteObject(storageRef).then(() => {
+
+    }).catch((error) => {
+      console.log('error')
+    });
+  }
+
+  uploadNewTheme() {
+    const storageRef = ref(this.storage, `${this.userID} ${this.name}-theme`);
+    const uploadTask = uploadBytesResumable(storageRef, this.backgroundImgFile);
+    uploadTask.on('state_changed',
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downLoadUrl) => {
+          this.backgroundImgURL = downLoadUrl
+        })
+      }
+    )
   }
 }
